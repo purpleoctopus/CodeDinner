@@ -1,4 +1,4 @@
-﻿namespace CodeDinner.Models.DTO;
+﻿namespace CodeDinner.API.Models.DTO;
 
 public class CreateCourseDto
 {

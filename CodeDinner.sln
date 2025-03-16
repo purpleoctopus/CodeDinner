@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDinner", "CodeDinner\CodeDinner.csproj", "{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDinner.API", "CodeDinner.API\CodeDinner.API.csproj", "{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

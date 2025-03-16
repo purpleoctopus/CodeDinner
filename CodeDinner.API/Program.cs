@@ -1,8 +1,8 @@
-using CodeDinner.Data;
-using CodeDinner.Repositories;
-using CodeDinner.Repositories.Interfaces;
-using CodeDinner.Services;
-using CodeDinner.Services.Interfaces;
+using CodeDinner.API.Data;
+using CodeDinner.API.Repositories;
+using CodeDinner.API.Repositories.Interfaces;
+using CodeDinner.API.Services;
+using CodeDinner.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

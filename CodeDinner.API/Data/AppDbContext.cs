@@ -1,7 +1,7 @@
-﻿using CodeDinner.Models.Domain;
+﻿using CodeDinner.API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeDinner.Data;
+namespace CodeDinner.API.Data;
 
 public class AppDbContext : DbContext
 {

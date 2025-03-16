@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CodeDinner.Models.Domain;
+namespace CodeDinner.API.Models.Domain;
 
 public class Course
 {

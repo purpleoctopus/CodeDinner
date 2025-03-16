@@ -1,6 +1,6 @@
-﻿using CodeDinner.Models.Domain;
+﻿using CodeDinner.API.Models.Domain;
 
-namespace CodeDinner.Repositories.Interfaces;
+namespace CodeDinner.API.Repositories.Interfaces;
 
 public interface ICourseRepository
 {

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace CodeDinner.Exceptions;
+namespace CodeDinner.API.Exceptions;
 
 public class StatusCodeException : Exception
 {

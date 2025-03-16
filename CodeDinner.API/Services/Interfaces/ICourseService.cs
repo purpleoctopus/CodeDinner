@@ -1,7 +1,7 @@
-﻿using CodeDinner.Models.Domain;
-using CodeDinner.Models.DTO;
+﻿using CodeDinner.API.Models.Domain;
+using CodeDinner.API.Models.DTO;
 
-namespace CodeDinner.Services.Interfaces;
+namespace CodeDinner.API.Services.Interfaces;
 
 public interface ICourseService
 {

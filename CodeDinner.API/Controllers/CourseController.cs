@@ -1,9 +1,9 @@
-using CodeDinner.Exceptions;
-using CodeDinner.Models.DTO;
-using CodeDinner.Services.Interfaces;
+using CodeDinner.API.Exceptions;
+using CodeDinner.API.Models.DTO;
+using CodeDinner.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CodeDinner.Controllers;
+namespace CodeDinner.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -29,7 +29,7 @@ public class CourseController(ICourseService service) : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         try

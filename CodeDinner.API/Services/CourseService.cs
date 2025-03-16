@@ -1,13 +1,13 @@
 ﻿using System.Net;
-using CodeDinner.Exceptions;
-using CodeDinner.Models.Domain;
-using CodeDinner.Models.DTO;
-using CodeDinner.Repositories.Interfaces;
-using CodeDinner.Services.Interfaces;
+using CodeDinner.API.Exceptions;
+using CodeDinner.API.Models.Domain;
+using CodeDinner.API.Models.DTO;
+using CodeDinner.API.Repositories.Interfaces;
+using CodeDinner.API.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeDinner.Services;
+namespace CodeDinner.API.Services;
 
 public class CourseService : ICourseService
 {
