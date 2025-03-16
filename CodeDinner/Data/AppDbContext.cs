@@ -1,0 +1,17 @@
+﻿using CodeDinner.Models.Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace CodeDinner.Data;
+
+public class AppDbContext : DbContext
+{
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Module> Modules { get; set; }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<Course>().HasIndex(el => el.Name).IsUnique();
+    //}
+}
