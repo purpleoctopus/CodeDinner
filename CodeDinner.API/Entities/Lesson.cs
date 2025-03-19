@@ -1,4 +1,4 @@
-﻿namespace CodeDinner.API.Models.Domain;
+﻿namespace CodeDinner.API.Entities;
 
 public class Lesson
 {

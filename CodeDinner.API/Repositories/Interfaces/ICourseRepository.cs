@@ -1,4 +1,4 @@
-﻿using CodeDinner.API.Models.Domain;
+﻿using CodeDinner.API.Entities;
 
 namespace CodeDinner.API.Repositories.Interfaces;
 

@@ -1,5 +1,5 @@
+using CodeDinner.API.DTOs;
 using CodeDinner.API.Exceptions;
-using CodeDinner.API.Models.DTO;
 using CodeDinner.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateCourseDto dto)
+    public async Task<IActionResult> Create(AddCourseDto dto)
     {
         try
         {

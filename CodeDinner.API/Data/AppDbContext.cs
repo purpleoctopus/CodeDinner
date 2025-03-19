@@ -1,9 +1,10 @@
-﻿using CodeDinner.API.Models.Domain;
+﻿using CodeDinner.API.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeDinner.API.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User>
 {
     public DbSet<Course> Courses { get; set; }
     public DbSet<Module> Modules { get; set; }

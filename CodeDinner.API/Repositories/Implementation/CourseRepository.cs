@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using CodeDinner.API.Data;
+using CodeDinner.API.Entities;
 using CodeDinner.API.Exceptions;
-using CodeDinner.API.Models.Domain;
 using CodeDinner.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeDinner.API.Repositories;
+namespace CodeDinner.API.Repositories.Implementation;
 
 public class CourseRepository : ICourseRepository
 {

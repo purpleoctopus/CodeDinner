@@ -1,13 +1,11 @@
 ﻿using System.Net;
+using CodeDinner.API.DTOs;
+using CodeDinner.API.Entities;
 using CodeDinner.API.Exceptions;
-using CodeDinner.API.Models.Domain;
-using CodeDinner.API.Models.DTO;
 using CodeDinner.API.Repositories.Interfaces;
 using CodeDinner.API.Services.Interfaces;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 
-namespace CodeDinner.API.Services;
+namespace CodeDinner.API.Services.Implementation;
 
 public class CourseService : ICourseService
 {
@@ -17,17 +15,15 @@ public class CourseService : ICourseService
     {
         this.courseRepository = courseRepository;
     }
-    public async Task CreateAsync(CreateCourseDto dto)
+    public async Task CreateAsync(AddCourseDto pDto)
     {
-        var model = new Course()
-        {
-            Name = dto.Name
-        };
+        var model = DataMapping.CourseFromAddDto(pDto);
+            
         try
         {
             await courseRepository.CreateAsync(model);
         }
-        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx)
+        catch (Exception ex)
         {
             throw new StatusCodeException(HttpStatusCode.InternalServerError);
         }
