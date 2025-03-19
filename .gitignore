@@ -3,3 +3,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+# Configs (including secret keys, db passwords)
+appsettings.Development.json
+appsettings.json
