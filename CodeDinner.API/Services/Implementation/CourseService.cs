@@ -1,7 +1,8 @@
 ﻿using System.Net;
-using CodeDinner.API.DTOs;
+using Azure;
 using CodeDinner.API.Entities;
-using CodeDinner.API.Exceptions;
+using CodeDinner.API.Models;
+using CodeDinner.API.Models.DTOs;
 using CodeDinner.API.Repositories.Interfaces;
 using CodeDinner.API.Services.Interfaces;
 
@@ -9,49 +10,133 @@ namespace CodeDinner.API.Services.Implementation;
 
 public class CourseService : ICourseService
 {
-    private readonly ICourseRepository courseRepository;
+    private readonly ICourseRepository _courseRepository;
 
     public CourseService(ICourseRepository courseRepository)
     {
-        this.courseRepository = courseRepository;
+        this._courseRepository = courseRepository;
     }
-    public async Task CreateAsync(AddCourseDto pDto)
+    public async Task<ApiResponse<Course>> AddAsync(AddCourseDto dto)
     {
-        var model = DataMapping.CourseFromAddDto(pDto);
-            
+        var response = new ApiResponse<Course>();
+        
         try
         {
-            await courseRepository.CreateAsync(model);
+            var model = new Course
+            {
+                Name = dto.Name,
+                Language = dto.Language
+            };
+            response.Data = await _courseRepository.AddAsync(model);
         }
         catch (Exception ex)
         {
-            throw new StatusCodeException(HttpStatusCode.InternalServerError);
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
         }
+
+        return response;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task<ApiResponse<bool>> DeleteAsync(Guid id)
     {
-        await courseRepository.DeleteAsync(id);
+        var response = new ApiResponse<bool>();
+        
+        try
+        {
+            response.Data = await _courseRepository.DeleteAsync(id);
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
     }
 
-    public async Task<Course> GetByIdAsync(Guid id)
+    public async Task<ApiResponse<Course>> GetByIdAsync(Guid id)
     {
-        var model = await courseRepository.GetByIdAsync(id);
-        return model ?? throw new StatusCodeException(HttpStatusCode.NotFound);
+        var response = new ApiResponse<Course>();
+
+        try
+        {
+            var data = await _courseRepository.GetByIdAsync(id);
+            if (data == null)
+            {
+                response.Success = false;
+                response.Message = "Course not found";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+            response.Data = data;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
     }
 
-    public Task<Course> GetByNameAsync(string courseName)
+    public Task<ApiResponse<Course>> GetByNameAsync(string courseName)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Course>> GetAllAsync()
+    public async Task<ApiResponse<List<Course>>> GetAllAsync()
     {
-        return await courseRepository.GetAllAsync();
+        var response = new ApiResponse<List<Course>>();
+
+        try
+        {
+            var data = await _courseRepository.GetAllAsync();
+            response.Data = data;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
     }
 
-    public Task UpdateAsync(Course course)
+    public async Task<ApiResponse<Course>> UpdateAsync(UpdateCourseDto dto)
     {
-        throw new NotImplementedException();
+        var response = new ApiResponse<Course>();
+
+        try
+        {
+            var model = new Course
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Language = dto.Language,
+                Modules = dto.Modules
+            };
+            var data = await _courseRepository.UpdateAsync(model);
+            if (data == null)
+            {
+                response.Success = false;
+                response.Message = "Course not found";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+            response.Data = model;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
     }
 }

@@ -1,33 +1,33 @@
 ﻿using System.Net;
 using CodeDinner.API.Data;
 using CodeDinner.API.Entities;
-using CodeDinner.API.Exceptions;
+using CodeDinner.API.Models;
 using CodeDinner.API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeDinner.API.Repositories.Implementation;
 
-public class CourseRepository : ICourseRepository
+public class CourseRepository(AppDbContext context) : ICourseRepository
 {
-    private readonly AppDbContext context;
-
-    public CourseRepository(AppDbContext context)
+    public async Task<Course?> AddAsync(Course course)
     {
-        this.context = context;
-    }
-
-    public async Task CreateAsync(Course course)
-    {
-        await context.AddAsync(course);
+        await context.Courses.AddAsync(course);
         await context.SaveChangesAsync();
+        return course;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var model = await context.Courses.FindAsync(id) ?? 
-                    throw new StatusCodeException(HttpStatusCode.NotFound, "Курс не знайдено");
+        var model = await context.Courses.FindAsync(id);
+
+        if (model == null)
+        {
+            return false;
+        }
+
         context.Courses.Remove(model);
         await context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<List<Course>> GetAllAsync()
@@ -37,11 +37,22 @@ public class CourseRepository : ICourseRepository
 
     public async Task<Course?> GetByIdAsync(Guid id)
     {
-        return await context.Courses.FirstOrDefaultAsync(course => course.Id == id);
+        return await context.Courses.SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task UpdateAsync(Course course)
+    public async Task<Course?> UpdateAsync(Course model)
     {
-        throw new NotImplementedException();
+        var course = await context.Courses.SingleOrDefaultAsync(x => x.Id == model.Id);
+        
+        if (course == null)
+        {
+            return null;
+        }
+        
+        course.Name = model.Name;
+        course.Language = model.Language;
+        course.Modules = model.Modules;
+        await context.SaveChangesAsync();
+        return course;
     }
 }

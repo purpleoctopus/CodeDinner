@@ -1,14 +1,15 @@
-﻿using CodeDinner.API.DTOs;
-using CodeDinner.API.Entities;
+﻿using CodeDinner.API.Entities;
+using CodeDinner.API.Models.DTOs;
+using CodeDinner.API.Models;
 
 namespace CodeDinner.API.Services.Interfaces;
 
 public interface ICourseService
 {
-    Task<IEnumerable<Course>> GetAllAsync(); 
-    Task<Course> GetByIdAsync(Guid id);
-    Task<Course> GetByNameAsync(string courseName);
-    Task CreateAsync(AddCourseDto dto);
-    Task UpdateAsync(Course course);
-    Task DeleteAsync(Guid id);
+    Task<ApiResponse<List<Course>>> GetAllAsync(); 
+    Task<ApiResponse<Course>> GetByIdAsync(Guid id);
+    Task<ApiResponse<Course>> GetByNameAsync(string courseName);
+    Task<ApiResponse<Course>> AddAsync(AddCourseDto dto);
+    Task<ApiResponse<Course>> UpdateAsync(UpdateCourseDto dto);
+    Task<ApiResponse<bool>> DeleteAsync(Guid id);
 }

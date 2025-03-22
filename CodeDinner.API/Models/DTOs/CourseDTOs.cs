@@ -1,6 +1,7 @@
-﻿using CodeDinner.API.Enums;
+﻿using CodeDinner.API.Entities;
+using CodeDinner.API.Enums;
 
-namespace CodeDinner.API.DTOs;
+namespace CodeDinner.API.Models.DTOs;
 
 public class AddCourseDto
 {
@@ -12,4 +13,5 @@ public class AddCourseDto
 public class UpdateCourseDto : AddCourseDto
 {
     public Guid Id { get; set; }
+    public List<Module>? Modules { get; set; }
 }

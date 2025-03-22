@@ -3,6 +3,28 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
 # Configs (including secret keys, db passwords)
 appsettings.Development.json
 appsettings.json
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/contentModel.xml
+/modules.xml
+/.idea.CodeDinner.iml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+#wwwroot
+.vscode/
+
+
+#Misc
+CodeDinner.sln.DotSettings.user
