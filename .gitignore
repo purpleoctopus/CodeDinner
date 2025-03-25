@@ -31,6 +31,7 @@ provider.tf
 *.tfstate
 *.tfstate.backup
 /.terraform/
+zips/
 
 # SSH
 /.ssh/
