@@ -25,6 +25,9 @@ appsettings.json
 #wwwroot
 .vscode/
 
+# Terraform
+deploywebapi.tf
+.terraform.lock.hcl
 
 #Misc
 CodeDinner.sln.DotSettings.user
