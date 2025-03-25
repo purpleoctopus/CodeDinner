@@ -29,6 +29,7 @@ appsettings.json
 provider.tf
 .terraform.lock.hcl
 *.tfstate
+*.tfstate.backup
 /.terraform/
 
 # SSH
