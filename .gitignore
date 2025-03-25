@@ -31,5 +31,8 @@ appsettings.json
 *.tfstate
 /.terraform/
 
+# SSH
+/.ssh/
+
 #Misc
 CodeDinner.sln.DotSettings.user
