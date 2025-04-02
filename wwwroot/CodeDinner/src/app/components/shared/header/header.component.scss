@@ -1,0 +1,42 @@
+header{
+  height: var(--header-height);
+  width: 100%;
+  position: fixed;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: var(--mat-sys-on-primary);
+}
+.header-filler{
+  display: block;
+  position: static;
+  height: var(--header-height);
+  width: 100%;
+}
+header h1{
+  margin: auto 0;
+}
+mat-nav-list > mat-list-item{
+  height: 100%;
+  border-radius: 0;
+}
+mat-nav-list{
+  padding: 0;
+}
+.auth-buttons{
+  margin: auto 0;
+}
+.auth-buttons button{
+  border-radius: 0.75rem;
+  color: white;
+}
+.auth-buttons > *:last-child{
+  margin-left: 1rem;
+}
+.register{
+  background-color: var(--dark-purple);
+}
+.login {
+  border: 1px solid white;
+}

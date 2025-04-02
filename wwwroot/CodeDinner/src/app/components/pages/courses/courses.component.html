@@ -1,0 +1,40 @@
+<section>
+  <div class="row">
+    <h3>Курси</h3>
+    <button mat-fab color="primary" aria-label="Add" (click)="openAddForm()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <table mat-table [dataSource]="courses" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell class="col-name" *matHeaderCellDef>Назва</th>
+      <td mat-cell class="col-name" *matCellDef="let element">
+          <input type="text" [(ngModel)]="element.name" (ngModelChange)="change(element)">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="language">
+      <th mat-header-cell class="col-lang" *matHeaderCellDef>Мова</th>
+      <td mat-cell class="col-lang" *matCellDef="let element">
+          <mat-select [ngModel]="element.language + ''" (ngModelChange)="change(element); element.language = Number($event)" placeholder="Мову не вибрано">
+            <mat-option value="0">Українська</mat-option>
+            <mat-option value="1">Англійська</mat-option>
+          </mat-select>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell class="col-actions" *matHeaderCellDef>Дії</th>
+      <td mat-cell class="col-actions" *matCellDef="let element">
+        <button mat-icon-button class="btn-delete" color="warn" (click)="deleteCourse(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</section>

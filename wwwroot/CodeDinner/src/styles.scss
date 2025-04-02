@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+:root{
+  --header-height: 4rem;
+  --dark-purple: #2f045c;
+}
+
+html{
+  color-scheme: dark;
+  @include mat.theme((
+    color: mat.$violet-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+h1{
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+html{
+  font-size: 14px;
+}
+
+@media (max-width: 720px) {
+  html{
+    font-size: 14px;
+  }
+}
+@media (max-width: 560px) {
+  html{
+    font-size: 12px;
+  }
+}
