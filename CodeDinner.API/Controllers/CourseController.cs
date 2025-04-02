@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeDinner.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]/[action]")]
 public class CourseController(ICourseService service) : ControllerBase
 {
     [HttpGet]

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeDinner.API.Controllers;
 
+[Route("api/[controller]/[action]")]
 public class UserController : ControllerBase
 {
     public UserController()
