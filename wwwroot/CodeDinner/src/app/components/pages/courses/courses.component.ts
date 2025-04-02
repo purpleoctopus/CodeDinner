@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { AddCourseComponent } from '../../features/add-course-form/add-course.component';
+import { AddCourseFormComponent } from '../../features/add-course-form/add-course-form.component';
 import { BehaviorSubject, debounceTime, firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { CourseService } from '../../../services/features/course.service';
+import { CourseService } from '../../../services/course.service';
 import { Course, Language } from '../../../models/course.model';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -41,7 +41,7 @@ export class CoursesComponent implements OnInit {
   }
 
   public async openAddForm() {
-    const dialog = this.dialog.open(AddCourseComponent);
+    const dialog = this.dialog.open(AddCourseFormComponent);
     const res = await firstValueFrom(dialog.afterClosed());
     if(res && typeof res != 'boolean'){
       this.courses = [...this.courses, res];

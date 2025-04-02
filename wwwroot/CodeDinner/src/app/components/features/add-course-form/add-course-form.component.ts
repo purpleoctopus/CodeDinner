@@ -4,7 +4,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CourseService} from '../../../services/features/course.service';
+import {CourseService} from '../../../services/course.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -19,10 +19,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   templateUrl: './add-course-form.component.html',
   styleUrl: './add-course-form.component.scss'
 })
-export class AddCourseComponent {
+export class AddCourseFormComponent {
 
   constructor(
-    private dialogRef: MatDialogRef<AddCourseComponent>,
+    private dialogRef: MatDialogRef<AddCourseFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string },
     private courseService: CourseService) { }
 
