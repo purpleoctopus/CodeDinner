@@ -17,8 +17,19 @@ header{
 header h1{
   margin: auto 0;
 }
+mat-nav-list{
+  display: flex;
+}
+mat-nav-list:has(mat-list-item:nth-child(2)){
+  mat-list-item:not(:first-child){
+    border-left: 2px solid black;
+  }
+}
 mat-nav-list > mat-list-item{
-  height: 100%;
+  box-sizing: border-box;
+  width: max-content;
+  height: calc(100% - 0.5rem);
+  margin: auto 0;
   border-radius: 0;
 }
 mat-nav-list{
@@ -39,4 +50,7 @@ mat-nav-list{
 }
 .login {
   border: 1px solid white;
+}
+h1:hover{
+  cursor: pointer;
 }

@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://codebreakfast.pp.ua/api',
+  apiUrl: 'https://localhost:7060/api',
 };

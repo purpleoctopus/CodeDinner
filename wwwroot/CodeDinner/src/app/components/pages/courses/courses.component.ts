@@ -23,27 +23,27 @@ export class CoursesComponent implements OnInit {
   public courses: Course[] = [];
   private courseSubject: BehaviorSubject<Course[]> = new BehaviorSubject<Course[]>([]);
 
-  constructor(private view: ViewContainerRef, private dialog: MatDialog, private courseService: CourseService) {}
+  constructor(private dialog: MatDialog, private courseService: CourseService) {}
 
   ngOnInit(): void {
     this.getCourses();
     this.courseSubject.pipe(debounceTime(1000)).subscribe(async courses => {
-      // Унікальні зміни в масиві
       const uniqueCourses = this.getUniqueChanges(courses);
       uniqueCourses.forEach(course => {
         console.log(course);
         this.courseService.updateCourse(course);
       });
       if (uniqueCourses.length > 0) {
-        this.courseSubject.next([]); // Очищення після оновлення
+        this.courseSubject.next([]);
       }
     });
   }
 
   public async openAddForm() {
     const dialog = this.dialog.open(AddCourseFormComponent);
-    const res = await firstValueFrom(dialog.afterClosed());
-    if(res && typeof res != 'boolean'){
+    const dialogResult = await firstValueFrom(dialog.afterClosed());
+    if(dialogResult){
+      const res = await this.courseService.createCourse(dialogResult)
       this.courses = [...this.courses, res];
     }
   }
@@ -59,22 +59,22 @@ export class CoursesComponent implements OnInit {
   }
 
   protected change(value: Course) {
-    const prev = [...this.courseSubject.value]; // Копія поточного масиву
+    const prev = [...this.courseSubject.value];
     const index = prev.findIndex(course => course.id === value.id);
     if (index > -1) {
-      prev[index] = value; // Оновлення існуючого значення
+      prev[index] = value;
     } else {
-      prev.push(value); // Додавання нового значення
+      prev.push(value);
     }
-    this.courseSubject.next(prev); // Оновлення з урахуванням debounce
+    this.courseSubject.next(prev);
   }
 
   private getUniqueChanges(courses: Course[]): Course[] {
     const map = new Map<string, Course>();
     courses.forEach(course => {
-      map.set(course.id, course); // Використання ID як ключа
+      map.set(course.id, course);
     });
-    return Array.from(map.values()); // Унікальні значення
+    return Array.from(map.values());
   }
 
   protected readonly Language = Language;

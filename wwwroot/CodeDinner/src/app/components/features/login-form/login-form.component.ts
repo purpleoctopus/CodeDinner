@@ -4,7 +4,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {CourseService} from '../../../services/course.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -21,21 +21,19 @@ export class LoginFormComponent {
 
   constructor(
     private dialogRef: MatDialogRef<LoginFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private courseService: CourseService) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
 
   form = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
   public async submit(){
     if(this.form.valid){
-      const res = await this.courseService.createCourse({
-        username: this.form.value.username,
-        language: Number(this.form.value.language) ?? 0
+      this.dialogRef.close({
+        username: this.form.value.username ?? '',
+        password: this.form.value.password ?? ''
       });
-      this.dialogRef.close(res);
     }
   }
 }

@@ -1,10 +1,11 @@
 <header>
-  <h1>CodeBreakfast</h1>
+  <h1 routerLink="/home">CodeBreakfast</h1>
   <mat-nav-list>
+    <mat-list-item routerLink="/courses">Курси</mat-list-item>
     <mat-list-item routerLink="/courses">Курси</mat-list-item>
   </mat-nav-list>
   <div class="auth-buttons">
-    <button mat-button class="login">Увійти</button>
+    <button mat-button class="login" (click)="openLoginForm()">Увійти</button>
     <button mat-button class="register">Зареєструватись</button>
   </div>
 </header>

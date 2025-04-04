@@ -23,8 +23,7 @@ export class AddCourseFormComponent {
 
   constructor(
     private dialogRef: MatDialogRef<AddCourseFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private courseService: CourseService) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -33,11 +32,10 @@ export class AddCourseFormComponent {
 
   public async submit(){
     if(this.form.valid){
-      const res = await this.courseService.createCourse({
+      this.dialogRef.close({
         name: this.form.value.name ?? '',
         language: Number(this.form.value.language) ?? 0
       });
-      this.dialogRef.close(res);
     }
   }
 }
