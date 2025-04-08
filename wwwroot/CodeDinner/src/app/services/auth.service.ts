@@ -13,11 +13,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  public async login(data: LoginDto): Promise<Course[]>{
-    return (await firstValueFrom(this.http.post<any>(`${this.url}/Login`, data))).data;
+  public login(data: LoginDto){
+    return this.http.post<any>(`${this.url}/Login`, data);
   }
 
-  public async register(data: RegisterDto): Promise<Course>{
-    return (await firstValueFrom(this.http.post<any>(`${this.url}/Register`, data))).data;
+  public register(data: RegisterDto){
+    return this.http.post<any>(`${this.url}/Register`, data);
   }
 }
