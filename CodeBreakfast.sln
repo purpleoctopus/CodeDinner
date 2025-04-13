@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.API", "CodeBreakfast.API\CodeBreakfast.API.csproj", "{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wwwroot", "wwwroot", "{4BE9D8C1-96BE-4C3D-819F-C978B9F33848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Logic", "CodeBreakfast.Logic\CodeBreakfast.Logic.csproj", "{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Common", "CodeBreakfast.Common\CodeBreakfast.Common.csproj", "{375A4083-4B5D-4D48-8180-A9AE94A12E4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Data", "CodeBreakfast.Data\CodeBreakfast.Data.csproj", "{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.DataLayer", "CodeBreakfast.DataLayer\CodeBreakfast.DataLayer.csproj", "{A595716D-0F88-459D-B311-47E30BF4EA87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375A4083-4B5D-4D48-8180-A9AE94A12E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375A4083-4B5D-4D48-8180-A9AE94A12E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375A4083-4B5D-4D48-8180-A9AE94A12E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375A4083-4B5D-4D48-8180-A9AE94A12E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A595716D-0F88-459D-B311-47E30BF4EA87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A595716D-0F88-459D-B311-47E30BF4EA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A595716D-0F88-459D-B311-47E30BF4EA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A595716D-0F88-459D-B311-47E30BF4EA87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
