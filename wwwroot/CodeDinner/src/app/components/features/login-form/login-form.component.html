@@ -1,1 +1,22 @@
-<p>login-form works!</p>
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Логін</h2>
+    <mat-form-field hideRequiredMarker appearance="outline">
+      <mat-label>Юзернейм:</mat-label>
+      <input matInput formControlName="username">
+      @if (form.get('username')?.invalid) {
+        <mat-error>Введіть юзернейм</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field hideRequiredMarker appearance="outline">
+      <mat-label>Пароль:</mat-label>
+      <input matInput formControlName="password">
+      @if (form.get('password')?.invalid) {
+        <mat-error>Введіть пароль</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-button color="primary" type="submit">Відправити</button>
+  </form>
+</div>

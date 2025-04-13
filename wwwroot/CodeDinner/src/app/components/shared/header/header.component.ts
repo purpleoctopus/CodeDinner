@@ -20,13 +20,10 @@ import {AuthService} from '../../../services/auth.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  constructor(private dialog: MatDialog, private authService: AuthService) {}
+  constructor(private dialog: MatDialog) {}
 
   protected async openLoginForm(){
     const dialog = this.dialog.open(LoginFormComponent);
     const dialogResult = await firstValueFrom(dialog.afterClosed());
-    if(dialogResult){
-      const res = await this.authService.login(dialogResult);
-    }
   }
 }

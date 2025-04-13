@@ -4,7 +4,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {AuthService} from '../../../services/auth.service';
+import {MatOption} from '@angular/material/core';
+import {Store} from '@ngrx/store';
+import {login} from '../../../store/auth/actions';
 
 @Component({
   selector: 'app-login-form',
@@ -21,7 +23,8 @@ export class LoginFormComponent {
 
   constructor(
     private dialogRef: MatDialogRef<LoginFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string },
+    private store: Store) { }
 
   form = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -30,10 +33,9 @@ export class LoginFormComponent {
 
   public async submit(){
     if(this.form.valid){
-      this.dialogRef.close({
-        username: this.form.value.username ?? '',
-        password: this.form.value.password ?? ''
-      });
+      const { username, password } : any = this.form.value;
+      this.store.dispatch(login({ username, password }));
+      this.dialogRef.close();
     }
   }
 }
