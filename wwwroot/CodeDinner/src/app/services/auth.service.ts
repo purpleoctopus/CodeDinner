@@ -14,7 +14,9 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   public login(data: LoginDto){
-    return this.http.post<any>(`${this.url}/Login`, data);
+    const res = this.http.post<any>(`${this.url}/Login`, data);
+    firstValueFrom(res).then(val => console.log(val));
+    return res;
   }
 
   public register(data: RegisterDto){

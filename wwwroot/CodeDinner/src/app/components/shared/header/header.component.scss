@@ -35,14 +35,14 @@ mat-nav-list > mat-list-item{
 mat-nav-list{
   padding: 0;
 }
-.auth-buttons{
+header > .group-buttons{
   margin: auto 0;
 }
-.auth-buttons button{
+header > .group-buttons button{
   border-radius: 0.75rem;
   color: white;
 }
-.auth-buttons > *:last-child{
+header > .group-buttons > *:last-child{
   margin-left: 1rem;
 }
 .register{

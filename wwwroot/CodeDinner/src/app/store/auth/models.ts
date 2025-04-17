@@ -6,7 +6,5 @@ export interface User {
 
 export interface AuthState {
   accessToken: string | null;
-  user: User | null;
-  loading: boolean;
   error: string | null;
 }
