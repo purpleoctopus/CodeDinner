@@ -20,5 +20,8 @@ export const authReducer = createReducer(
   on(AuthActions.logout, (state) => {
     localStorage.removeItem('accessToken');
     return {...state, accessToken: null};
-  })
+  }),
+  on(AuthActions.register, (state) => {
+    return {...state, accessToken: null};
+  }),
 );

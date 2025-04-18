@@ -9,3 +9,10 @@ export const loginFailure =
   createAction('[Auth] Login Failure', props<{ error: string }>());
 export const logout =
   createAction('[Auth] Logout');
+
+export const register =
+  createAction('[Auth] Register', props<{ username: string; password: string }>());
+export const registerSuccess =
+  createAction('[Auth] Register Success', props<{ accessToken: string; user: User }>());
+export const registerFailure =
+  createAction('[Auth] Register Failure', props<{ error: string }>());

@@ -10,6 +10,7 @@ import {AuthService} from '../../../services/auth.service';
 import {State, Store} from '@ngrx/store';
 import {AsyncPipe} from '@angular/common';
 import {logout} from '../../../store/auth/actions';
+import {RegisterFormComponent} from '../../features/register-form/register-form.component';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +33,11 @@ export class HeaderComponent {
 
   protected async openLoginForm(){
     const dialog = this.dialog.open(LoginFormComponent);
+    const dialogResult = await firstValueFrom(dialog.afterClosed());
+  }
+
+  protected async openRegisterForm(){
+    const dialog = this.dialog.open(RegisterFormComponent);
     const dialogResult = await firstValueFrom(dialog.afterClosed());
   }
 

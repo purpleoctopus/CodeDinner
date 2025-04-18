@@ -7,7 +7,7 @@
   @if(!(accessToken$ | async)){
   <div class="group-buttons">
     <button mat-button class="login" (click)="openLoginForm()">Увійти</button>
-    <button mat-button class="register">Зареєструватись</button>
+    <button mat-button class="register" (click)="openRegisterForm()">Зареєструватись</button>
   </div>
   } @else {
     <div class="group-buttons">
