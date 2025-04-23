@@ -35,6 +35,7 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, existingUser.UserName),
+                new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

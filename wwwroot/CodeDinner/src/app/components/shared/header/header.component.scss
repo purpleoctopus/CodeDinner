@@ -8,6 +8,9 @@ header{
   padding: 0 2rem;
   background-color: var(--mat-sys-on-primary);
 }
+header>*:first-child, header>*:last-child{
+  width: 30%;
+}
 .header-filler{
   display: block;
   position: static;
@@ -36,6 +39,8 @@ mat-nav-list{
   padding: 0;
 }
 header > .group-buttons{
+  display: flex;
+  justify-content: right;
   margin: auto 0;
 }
 header > .group-buttons button{

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {firstValueFrom} from 'rxjs';
+import {catchError, firstValueFrom, map, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Course, CourseAddDto, CourseUpdateDto} from '../models/course.model';
 
@@ -12,23 +12,48 @@ export class CourseService {
 
   constructor(private http: HttpClient) { }
 
-  public async getAllCourses(): Promise<Course[]>{
-    return (await firstValueFrom(this.http.get<any>(`${this.url}/GetAll`))).data;
+  public getAllCourses(){
+    return this.http.get<any>(`${this.url}/GetAll`).pipe(
+      map(res => res.data),
+      catchError((error)=>{
+        return of([]);
+      })
+    );
   }
 
-  public async getCourseById(id: string): Promise<Course>{
-    return (await firstValueFrom(this.http.get<any>(`${this.url}/GetById/${id}`))).data;
+  public getCourseById(id: string){
+    return this.http.get<any>(`${this.url}/GetById/${id}`).pipe(
+      map(res => res.data),
+      catchError((error)=>{
+        return of(null);
+      })
+    );
   }
 
-  public async createCourse(courseDto: CourseAddDto): Promise<Course> {
-    return (await firstValueFrom(this.http.post<any>(`${this.url}/Create`, courseDto))).data;
+  public createCourse(courseDto: CourseAddDto){
+    return this.http.post<any>(`${this.url}/Create`, courseDto).pipe(
+      map(res => res.data),
+      catchError((error)=>{
+        return of(false);
+      })
+    );
   }
 
-  public async updateCourse(courseDto: CourseUpdateDto): Promise<Course> {
-    return (await firstValueFrom(this.http.put<any>(`${this.url}/Update`, courseDto))).data;
+  public updateCourse(courseDto: CourseUpdateDto){
+    return this.http.put<any>(`${this.url}/Update`, courseDto).pipe(
+      map(res => res.data),
+      catchError((error)=>{
+        return of(null);
+      })
+    );
   }
 
-  public async deleteCourse(id: string): Promise<boolean> {
-    return (await firstValueFrom(this.http.delete<any>(`${this.url}/Delete/${id}`))).data;
+  public deleteCourse(id: string) {
+    return this.http.delete<any>(`${this.url}/Delete/${id}`).pipe(
+      map(res => res.data),
+      catchError((error)=>{
+        return of(false);
+      })
+    );
   }
 }
