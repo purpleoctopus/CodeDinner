@@ -11,6 +11,7 @@ export interface CourseAddDto {
 export interface CourseUpdateDto extends CourseAddDto {
   id: string;
   modules?: string[];
+  description?: string;
 }
 
 export interface Course extends CourseUpdateDto {

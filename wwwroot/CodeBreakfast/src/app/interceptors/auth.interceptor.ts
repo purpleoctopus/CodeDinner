@@ -1,23 +1,26 @@
-import {HttpInterceptorFn} from '@angular/common/http';
+import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {switchMap, take} from 'rxjs';
-import {selectAccessToken} from '../store/auth/selectors';
+import {catchError, EMPTY, filter, of, switchMap, take} from 'rxjs';
+import {AuthService} from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const store = inject(Store);
+  const service = inject(AuthService);
 
-  return store.select(selectAccessToken).pipe(
+  return service.accessToken.pipe(
+    filter(token => !!token || req.url.includes('/Login')),
     take(1),
     switchMap(token => {
-      if (token) {
-        req = req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-      }
-      return next(req);
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return next(req).pipe(catchError((error : HttpErrorResponse) => {
+        if(error.status === 401) {
+          service.logout();
+        }
+        return of();
+      }))
     })
   );
 };

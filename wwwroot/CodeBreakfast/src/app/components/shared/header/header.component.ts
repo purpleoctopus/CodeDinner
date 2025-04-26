@@ -3,14 +3,11 @@ import {MatListItem, MatNavList} from '@angular/material/list';
 import {RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
-import {AddCourseFormComponent} from '../../features/add-course-form/add-course-form.component';
 import {firstValueFrom, map, Observable} from 'rxjs';
-import {LoginFormComponent} from '../../features/login-form/login-form.component';
-import {AuthService} from '../../../services/auth.service';
-import {State, Store} from '@ngrx/store';
+import {LoginFormComponent} from '../../forms/login-form/login-form.component';
 import {AsyncPipe} from '@angular/common';
-import {logout} from '../../../store/auth/actions';
-import {RegisterFormComponent} from '../../features/register-form/register-form.component';
+import {RegisterFormComponent} from '../../forms/register-form/register-form.component';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -25,11 +22,8 @@ import {RegisterFormComponent} from '../../features/register-form/register-form.
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  protected accessToken$: Observable<string> | null = null;
 
-  constructor(private dialog: MatDialog, state: State<object>, private store: Store) {
-    this.accessToken$ = state.pipe(map(state => state.auth.accessToken));
-  }
+  constructor(private dialog: MatDialog, protected authService: AuthService) {}
 
   protected async openLoginForm(){
     const dialog = this.dialog.open(LoginFormComponent);
@@ -42,6 +36,6 @@ export class HeaderComponent {
   }
 
   protected logout(){
-    this.store.dispatch(logout())
+    this.authService.logout();
   }
 }

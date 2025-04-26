@@ -4,12 +4,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {MatOption} from '@angular/material/core';
-import {Store} from '@ngrx/store';
-import {login, register} from '../../../store/auth/actions';
+import {AuthService} from '../../../services/auth.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-register-form',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -24,7 +23,7 @@ export class RegisterFormComponent {
   constructor(
     private dialogRef: MatDialogRef<RegisterFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private store: Store) { }
+    private authService: AuthService) { }
 
   form = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -34,8 +33,10 @@ export class RegisterFormComponent {
   public async submit(){
     if(this.form.valid){
       const { username, password } : any = this.form.value;
-      this.store.dispatch(register({ username, password }));
-      this.dialogRef.close();
+      const res = await firstValueFrom(this.authService.register({username, password}));
+      if(res.success) {
+        this.dialogRef.close();
+      }
     }
   }
 }

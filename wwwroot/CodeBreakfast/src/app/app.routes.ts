@@ -16,6 +16,13 @@ export const routes: Routes = [
     title: 'CodeBreakfast - Courses'
   },
   {
+    path: 'course/:id',
+    loadComponent: () =>
+      import("./components/pages/course-detail/course-detail.component")
+        .then(m => m.CourseDetailComponent),
+    title: 'CodeBreakfast - Courses'
+  },
+  {
     path: '**',
     redirectTo: 'home',
     pathMatch: 'full'

@@ -4,7 +4,7 @@
     <mat-list-item routerLink="/courses">Курси</mat-list-item>
     <mat-list-item routerLink="/courses">Курси</mat-list-item>
   </mat-nav-list>
-  @if(!(accessToken$ | async)){
+  @if(!(this.authService.accessToken | async)){
   <div class="group-buttons">
     <button mat-button class="login" (click)="openLoginForm()">Увійти</button>
     <button mat-button class="register" (click)="openRegisterForm()">Зареєструватись</button>
