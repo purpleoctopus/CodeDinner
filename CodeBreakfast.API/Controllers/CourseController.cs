@@ -26,7 +26,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create(AddCourseDto dto)
+    public async Task<IActionResult> Create(CourseAddDto dto)
     {
         var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.AddAsync(dto, currentUserId);
@@ -34,7 +34,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateCourseDto dto)
+    public async Task<IActionResult> Update(CourseUpdateDto dto)
     {
         var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.UpdateAsync(dto);

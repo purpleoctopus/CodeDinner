@@ -1,7 +1,12 @@
-﻿namespace CodeBreakfast.DataLayer.Entities;
+﻿using CodeBreakfast.DataLayer.Enums;
 
-public class Lesson : BaseEntity
+namespace CodeBreakfast.DataLayer.Entities;
+
+public class Lesson : UserCreatedEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public LessonType  LessonType { get; set; }
+    public string Description { get; set; }
+    public string? HtmlContent { get; set; }
 }

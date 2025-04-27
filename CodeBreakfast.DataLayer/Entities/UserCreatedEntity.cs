@@ -1,6 +1,6 @@
 namespace CodeBreakfast.DataLayer.Entities;
 
-public abstract class BaseEntity
+public abstract class UserCreatedEntity
 {
     public DateTime CreatedOn { get; set; }
     public Guid CreatedBy { get; set; }

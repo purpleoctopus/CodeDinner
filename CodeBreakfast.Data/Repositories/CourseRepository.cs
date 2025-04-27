@@ -2,7 +2,7 @@
 using CodeBreakfast.DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeBreakfast.Data.Repositories.Implementation;
+namespace CodeBreakfast.Data.Repositories;
 
 public class CourseRepository(AppDbContext context) : ICourseRepository
 {
@@ -48,7 +48,6 @@ public class CourseRepository(AppDbContext context) : ICourseRepository
         
         course.Name = model.Name;
         course.Language = model.Language;
-        course.Modules = model.Modules;
         await context.SaveChangesAsync();
         return course;
     }

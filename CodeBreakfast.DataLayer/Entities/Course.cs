@@ -3,7 +3,7 @@ using CodeBreakfast.DataLayer.Enums;
 
 namespace CodeBreakfast.DataLayer.Entities;
 
-public class Course : BaseEntity
+public class Course : UserCreatedEntity
 {
     [Key]
     public Guid Id { get; set; }
@@ -12,6 +12,4 @@ public class Course : BaseEntity
     public string Name { get; set; }
     
     public CourseLanguage Language { get; set; }
-    
-    public ICollection<string> Modules { get; set; } = [];
 }

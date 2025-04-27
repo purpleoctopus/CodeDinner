@@ -7,11 +7,25 @@ namespace CodeBreakfast.Data;
 public class AppDbContext : IdentityDbContext<User>
 {
     public DbSet<Course> Courses { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    modelBuilder.Entity<Course>().HasIndex(el => el.Name).IsUnique();
-    //}
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Comment>(entity =>
+        {
+            entity.Property(e => e.Content).HasColumnType("TEXT");
+        });
+        modelBuilder.Entity<Lesson>(entity =>
+        {
+            entity.Property(e => e.HtmlContent).HasColumnType("TEXT");
+        });
+        modelBuilder.Entity<UserLesson>(entity =>
+        {
+            entity.Property(e => e.AdditionalJson).HasColumnType("TEXT");
+        });
+    }
 }

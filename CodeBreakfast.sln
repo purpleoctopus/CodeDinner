@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.API", "CodeBreakfast.API\CodeBreakfast.API.csproj", "{72A7786D-8CE9-464E-8EE4-5E06C1F3C4DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wwwroot", "wwwroot", "{4BE9D8C1-96BE-4C3D-819F-C978B9F33848}"
+	ProjectSection(SolutionItems) = preProject
+		wwwroot\CodeBreakfast.Database\.idea\workspace.xml = wwwroot\CodeBreakfast.Database\.idea\workspace.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Logic", "CodeBreakfast.Logic\CodeBreakfast.Logic.csproj", "{35DFAD6D-05B5-45A1-A9A7-E70E5E809950}"
 EndProject

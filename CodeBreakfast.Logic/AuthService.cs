@@ -5,6 +5,7 @@ using System.Text;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
+using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.Logic.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CodeBreakfast.Logic;
 
-public class UserService(IUserRepository userRepository, UserManager<User> userManager, IConfiguration configuration) : IUserService
+public class AuthService(IAuthRepository authRepository, UserManager<User> userManager, IConfiguration configuration) : IAuthService
 {
     public async Task<ApiResponse<SessionModel>> Login(LoginDto loginDto)
     {

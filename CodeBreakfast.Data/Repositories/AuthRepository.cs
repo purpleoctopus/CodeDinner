@@ -1,9 +1,9 @@
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
 
-namespace CodeBreakfast.Data.Repositories.Implementation;
+namespace CodeBreakfast.Data.Repositories;
 
-public class UserRepository : IUserRepository
+public class AuthRepository : IAuthRepository
 {
     public Task<bool> Register(User loginDto)
     {

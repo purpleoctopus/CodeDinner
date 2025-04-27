@@ -2,7 +2,7 @@ using CodeBreakfast.DataLayer.Entities;
 
 namespace CodeBreakfast.Data.Repositories.Interfaces;
 
-public interface IUserRepository
+public interface IAuthRepository
 {
     Task<bool> Register(User loginDto);
 }

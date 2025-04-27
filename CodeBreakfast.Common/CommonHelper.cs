@@ -7,22 +7,22 @@ public static class CommonHelper
 {
     
     // DTO to entity mapping
-    public static Course Get_CourseFromDto(UpdateCourseDto updateDto)
+    public static Course Get_CourseFromDto(CourseUpdateDto courseUpdateDto)
     {
         return new Course
         {
-            Id = updateDto.Id,
-            Name = updateDto.Name,
-            Language = updateDto.Language
+            Id = courseUpdateDto.Id,
+            Name = courseUpdateDto.Name,
+            Language = courseUpdateDto.Language
         };
     }
-    public static Course Get_CourseFromDto(AddCourseDto addDto)
+    public static Course Get_CourseFromDto(CourseAddDto courseAddDto)
     {
         return new Course
         {
             Id = Guid.NewGuid(),
-            Name = addDto.Name,
-            Language = addDto.Language
+            Name = courseAddDto.Name,
+            Language = courseAddDto.Language
         };
     }
 }

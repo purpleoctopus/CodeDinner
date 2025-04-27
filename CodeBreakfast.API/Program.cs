@@ -1,7 +1,7 @@
 using System.Text;
 using CodeBreakfast.Data;
+using CodeBreakfast.Data.Repositories;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.Data.Repositories.Implementation;
 using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.Logic;
 using CodeBreakfast.Logic.Interfaces;
@@ -17,8 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer"));

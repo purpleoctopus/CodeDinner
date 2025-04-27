@@ -15,7 +15,7 @@ public class CourseService : ICourseService
     {
         _courseRepository = courseRepository;
     }
-    public async Task<ApiResponse<Course>> AddAsync(AddCourseDto dto, Guid userId)
+    public async Task<ApiResponse<Course>> AddAsync(CourseAddDto dto, Guid userId)
     {
         var response = new ApiResponse<Course>();
         
@@ -105,7 +105,7 @@ public class CourseService : ICourseService
         return response;
     }
 
-    public async Task<ApiResponse<Course>> UpdateAsync(UpdateCourseDto dto)
+    public async Task<ApiResponse<Course>> UpdateAsync(CourseUpdateDto dto)
     {
         var response = new ApiResponse<Course>();
 

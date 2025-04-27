@@ -2,15 +2,19 @@
 
 namespace CodeBreakfast.Common.Models;
 
-public class AddCourseDto
+public class CourseAddDto
 {
     public string Name { get; set; }
     
     public CourseLanguage Language { get; set; }
 }
 
-public class UpdateCourseDto : AddCourseDto
+public class CourseUpdateDto : CourseAddDto
 {
     public Guid Id { get; set; }
+}
+
+public class CourseDetailDto : CourseUpdateDto
+{
     public List<string>? Modules { get; set; }
 }
