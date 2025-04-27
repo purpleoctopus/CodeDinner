@@ -5,9 +5,10 @@ namespace CodeBreakfast.Common;
 
 public static class CommonHelper
 {
+
+    #region Extensions
     
-    // DTO to entity mapping
-    public static Course Get_CourseFromDto(CourseUpdateDto courseUpdateDto)
+    public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
     {
         return new Course
         {
@@ -16,7 +17,7 @@ public static class CommonHelper
             Language = courseUpdateDto.Language
         };
     }
-    public static Course Get_CourseFromDto(CourseAddDto courseAddDto)
+    public static Course GetEntity(this CourseAddDto courseAddDto)
     {
         return new Course
         {
@@ -25,4 +26,31 @@ public static class CommonHelper
             Language = courseAddDto.Language
         };
     }
+    
+    public static CourseDetailDto GetCommonModel(this Course course)
+    {
+        return new CourseDetailDto
+        {
+            Id = course.Id,
+            Name = course.Name,
+            Language = course.Language,
+            Modules = course.Modules.ToList(),
+            Author = course.Author.GetCommonModel(),
+            CreatedOn = course.CreatedOn,
+            UpdatedOn = course.UpdatedOn
+        };
+    }
+    
+    public static UserDetailDto GetCommonModel(this User userDto)
+    {
+        return new UserDetailDto
+        {
+            Id = Guid.NewGuid(),
+            Username = userDto.UserName,
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName
+        };
+    }
+    
+    #endregion
 }

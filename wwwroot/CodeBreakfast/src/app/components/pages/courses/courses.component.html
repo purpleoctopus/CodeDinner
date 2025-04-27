@@ -1,3 +1,5 @@
 <section>
-  {{courses}}
+  @for (course of courses; track $index){
+    <div>{{course.name}}</div>
+  }
 </section>

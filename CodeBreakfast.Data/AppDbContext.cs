@@ -1,13 +1,15 @@
 ﻿using CodeBreakfast.DataLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreakfast.Data;
 
-public class AppDbContext : IdentityDbContext<User>
+public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public DbSet<Course> Courses { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<UserCourse> UserCourses { get; set; }
     public DbSet<Comment> Comments { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }

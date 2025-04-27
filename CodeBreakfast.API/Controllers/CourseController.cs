@@ -8,25 +8,33 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 public class CourseController(ICourseService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> Get_Courses_All()
     {
         var rData = await service.GetAllAsync();
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
 
+    [HttpGet]
+    [Route("for-list-view")]
+    public async Task<IActionResult> Get_Courses_ForListView()
+    {
+        var rData = await service.Get_ForListViewAsync();
+        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+    }
+
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> Get_Course_ById(Guid id)
     {
         var rData = await service.GetByIdAsync(id);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create(CourseAddDto dto)
+    public async Task<IActionResult> Add_Course(CourseAddDto dto)
     {
         var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.AddAsync(dto, currentUserId);
@@ -34,7 +42,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpPut]
-    public async Task<IActionResult> Update(CourseUpdateDto dto)
+    public async Task<IActionResult> Update_Course(CourseUpdateDto dto)
     {
         var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.UpdateAsync(dto);
@@ -42,7 +50,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete_Course(Guid id)
     {
         var rData = await service.DeleteAsync(id);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
