@@ -10,4 +10,5 @@ public class Lesson : UserCreatedEntity
     public string Description { get; set; }
     public string? HtmlContent { get; set; }
     public TimeSpan? Duration { get; set; }
+    public ICollection<Comment> Comments { get; set; }
 }

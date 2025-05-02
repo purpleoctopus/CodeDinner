@@ -1,4 +1,5 @@
-﻿using CodeBreakfast.DataLayer.Entities;
+﻿using System.Text.Json;
+using CodeBreakfast.DataLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,12 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false
+        };
+        
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Comment>(entity =>
         {
@@ -40,6 +47,22 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .OnDelete(DeleteBehavior.Restrict);
         modelBuilder.Entity<UserCourse>()
             .HasOne(x => x.Course)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.Property(e => e.AdditionalData)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, jsonSerializerOptions),
+                    v => JsonSerializer.Deserialize<object>(v, jsonSerializerOptions))
+                .HasColumnType("TEXT");
+        });
+        modelBuilder.Entity<Comment>()
+            .HasOne(x => x.Author)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Review>()
+            .HasOne(x => x.Author)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
     }

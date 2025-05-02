@@ -22,13 +22,13 @@ public class CourseService : ICourseService
 
     #region Get Methods
     
-    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForUserAsync(Guid userId)
+    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForUserAsync(Guid requestingUserId)
     {
         var response = new ApiResponse<List<CourseDetailDto>>();
 
         try
         {
-            var data = await _courseRepository.GetAllForUserAsync(userId);
+            var data = await _courseRepository.GetAllForUserAsync(requestingUserId);
             response.Data = data.Select(x=>x.GetCommonModel()).ToList();
         }
         catch (Exception ex)
@@ -117,7 +117,7 @@ public class CourseService : ICourseService
 
     #region Add Methods
     
-    public async Task<ApiResponse<CourseDetailDto>> AddAsync(CourseAddDto dto, Guid userId)
+    public async Task<ApiResponse<CourseDetailDto>> AddAsync(CourseAddDto dto, Guid requestingUserId)
     {
         var response = new ApiResponse<CourseDetailDto>();
         
@@ -144,7 +144,7 @@ public class CourseService : ICourseService
     
     #region Update Methods
     
-    public async Task<ApiResponse<CourseForListDto>> AccessCourse(Guid courseId, Guid userId)
+    public async Task<ApiResponse<CourseForListDto>> AccessCourse(Guid courseId, Guid requestingUserId)
     {
         var response = new ApiResponse<CourseForListDto>();
 
@@ -156,7 +156,7 @@ public class CourseService : ICourseService
                 await _appDbContext.UserCourses.AddAsync(new UserCourse
                 {
                     CourseId = courseId, 
-                    UserId = userId
+                    UserId = requestingUserId
                 });
             }
             else
@@ -184,6 +184,7 @@ public class CourseService : ICourseService
         {
             var course = dto.GetEntity();
             course.UpdatedOn = DateTime.Now;
+            
             var data = await _courseRepository.UpdateAsync(course);
             if (data == null)
             {

@@ -14,8 +14,8 @@ public class CourseController(ICourseService service) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get_Courses_All()
     {
-        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.GetAllForUserAsync(currentUserId);
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await service.GetAllForUserAsync(requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
 
@@ -37,15 +37,15 @@ public class CourseController(ICourseService service) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add_Course(CourseAddDto dto)
     {
-        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.AddAsync(dto, currentUserId);
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await service.AddAsync(dto, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
     
     [HttpPut]
     public async Task<IActionResult> Update_Course(CourseUpdateDto dto)
     {
-        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.UpdateAsync(dto);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
