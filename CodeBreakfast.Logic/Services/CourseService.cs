@@ -3,10 +3,11 @@ using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.Logic.Interfaces;
+using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeBreakfast.Logic;
+namespace CodeBreakfast.Logic.Services;
 
 public class CourseService : ICourseService
 {
@@ -21,13 +22,13 @@ public class CourseService : ICourseService
 
     #region Get Methods
     
-    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllAsync()
+    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForUserAsync(Guid userId)
     {
         var response = new ApiResponse<List<CourseDetailDto>>();
 
         try
         {
-            var data = await _courseRepository.GetAllAsync();
+            var data = await _courseRepository.GetAllForUserAsync(userId);
             response.Data = data.Select(x=>x.GetCommonModel()).ToList();
         }
         catch (Exception ex)
@@ -62,7 +63,7 @@ public class CourseService : ICourseService
                         .Where(x => x.CourseId == course.Id).CountAsync(),
                     LessonsCount = associatedLessons.Where(x=>x.CourseId == course.Id).Count(),
                     TotalTime = TimeSpan.FromMinutes(associatedLessons.Select(l=>l.Duration?.TotalMinutes).Sum() ?? 0),
-                    Author = (await _appDbContext.Users.SingleAsync(x => x.Id == course.AuthorId)).GetCommonModel(),
+                    Author = (await _appDbContext.Users.SingleOrDefaultAsync(x => x.Id == course.AuthorId)).GetCommonModel(),
                     CreatedOn = course.CreatedOn,
                     UpdatedOn = course.UpdatedOn,
                 };
@@ -138,10 +139,42 @@ public class CourseService : ICourseService
 
         return response;
     }
-    
+
     #endregion
     
     #region Update Methods
+    
+    public async Task<ApiResponse<CourseForListDto>> AccessCourse(Guid courseId, Guid userId)
+    {
+        var response = new ApiResponse<CourseForListDto>();
+
+        try
+        {
+            var userCourse = await _appDbContext.UserCourses.SingleOrDefaultAsync(x => x.CourseId == courseId);
+            if (userCourse == null)
+            {
+                await _appDbContext.UserCourses.AddAsync(new UserCourse
+                {
+                    CourseId = courseId, 
+                    UserId = userId
+                });
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "You are already access this course";
+                response.StatusCode = HttpStatusCode.Forbidden;
+            }
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
+    }
 
     public async Task<ApiResponse<CourseDetailDto>> UpdateAsync(CourseUpdateDto dto)
     {

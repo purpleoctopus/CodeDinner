@@ -2,11 +2,8 @@ using CodeBreakfast.DataLayer.Entities.Abstractions;
 
 namespace CodeBreakfast.DataLayer.Entities;
 
-public class Review : UserCreatedEntity
+public class ChatMessage : UserCreatedEntity
 {
     public Guid Id { get; set; }
-    public Guid CourseId { get; set; }
-    public Course Course { get; set; }
-    public int Rating { get; set; }
     public string Message { get; set; }
 }

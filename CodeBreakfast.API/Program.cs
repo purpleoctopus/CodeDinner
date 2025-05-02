@@ -1,10 +1,14 @@
 using System.Text;
+using CodeBreakfast.Common;
 using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic;
-using CodeBreakfast.Logic.Interfaces;
+using CodeBreakfast.Logic.Hubs;
+using CodeBreakfast.Logic.Services;
+using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +23,10 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddSingleton<ConnectionManager>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer"));
@@ -52,6 +60,8 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
@@ -74,8 +84,23 @@ app.UseHttpsRedirection();
 //TODO: don't forget to use UI origin here
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    foreach (var role in Enum.GetValues<AppRole>())
+    {
+        var roleName = role.GetDescription();
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+}
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/events");
 
 app.Run();

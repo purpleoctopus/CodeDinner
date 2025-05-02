@@ -11,6 +11,11 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<UserCourse> UserCourses { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<UserConfig> UserConfigs { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
+    public DbSet<Newsletter> Newsletters { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -29,5 +34,13 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         {
             entity.Property(e => e.AdditionalJson).HasColumnType("TEXT");
         });
+        modelBuilder.Entity<UserLesson>()
+            .HasOne(x => x.Lesson)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<UserCourse>()
+            .HasOne(x => x.Course)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

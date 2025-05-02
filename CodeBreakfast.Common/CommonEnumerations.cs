@@ -1,0 +1,2 @@
+namespace CodeBreakfast.Common;
+

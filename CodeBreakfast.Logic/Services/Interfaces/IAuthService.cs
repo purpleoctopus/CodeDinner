@@ -1,6 +1,6 @@
 using CodeBreakfast.Common.Models;
 
-namespace CodeBreakfast.Logic.Interfaces;
+namespace CodeBreakfast.Logic.Services.Interfaces;
 
 public interface IAuthService
 {

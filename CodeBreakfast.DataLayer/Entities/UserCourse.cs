@@ -1,15 +1,14 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using CodeBreakfast.DataLayer.Enumerations;
 
 namespace CodeBreakfast.DataLayer.Entities;
 
 public class UserCourse
 {
     public int Id { get; set; }
-    [ForeignKey("User")]
     public Guid UserId { get; set; }
     public User User { get; set; }
-    [ForeignKey("Courses")]
     public Guid  CourseId { get; set; }
     public Course Course { get; set; }
-    public Review Review { get; set; }
+    public CourseRole Role { get; set; }
+    public DateTime RegisteredOn { get; set; }
 }

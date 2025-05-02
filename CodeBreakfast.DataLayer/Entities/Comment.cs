@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using CodeBreakfast.DataLayer.Entities.Abstractions;
 
 namespace CodeBreakfast.DataLayer.Entities;
 
-public class Comment
+public class Comment : UserCreatedEntity
 {
     public Guid Id { get; set; }
-    [ForeignKey("User")]
-    public Guid UserId { get; set; }
-    [ForeignKey("Lessons")]
     public Guid LessonId { get; set; }
+    public Lesson Lesson { get; set; }
     public string Content { get; set; }
 }

@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Reflection;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.DataLayer.Entities;
 
@@ -7,6 +9,8 @@ public static class CommonHelper
 {
 
     #region Extensions
+    
+    // Models Extensions
     
     public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
     {
@@ -51,6 +55,16 @@ public static class CommonHelper
             LastName = userDto.LastName
         };
     }
+
     
+    
+    //Common Extensions
+
+    public static string GetDescription(this Enum value)
+    {
+        var field = value.GetType().GetField(value.ToString());
+        var attr = field?.GetCustomAttribute<DescriptionAttribute>();
+        return attr?.Description ?? value.ToString();
+    }
     #endregion
 }

@@ -7,5 +7,7 @@ public class UserLesson
     public Lesson Lesson { get; set; }
     public int? Progress { get; set; }
     public TimeSpan? VideoStoppedAt { get; set; }
+    public DateTime SubscribedOn { get; set; }
+    public DateTime LastActivity { get; set; }
     public string AdditionalJson { get; set; }
 }

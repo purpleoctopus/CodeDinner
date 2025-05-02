@@ -1,6 +1,5 @@
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.Logic.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
+using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeBreakfast.API.Controllers;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CodeBreakfast.DataLayer.Entities.Abstractions;
-using CodeBreakfast.DataLayer.Enums;
+using CodeBreakfast.DataLayer.Enumerations;
 
 namespace CodeBreakfast.DataLayer.Entities;
 

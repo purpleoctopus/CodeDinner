@@ -134,16 +134,11 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.User", b =>
@@ -230,17 +225,12 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ReviewId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("ReviewId");
 
                     b.HasIndex("UserId");
 
@@ -439,15 +429,7 @@ namespace CodeBreakfast.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CodeBreakfast.DataLayer.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.UserCourse", b =>
@@ -455,13 +437,7 @@ namespace CodeBreakfast.Data.Migrations
                     b.HasOne("CodeBreakfast.DataLayer.Entities.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodeBreakfast.DataLayer.Entities.Review", "Review")
-                        .WithMany()
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CodeBreakfast.DataLayer.Entities.User", "User")
@@ -471,8 +447,6 @@ namespace CodeBreakfast.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-
-                    b.Navigation("Review");
 
                     b.Navigation("User");
                 });
@@ -482,7 +456,7 @@ namespace CodeBreakfast.Data.Migrations
                     b.HasOne("CodeBreakfast.DataLayer.Entities.Lesson", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CodeBreakfast.DataLayer.Entities.User", "User")

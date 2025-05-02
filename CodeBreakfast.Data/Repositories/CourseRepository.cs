@@ -4,42 +4,51 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreakfast.Data.Repositories;
 
-public class CourseRepository(AppDbContext context) : ICourseRepository
+public class CourseRepository(AppDbContext dbContext) : ICourseRepository
 {
     public async Task<Course?> AddAsync(Course course)
     {
-        await context.Courses.AddAsync(course);
-        await context.SaveChangesAsync();
+        await dbContext.Courses.AddAsync(course);
+        await dbContext.SaveChangesAsync();
         return course;
     }
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        var model = await context.Courses.FindAsync(id);
+        var model = await dbContext.Courses.FindAsync(id);
 
         if (model == null)
         {
             return false;
         }
 
-        context.Courses.Remove(model);
-        await context.SaveChangesAsync();
+        dbContext.Courses.Remove(model);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
     public async Task<List<Course>> GetAllAsync()
     {
-        return await context.Courses.ToListAsync();
+        return await dbContext.Courses.ToListAsync();
+    }
+    
+    public async Task<List<Course>> GetAllForUserAsync(Guid userId)
+    {
+        return await dbContext.UserCourses
+            .Include(x=>x.Course)
+            .Where(x=>x.UserId == userId)
+            .Select(x=>x.Course)
+            .ToListAsync();
     }
 
     public async Task<Course?> GetByIdAsync(Guid id)
     {
-        return await context.Courses.SingleOrDefaultAsync(x => x.Id == id);
+        return await dbContext.Courses.SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Course?> UpdateAsync(Course model)
     {
-        var course = await context.Courses.SingleOrDefaultAsync(x => x.Id == model.Id);
+        var course = await dbContext.Courses.SingleOrDefaultAsync(x => x.Id == model.Id);
         
         if (course == null)
         {
@@ -48,7 +57,7 @@ public class CourseRepository(AppDbContext context) : ICourseRepository
         
         course.Name = model.Name;
         course.Language = model.Language;
-        await context.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         return course;
     }
 }
