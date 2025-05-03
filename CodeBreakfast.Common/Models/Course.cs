@@ -1,4 +1,5 @@
-﻿using CodeBreakfast.DataLayer.Enumerations;
+﻿using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.DataLayer.Enumerations;
 
 namespace CodeBreakfast.Common.Models;
 
@@ -17,7 +18,7 @@ public class CourseUpdateDto : CourseAddDto
 public class CourseDetailDto : CourseUpdateDto
 {
     public UserDetailDto Author { get; set; }
-    public List<string>? Modules { get; set; }
+    public List<Module>? Modules { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime UpdatedOn { get; set; }
 }

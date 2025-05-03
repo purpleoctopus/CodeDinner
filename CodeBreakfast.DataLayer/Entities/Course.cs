@@ -14,5 +14,5 @@ public class Course : UserCreatedEntity
     
     public CourseLanguage Language { get; set; }
     
-    public ICollection<string> Modules { get; set; }
+    public ICollection<Module> Modules { get; set; }
 }

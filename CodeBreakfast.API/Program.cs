@@ -5,7 +5,6 @@ using CodeBreakfast.Data.Repositories;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.DataLayer.Enumerations;
-using CodeBreakfast.Logic;
 using CodeBreakfast.Logic.Hubs;
 using CodeBreakfast.Logic.Services;
 using CodeBreakfast.Logic.Services.Interfaces;
@@ -19,14 +18,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+//Services
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+
+//Repositories
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+//Misc
 builder.Services.AddSingleton<ConnectionManager>();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer"));
@@ -38,6 +47,7 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
 })
+.AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
@@ -86,13 +96,13 @@ app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
     foreach (var role in Enum.GetValues<AppRole>())
     {
         var roleName = role.GetDescription();
         if (!await roleManager.RoleExistsAsync(roleName))
         {
-            await roleManager.CreateAsync(new IdentityRole(roleName));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
         }
     }
 }

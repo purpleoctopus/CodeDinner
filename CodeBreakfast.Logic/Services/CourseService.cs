@@ -1,25 +1,16 @@
 ﻿using System.Net;
 using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.Logic.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreakfast.Logic.Services;
 
-public class CourseService : ICourseService
+public class CourseService(ICourseRepository courseRepository, IUserRepository userRepository,
+    ISecurityService securityService, ILessonRepository lessonRepository)
+    : ICourseService
 {
-    private readonly ICourseRepository _courseRepository;
-    private readonly AppDbContext _appDbContext;
-
-    public CourseService(ICourseRepository courseRepository, AppDbContext appDbContext)
-    {
-        _courseRepository = courseRepository;
-        _appDbContext = appDbContext;
-    }
-
     #region Get Methods
     
     public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForUserAsync(Guid requestingUserId)
@@ -28,7 +19,7 @@ public class CourseService : ICourseService
 
         try
         {
-            var data = await _courseRepository.GetAllForUserAsync(requestingUserId);
+            var data = await userRepository.GetCoursesForUserAsync(requestingUserId);
             response.Data = data.Select(x=>x.GetCommonModel()).ToList();
         }
         catch (Exception ex)
@@ -41,17 +32,17 @@ public class CourseService : ICourseService
         return response;
     }
 
-    public async Task<ApiResponse<List<CourseForListDto>>> Get_ForListViewAsync()
+    public async Task<ApiResponse<List<CourseForListDto>>> GetForListViewAsync()
     {
         var response = new ApiResponse<List<CourseForListDto>>();
         var coursesForList = new List<CourseForListDto>();
 
         try
         {
-            var courses = await _courseRepository.GetAllAsync();
+            var courses = await courseRepository.GetAllAsync();
             foreach (var course in courses)
             {
-                var associatedLessons = await _appDbContext.Lessons.Where(l => l.CourseId == course.Id).ToListAsync();
+                var associatedLessons = await lessonRepository.GetLessonsForCourseAsync(course.Id);
                 
                 var courseForView = new CourseForListDto
                 {
@@ -59,11 +50,10 @@ public class CourseService : ICourseService
                     Name = course.Name,
                     Language = course.Language,
                     ModulesCount = course.Modules.Count,
-                    StudentsCount = await _appDbContext.UserCourses
-                        .Where(x => x.CourseId == course.Id).CountAsync(),
+                    StudentsCount = await userRepository.GetUsersCountForCourseAsync(course.Id),
                     LessonsCount = associatedLessons.Where(x=>x.CourseId == course.Id).Count(),
                     TotalTime = TimeSpan.FromMinutes(associatedLessons.Select(l=>l.Duration?.TotalMinutes).Sum() ?? 0),
-                    Author = (await _appDbContext.Users.SingleOrDefaultAsync(x => x.Id == course.AuthorId)).GetCommonModel(),
+                    Author = (await userRepository.GetUserByIdAsync(course.AuthorId)).GetCommonModel(),
                     CreatedOn = course.CreatedOn,
                     UpdatedOn = course.UpdatedOn,
                 };
@@ -82,13 +72,13 @@ public class CourseService : ICourseService
         return response;
     }
 
-    public async Task<ApiResponse<CourseDetailDto>> GetByIdAsync(Guid id)
+    public async Task<ApiResponse<CourseDetailDto>> GetByIdAsync(Guid id, Guid requestingUserId)
     {
         var response = new ApiResponse<CourseDetailDto>();
 
         try
         {
-            var data = await _courseRepository.GetByIdAsync(id);
+            var data = await courseRepository.GetByIdAsync(id, requestingUserId);
             if (data == null)
             {
                 response.Success = false;
@@ -128,7 +118,7 @@ public class CourseService : ICourseService
             course.CreatedOn = DateTime.Now;
             course.UpdatedOn = DateTime.Now;
             
-            response.Data = (await _courseRepository.AddAsync(course)).GetCommonModel();
+            response.Data = (await courseRepository.AddAsync(course)).GetCommonModel();
         }
         catch (Exception ex)
         {
@@ -150,10 +140,10 @@ public class CourseService : ICourseService
 
         try
         {
-            var userCourse = await _appDbContext.UserCourses.SingleOrDefaultAsync(x => x.CourseId == courseId);
+            var userCourse = await userRepository.GetUserCourseForUserAsync(courseId, requestingUserId);
             if (userCourse == null)
             {
-                await _appDbContext.UserCourses.AddAsync(new UserCourse
+                await userRepository.CreateUserCourse(new UserCourse
                 {
                     CourseId = courseId, 
                     UserId = requestingUserId
@@ -176,16 +166,23 @@ public class CourseService : ICourseService
         return response;
     }
 
-    public async Task<ApiResponse<CourseDetailDto>> UpdateAsync(CourseUpdateDto dto)
+    public async Task<ApiResponse<CourseDetailDto>> UpdateAsync(CourseUpdateDto dto, Guid requestingUserId)
     {
         var response = new ApiResponse<CourseDetailDto>();
 
         try
         {
+            if (await securityService.CourseAccessLevel(dto.Id, requestingUserId) != SectionAccess.Manage)
+            {
+                response.Success = false;
+                response.Message = "No access";
+                response.StatusCode = HttpStatusCode.Forbidden;
+            }
+            
             var course = dto.GetEntity();
             course.UpdatedOn = DateTime.Now;
             
-            var data = await _courseRepository.UpdateAsync(course);
+            var data = await courseRepository.UpdateAsync(course);
             if (data == null)
             {
                 response.Success = false;
@@ -209,13 +206,19 @@ public class CourseService : ICourseService
     
     #region Delete Methods
     
-    public async Task<ApiResponse<bool>> DeleteAsync(Guid id)
+    public async Task<ApiResponse<bool>> DeleteAsync(Guid id, Guid requestingUserId)
     {
         var response = new ApiResponse<bool>();
         
         try
         {
-            response.Data = await _courseRepository.DeleteAsync(id);
+            if (await securityService.CourseAccessLevel(id, requestingUserId) != SectionAccess.Manage)
+            {
+                response.Success = false;
+                response.Message = "No access";
+                response.StatusCode = HttpStatusCode.Forbidden;
+            }
+            response.Data = await courseRepository.DeleteAsync(id);
         }
         catch (Exception ex)
         {

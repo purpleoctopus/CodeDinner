@@ -1,3 +1,4 @@
+using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.DataLayer.Enumerations;
@@ -7,6 +8,11 @@ namespace CodeBreakfast.Data.Repositories;
 
 public class UserRepository(AppDbContext dbContext) : IUserRepository
 {
+    public Task<User?> GetUserByIdAsync(Guid userId)
+    {
+        return dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+    }
+
     public async Task<List<Guid>> GetCourseUsersAsync(Guid courseId)
     {
         var userIds = await dbContext.UserCourses
@@ -25,5 +31,44 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
             .ToListAsync();
         
         return userIds;
+    }
+    
+    public async Task<List<Course>> GetCoursesForUserAsync(Guid userId)
+    {
+        return await dbContext.UserCourses
+            .Include(x=>x.Course)
+            .Where(x=>x.UserId == userId)
+            .Select(x=>x.Course)
+            .ToListAsync();
+    }
+
+    public async Task<List<UserCourse>> GetUserCoursesForUserAsync(Guid userId)
+    {
+        return await dbContext.UserCourses.Where(x => x.UserId == userId)
+            .AsNoTracking().ToListAsync();
+    }
+
+    public async Task<UserCourse?> GetUserCourseForUserAsync(Guid courseId, Guid userId)
+    {
+        return await dbContext.UserCourses
+            .Where(x => x.UserId == userId && x.CourseId == courseId)
+            .AsNoTracking().SingleOrDefaultAsync();
+    }
+
+    public Task<List<UserCourse>> GetUserCoursesForCourseAsync(Guid courseId)
+    {
+        return dbContext.UserCourses.Where(x => x.CourseId == courseId).ToListAsync();
+    }
+
+    public async Task<int> GetUsersCountForCourseAsync(Guid courseId)
+    {
+        return await dbContext.UserCourses.CountAsync(x => x.CourseId == courseId);
+    }
+
+    public async Task<UserCourse> CreateUserCourse(UserCourse userCourse)
+    {
+        await dbContext.UserCourses.AddAsync(userCourse);
+        await dbContext.SaveChangesAsync();
+        return userCourse;
     }
 }

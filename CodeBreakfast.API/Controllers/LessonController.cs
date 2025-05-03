@@ -1,7 +1,5 @@
 using System.Security.Claims;
-using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,63 +8,66 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/course")]
-public class CourseController(ICourseService service) : ControllerBase
+[Route("course/lesson")]
+public class LessonController(ILessonService lessonService) : ControllerBase
 {
     [HttpGet]
-    [Route("get-all")]
+    [Route("get-all/{courseId:guid}")]
     [Authorize(Roles = "Moderator,Admin")]
-    public async Task<IActionResult> Get_Courses_All()
+    public async Task<IActionResult> Get_Lessons_All(Guid courseId)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.GetAllForUserAsync(requestingUserId);
+        var rData = await lessonService.GetAllForCourseAsync(courseId, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
 
     [HttpGet]
-    [Route("for-list-view")]
-    public async Task<IActionResult> Get_Courses_ForListView()
+    [Route("for-list-view/{courseId:guid}")]
+    public async Task<IActionResult> Get_Lessons_ForListView(Guid courseId)
     {
-        var rData = await service.GetForListViewAsync();
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await lessonService.GetForListViewAsync(courseId, requestingUserId);
+        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+    }
+    
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get_Lesson_ById(Guid id)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await lessonService.GetByIdAsync(id, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get_Course_ById(Guid id)
-    {
-        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.GetByIdAsync(id, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
-    }
-    
     [HttpPost]
     [Authorize(Roles = "Creator")]
-    public async Task<IActionResult> Add_Course(CourseAddDto dto)
+    public async Task<IActionResult> Add_Lesson([FromBody] LessonAddDto dto)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.AddAsync(dto, requestingUserId);
+        var rData = await lessonService.AddAsync(dto, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
-    
+
     [HttpPut("{id:guid}")]
     [Authorize(Roles = "Creator")]
-    public async Task<IActionResult> Update_Course(Guid id, CourseUpdateDto dto)
+    public async Task<IActionResult> Update_Lesson(Guid id, [FromBody] LessonUpdateDto dto)
     {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
         if (id != dto.Id)
         {
             return BadRequest(new { Success = false, Message = "ID mismatch" });
         }
-        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.UpdateAsync(dto,requestingUserId);
+        
+        var rData = await lessonService.UpdateAsync(dto, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
-    
+
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = "Creator")]
-    public async Task<IActionResult> Delete_Course(Guid id)
+    public async Task<IActionResult> Delete_Lesson(Guid id)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.DeleteAsync(id,requestingUserId);
+        var rData = await lessonService.DeleteAsync(id, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
 }

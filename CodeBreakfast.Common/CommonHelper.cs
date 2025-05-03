@@ -12,15 +12,6 @@ public static class CommonHelper
     
     // Models Extensions
     
-    public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
-    {
-        return new Course
-        {
-            Id = courseUpdateDto.Id,
-            Name = courseUpdateDto.Name,
-            Language = courseUpdateDto.Language
-        };
-    }
     public static Course GetEntity(this CourseAddDto courseAddDto)
     {
         return new Course
@@ -30,7 +21,39 @@ public static class CommonHelper
             Language = courseAddDto.Language
         };
     }
-    
+    public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
+    {
+        return new Course
+        {
+            Id = courseUpdateDto.Id,
+            Name = courseUpdateDto.Name,
+            Language = courseUpdateDto.Language
+        };
+    }
+    public static Lesson GetEntity(this LessonAddDto lessonAddDto)
+    {
+        return new Lesson
+        {
+            Id = Guid.NewGuid(),
+            Name = lessonAddDto.Name,
+            Description = lessonAddDto.Description,
+            LessonType = lessonAddDto.LessonType,
+            CourseId = lessonAddDto.CourseId,
+            HtmlContent = lessonAddDto.HtmlContent
+        };
+    }
+    public static Lesson GetEntity(this LessonUpdateDto lessonUpdateDto)
+    {
+        return new Lesson
+        {
+            Id = lessonUpdateDto.Id,
+            Name = lessonUpdateDto.Name,
+            Description = lessonUpdateDto.Description,
+            LessonType = lessonUpdateDto.LessonType,
+            CourseId = lessonUpdateDto.CourseId,
+            HtmlContent = lessonUpdateDto.HtmlContent
+        };
+    }
     public static CourseDetailDto GetCommonModel(this Course course)
     {
         return new CourseDetailDto
@@ -56,6 +79,19 @@ public static class CommonHelper
         };
     }
 
+    public static LessonDetailDto GetCommonModel(this Lesson lesson)
+    {
+        return new LessonDetailDto
+        {
+            Id = lesson.Id,
+            Name = lesson.Name,
+            Description = lesson.Description,
+            LessonType = lesson.LessonType,
+            CourseId = lesson.CourseId,
+            HtmlContent = lesson.HtmlContent,
+            Duration = lesson.Duration
+        };
+    }
     
     
     //Common Extensions

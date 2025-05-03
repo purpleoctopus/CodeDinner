@@ -20,12 +20,12 @@ public enum AppRole
 {
     [Description("User")]
     User = 1,
+    [Description("Creator")]
+    Creator = 2,
     [Description("Moderator")]
-    Moderator = 2,
+    Moderator = 3,
     [Description("Admin")]
-    Admin = 3,
-    [Description("Super Admin")]
-    Supervisor = 4
+    Admin = 4,
 }
 
 public enum CourseRole

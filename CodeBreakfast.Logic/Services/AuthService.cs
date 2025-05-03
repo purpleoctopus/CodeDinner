@@ -2,9 +2,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -88,6 +90,8 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
 
             if (result.Succeeded)
             {
+
+                await userManager.AddToRoleAsync(user, AppRole.User.GetDescription());
                 response.Data = (await Login(registerDto)).Data;
             }
             else

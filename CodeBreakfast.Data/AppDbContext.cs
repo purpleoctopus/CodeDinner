@@ -65,5 +65,13 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .HasOne(x => x.Author)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Lesson>()
+            .HasOne(x => x.Author)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Lesson>()
+            .HasOne(x => x.Course)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

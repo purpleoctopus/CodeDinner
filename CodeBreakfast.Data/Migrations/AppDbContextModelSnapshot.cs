@@ -94,10 +94,6 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<int>("Language")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("Modules")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -140,6 +136,9 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<int>("LessonType")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("ModuleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -151,7 +150,42 @@ namespace CodeBreakfast.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ModuleId");
+
                     b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.Module", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Module");
                 });
 
             modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.Newsletter", b =>
@@ -339,11 +373,9 @@ namespace CodeBreakfast.Data.Migrations
 
             modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.UserCourse", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -580,8 +612,39 @@ namespace CodeBreakfast.Data.Migrations
                     b.HasOne("CodeBreakfast.DataLayer.Entities.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodeBreakfast.DataLayer.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodeBreakfast.DataLayer.Entities.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.Module", b =>
+                {
+                    b.HasOne("CodeBreakfast.DataLayer.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodeBreakfast.DataLayer.Entities.Course", null)
+                        .WithMany("Modules")
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Author");
                 });
@@ -703,6 +766,11 @@ namespace CodeBreakfast.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.Course", b =>
+                {
+                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("CodeBreakfast.DataLayer.Entities.Lesson", b =>
