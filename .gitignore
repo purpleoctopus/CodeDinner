@@ -9,18 +9,18 @@ appsettings.Development.json
 appsettings.json
 
 # Default ignored files
-/shelf/
-/workspace.xml
+shelf/
+workspace.xml
 # Rider ignored files
-/projectSettingsUpdater.xml
-/contentModel.xml
-/modules.xml
-/.idea.CodeDinner.iml
+projectSettingsUpdater.xml
+contentModel.xml
+modules.xml
+.idea.CodeDinner.iml
 # Editor-based HTTP Client requests
-/httpRequests/
+httpRequests/
 # Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+dataSources/
+dataSources.local.xml
 
 #wwwroot
 .vscode/
