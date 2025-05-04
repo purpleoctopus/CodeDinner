@@ -8,7 +8,7 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("course/lesson")]
+[Route("api/course/lesson")]
 public class LessonController(ILessonService lessonService) : ControllerBase
 {
     [HttpGet]

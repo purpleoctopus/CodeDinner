@@ -5,7 +5,7 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
+[Route("api/notification")]
 public class NotificationController : ControllerBase
 {
     
