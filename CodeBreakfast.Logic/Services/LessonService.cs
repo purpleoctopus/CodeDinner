@@ -45,7 +45,7 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
 
         try
         {
-            var lesson = await lessonRepository.GetLessonById(id);
+            var lesson = await lessonRepository.GetLessonByIdAsync(id);
             
             if (lesson == null)
             {
@@ -178,7 +178,7 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
 
         try
         {
-            var existingLesson = await lessonRepository.GetLessonById(id);
+            var existingLesson = await lessonRepository.GetLessonByIdAsync(id);
             
             if (existingLesson == null)
             {

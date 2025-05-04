@@ -6,7 +6,7 @@ namespace CodeBreakfast.Data.Repositories;
 
 public class LessonRepository(AppDbContext dbContext) : ILessonRepository
 {
-    public async Task<Lesson?> GetLessonById(Guid id)
+    public async Task<Lesson?> GetLessonByIdAsync(Guid id)
     {
         return await dbContext.Lessons.SingleOrDefaultAsync(l => l.Id == id);
     }

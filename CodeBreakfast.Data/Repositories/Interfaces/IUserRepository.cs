@@ -12,5 +12,5 @@ public interface IUserRepository
     Task<UserCourse?> GetUserCourseForUserAsync(Guid courseId, Guid userId);
     Task<List<UserCourse>> GetUserCoursesForCourseAsync(Guid courseId);
     Task<int> GetUsersCountForCourseAsync(Guid courseId);
-    Task<UserCourse> CreateUserCourse(UserCourse userCourse);
+    Task<UserCourse> CreateUserCourseAsync(UserCourse userCourse);
 }

@@ -63,7 +63,7 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         return await dbContext.UserCourses.CountAsync(x => x.CourseId == courseId);
     }
 
-    public async Task<UserCourse> CreateUserCourse(UserCourse userCourse)
+    public async Task<UserCourse> CreateUserCourseAsync(UserCourse userCourse)
     {
         await dbContext.UserCourses.AddAsync(userCourse);
         await dbContext.SaveChangesAsync();

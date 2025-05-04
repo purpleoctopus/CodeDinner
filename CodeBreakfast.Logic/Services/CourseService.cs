@@ -143,7 +143,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
             var userCourse = await userRepository.GetUserCourseForUserAsync(courseId, requestingUserId);
             if (userCourse == null)
             {
-                await userRepository.CreateUserCourse(new UserCourse
+                await userRepository.CreateUserCourseAsync(new UserCourse
                 {
                     CourseId = courseId, 
                     UserId = requestingUserId

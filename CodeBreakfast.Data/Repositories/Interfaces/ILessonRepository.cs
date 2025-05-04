@@ -4,7 +4,7 @@ namespace CodeBreakfast.Data.Repositories.Interfaces;
 
 public interface ILessonRepository
 {
-    Task<Lesson?> GetLessonById(Guid id);
+    Task<Lesson?> GetLessonByIdAsync(Guid id);
     Task<List<Lesson>> GetLessonsForCourseAsync(Guid courseId);
     Task<Lesson> AddLessonAsync(Lesson lesson);
     Task<Lesson?> UpdateLessonAsync(Lesson lesson);
