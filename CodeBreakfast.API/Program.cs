@@ -46,7 +46,6 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
 })
-.AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
