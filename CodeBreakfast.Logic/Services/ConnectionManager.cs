@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace CodeBreakfast.Logic.Services;
 
 public class ConnectionManager

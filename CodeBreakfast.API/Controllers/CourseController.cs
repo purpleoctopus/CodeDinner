@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +43,15 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.AddAsync(dto, requestingUserId);
+        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+    }
+
+    [HttpPost]
+    [Route("get-access/{id:guid}")]
+    public async Task<IActionResult> Get_Course_Access(Guid id)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await service.AccessCourse(id, requestingUserId);
         return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
     }
     
