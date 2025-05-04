@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Common", "Cod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Data", "CodeBreakfast.Data\CodeBreakfast.Data.csproj", "{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreakfast.Migrate", "CodeBreakfast.Migrate\CodeBreakfast.Migrate.csproj", "{CA03C8DC-C772-4332-A761-A17A1F3439B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,5 +37,11 @@ Global
 		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFB9C2C0-9F12-40F0-9BE9-153D02F91FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA03C8DC-C772-4332-A761-A17A1F3439B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA03C8DC-C772-4332-A761-A17A1F3439B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA03C8DC-C772-4332-A761-A17A1F3439B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA03C8DC-C772-4332-A761-A17A1F3439B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
