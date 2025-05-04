@@ -115,8 +115,8 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
         {
             var course = dto.GetEntity();
             
-            course.CreatedOn = DateTime.Now;
-            course.UpdatedOn = DateTime.Now;
+            course.CreatedOn = DateTime.UtcNow;
+            course.UpdatedOn = DateTime.UtcNow;
             
             response.Data = (await courseRepository.AddAsync(course)).GetCommonModel();
         }
@@ -180,7 +180,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
             }
             
             var course = dto.GetEntity();
-            course.UpdatedOn = DateTime.Now;
+            course.UpdatedOn = DateTime.UtcNow;
             
             var data = await courseRepository.UpdateAsync(course);
             if (data == null)

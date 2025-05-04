@@ -70,7 +70,8 @@ if (adminExists.Count == 0)
     {
         UserName = adminUsername,
         Email = adminEmail,
-        EmailConfirmed = true
+        EmailConfirmed = true,
+        RegisteredOn = DateTime.UtcNow
     };
 
     var result = await userManager.CreateAsync(user, adminPassword);
