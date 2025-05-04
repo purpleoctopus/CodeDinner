@@ -114,7 +114,8 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
         try
         {
             var course = dto.GetEntity();
-            
+
+            course.AuthorId = requestingUserId;
             course.CreatedOn = DateTime.UtcNow;
             course.UpdatedOn = DateTime.UtcNow;
             

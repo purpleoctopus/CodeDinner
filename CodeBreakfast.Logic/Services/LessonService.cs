@@ -123,8 +123,13 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
                 return response;
             }
 
-            var lesson = await lessonRepository.AddLessonAsync(dto.GetEntity());
-            response.Data = lesson.GetCommonModel();
+            var lesson = dto.GetEntity();
+
+            lesson.AuthorId = requestingUserId;
+            lesson.CreatedOn = DateTime.Now;
+            lesson.UpdatedOn = DateTime.Now;
+            
+            response.Data = (await lessonRepository.AddLessonAsync(lesson)).GetCommonModel();
         }
         catch (Exception ex)
         {
@@ -151,15 +156,19 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
                 return response;
             }
 
-            var lesson = await lessonRepository.UpdateLessonAsync(dto.GetEntity());
-            if (lesson == null)
+            var lesson = dto.GetEntity();
+            
+            lesson.UpdatedOn = DateTime.Now;
+
+            var updatedLesson = await lessonRepository.UpdateLessonAsync(lesson);
+            if (updatedLesson == null)
             {
                 response.Success = false;
                 response.Message = "No such lesson exists.";
                 response.StatusCode = HttpStatusCode.NotFound;
                 return response;
             }
-            response.Data = lesson.GetCommonModel();
+            response.Data = updatedLesson.GetCommonModel();
         }
         catch (Exception ex)
         {
