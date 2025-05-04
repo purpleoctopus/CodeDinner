@@ -1,5 +1,4 @@
-﻿
-using CodeBreakfast.Data;
+﻿using CodeBreakfast.Data;
 using CodeBreakfast.Data.Entities;
 
 namespace CodeBreakfast.Common.Models;
@@ -7,7 +6,7 @@ namespace CodeBreakfast.Common.Models;
 public class CourseAddDto
 {
     public string Name { get; set; }
-    
+    public string? Description { get; set; }
     public CourseLanguage Language { get; set; }
 }
 

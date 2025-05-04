@@ -18,7 +18,8 @@ public static class CommonHelper
         {
             Id = Guid.NewGuid(),
             Name = courseAddDto.Name,
-            Language = courseAddDto.Language
+            Language = courseAddDto.Language,
+            Description = courseAddDto.Description,
         };
     }
     public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
@@ -27,7 +28,8 @@ public static class CommonHelper
         {
             Id = courseUpdateDto.Id,
             Name = courseUpdateDto.Name,
-            Language = courseUpdateDto.Language
+            Language = courseUpdateDto.Language,
+            Description = courseUpdateDto.Description
         };
     }
     public static Lesson GetEntity(this LessonAddDto lessonAddDto)
@@ -60,6 +62,7 @@ public static class CommonHelper
         {
             Id = course.Id,
             Name = course.Name,
+            Description = course.Description,
             Language = course.Language,
             Modules = course.Modules.ToList(),
             Author = course.Author.GetCommonModel(),

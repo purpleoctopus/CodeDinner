@@ -189,11 +189,11 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 response.StatusCode = HttpStatusCode.NotFound;
                 return response;
             }
-            response.Data = course.GetCommonModel();
             
             existingCourse.UpdatedOn = DateTime.UtcNow;
             existingCourse.Name = dto.Name;
             existingCourse.Language = dto.Language;
+            existingCourse.Description = dto.Description;
             
             await courseRepository.UpdateAsync(existingCourse);
             response.Data = existingCourse.GetCommonModel();

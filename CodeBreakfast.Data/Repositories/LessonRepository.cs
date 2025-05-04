@@ -13,7 +13,7 @@ public class LessonRepository(AppDbContext dbContext) : ILessonRepository
 
     public async Task<List<Lesson>> GetLessonsForCourseAsync(Guid courseId)
     {
-        return await dbContext.Lessons.Where(x => x.CourseId == courseId).ToListAsync();
+        return await dbContext.Lessons.Include(x=>x.Module).Where(x => x.CourseId == courseId).ToListAsync();
     }
 
     public async Task<Lesson> AddLessonAsync(Lesson lesson)
@@ -24,16 +24,8 @@ public class LessonRepository(AppDbContext dbContext) : ILessonRepository
 
     public async Task<Lesson?> UpdateLessonAsync(Lesson lesson)
     {
-        var existingLesson = await dbContext.Lessons.SingleOrDefaultAsync(x => x.Id == lesson.Id);
-        if (existingLesson == null)
-        {
-            return null;
-        }
-        existingLesson.Name = lesson.Name;
-        existingLesson.Description = lesson.Description;
-        existingLesson.HtmlContent = lesson.HtmlContent;
         await dbContext.SaveChangesAsync();
-        return existingLesson;
+        return lesson;
     }
 
     public async Task<bool> DeleteLessonAsync(Guid id)

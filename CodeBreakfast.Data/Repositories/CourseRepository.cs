@@ -32,17 +32,8 @@ public class CourseRepository(AppDbContext dbContext) : ICourseRepository
 
     public async Task<Course?> UpdateAsync(Course course)
     {
-        var existingCourse = await dbContext.Courses.SingleOrDefaultAsync(x => x.Id == course.Id);
-        
-        if (existingCourse == null)
-        {
-            return null;
-        }
-        
-        existingCourse.Name = course.Name;
-        existingCourse.Language = course.Language;
         await dbContext.SaveChangesAsync();
-        return existingCourse;
+        return course;
     }
     
     public async Task<bool> DeleteAsync(Guid id)
