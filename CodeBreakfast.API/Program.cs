@@ -31,6 +31,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 //Misc
 builder.Services.AddSingleton<ConnectionManager>();
@@ -103,6 +104,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<NotificationHub>("/events");
+app.MapHub<NotificationHub>("api/events");
 
 app.Run();

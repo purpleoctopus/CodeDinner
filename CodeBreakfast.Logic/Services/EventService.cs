@@ -1,15 +1,24 @@
 using CodeBreakfast.Common;
 using CodeBreakfast.Data;
+using CodeBreakfast.Data.Entities;
+using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.Logic.Data;
 using CodeBreakfast.Logic.Services.Interfaces;
 
 namespace CodeBreakfast.Logic.Services;
 
-public class EventService(INotificationService notificationService) : IEventService
+public class EventService(INotificationService notificationService, INotificationRepository notificationRepository)
+    : IEventService
 {
     public async Task TriggerNewsletter(NewsletterEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.Newsletter,
+            Title = additionalData.Newsletter.Title,
+            Description = additionalData.Newsletter.Content
+        });
         
         await notificationService.SendGlobalNotificationAsync(new NotificationData
         {
@@ -21,7 +30,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerNewPrivateMessage(NewPrivateMessageEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForUserAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.NewPrivateMessage,
+            Title = "New Message",
+            Description = $"New message from {additionalData.Sender}",
+            AdditionalData = additionalData
+        }, additionalData.RecipientId);
         
         await notificationService.SendNotificationAsync(new NotificationData
         {
@@ -34,7 +50,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerProfileFollow(ProfileFollowEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForUserAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.ProfileFollow,
+            Title = "Profile Follow",
+            Description = "Someone followed to your profile",
+            AdditionalData = additionalData
+        }, additionalData.RecipientId);
         
         await notificationService.SendNotificationAsync(new NotificationData
         {
@@ -47,7 +70,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerCommentReply(CommentReplyEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForUserAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.CommentReply,
+            Title = "User Replied",
+            Description = $"{additionalData.Username} replied",
+            AdditionalData = additionalData
+        }, additionalData.RecipientId);
         
         await notificationService.SendNotificationAsync(new NotificationData
         {
@@ -60,7 +90,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerNewCourseContent(NewCourseContentEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForCourseAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.NewCourseContent,
+            Title = "New Course Content",
+            Description = $"{additionalData.CourseName} got new content",
+            AdditionalData = additionalData
+        }, additionalData.CourseId);
         
         await notificationService.SendNotificationByCourseAsync(new NotificationData
         {
@@ -73,7 +110,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerCourseSubscribe(CourseSubscribeEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForCourseAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.CourseSubscribe,
+            Title = "Someone subscribed to your course",
+            Description = $"{additionalData.Username} subsribed to your course",
+            AdditionalData = additionalData
+        }, additionalData.CourseId, CourseRole.Owner);
         
         await notificationService.SendNotificationByCourseAsync(new NotificationData
         {
@@ -86,7 +130,14 @@ public class EventService(INotificationService notificationService) : IEventServ
 
     public async Task TriggerCourseComment(CourseCommentEventAdditionalData additionalData)
     {
-        //TODO: Save to db
+        await notificationRepository.SaveNotificationForCourseAsync(new Notification
+        {
+            Id = Guid.NewGuid(),
+            NotificationType = NotificationType.CourseComment,
+            Title = "Someone commented to your course",
+            Description = $"{additionalData.Username} commented to your course",
+            AdditionalData = additionalData
+        }, additionalData.CourseId, CourseRole.Owner);
         
         await notificationService.SendNotificationByCourseAsync(new NotificationData
         {
