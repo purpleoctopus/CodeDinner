@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.Logic.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreakfast.Logic.Services;
 
@@ -156,18 +154,20 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
                 return response;
             }
 
-            var lesson = dto.GetEntity();
-            
-            lesson.UpdatedOn = DateTime.Now;
-
-            var updatedLesson = await lessonRepository.UpdateLessonAsync(lesson);
-            if (updatedLesson == null)
+            var existingLesson = await lessonRepository.GetLessonByIdAsync(dto.Id);
+            if (existingLesson == null)
             {
                 response.Success = false;
                 response.Message = "No such lesson exists.";
                 response.StatusCode = HttpStatusCode.NotFound;
                 return response;
             }
+            existingLesson.UpdatedOn = DateTime.Now;
+            existingLesson.Name = dto.Name;
+            existingLesson.Description = dto.Description;
+            existingLesson.HtmlContent = dto.HtmlContent;
+
+            var updatedLesson = await lessonRepository.UpdateLessonAsync(existingLesson);
             response.Data = updatedLesson.GetCommonModel();
         }
         catch (Exception ex)

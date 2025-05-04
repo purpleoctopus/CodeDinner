@@ -180,11 +180,9 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 response.StatusCode = HttpStatusCode.Forbidden;
             }
             
-            var course = dto.GetEntity();
-            course.UpdatedOn = DateTime.UtcNow;
+            var existingCourse = await courseRepository.GetByIdAsync(dto.Id, requestingUserId);
             
-            var data = await courseRepository.UpdateAsync(course);
-            if (data == null)
+            if (existingCourse == null)
             {
                 response.Success = false;
                 response.Message = "Course not found";
@@ -192,6 +190,13 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 return response;
             }
             response.Data = course.GetCommonModel();
+            
+            existingCourse.UpdatedOn = DateTime.UtcNow;
+            existingCourse.Name = dto.Name;
+            existingCourse.Language = dto.Language;
+            
+            await courseRepository.UpdateAsync(existingCourse);
+            response.Data = existingCourse.GetCommonModel();
         }
         catch (Exception ex)
         {
