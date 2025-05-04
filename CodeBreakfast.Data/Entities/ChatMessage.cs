@@ -1,6 +1,6 @@
-using CodeBreakfast.DataLayer.Entities.Abstractions;
+using CodeBreakfast.Data.Entities.Abstractions;
 
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class ChatMessage : UserCreatedEntity
 {

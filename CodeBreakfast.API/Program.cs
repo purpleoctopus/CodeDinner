@@ -1,10 +1,9 @@
 using System.Text;
 using CodeBreakfast.Common;
 using CodeBreakfast.Data;
+using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Entities;
-using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Hubs;
 using CodeBreakfast.Logic.Services;
 using CodeBreakfast.Logic.Services.Interfaces;

@@ -1,6 +1,6 @@
 using CodeBreakfast.Common;
+using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Services.Interfaces;
 
 namespace CodeBreakfast.Logic.Services;

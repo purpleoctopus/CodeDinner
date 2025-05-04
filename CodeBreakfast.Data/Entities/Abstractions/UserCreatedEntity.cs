@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CodeBreakfast.DataLayer.Entities.Abstractions;
+namespace CodeBreakfast.Data.Entities.Abstractions;
 
 public abstract class UserCreatedEntity
 {

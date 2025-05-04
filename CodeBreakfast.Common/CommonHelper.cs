@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Reflection;
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.Data.Entities;
 
 namespace CodeBreakfast.Common;
 

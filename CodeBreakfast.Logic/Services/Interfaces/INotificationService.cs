@@ -1,4 +1,4 @@
-using CodeBreakfast.DataLayer.Enumerations;
+using CodeBreakfast.Data;
 using CodeBreakfast.Logic.Data;
 
 namespace CodeBreakfast.Logic.Services.Interfaces;

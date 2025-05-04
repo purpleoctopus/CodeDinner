@@ -18,11 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CodeBreakfast.Common\CodeBreakfast.Common.csproj" />
-      <ProjectReference Include="..\CodeBreakfast.DataLayer\CodeBreakfast.DataLayer.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Migrations\" />
     </ItemGroup>
 

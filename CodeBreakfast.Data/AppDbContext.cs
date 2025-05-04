@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using CodeBreakfast.DataLayer.Entities;
+using CodeBreakfast.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

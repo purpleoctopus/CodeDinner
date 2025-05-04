@@ -1,6 +1,4 @@
-using CodeBreakfast.DataLayer.Enumerations;
-
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class Notification
 {

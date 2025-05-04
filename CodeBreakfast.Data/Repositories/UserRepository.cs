@@ -1,7 +1,5 @@
-using CodeBreakfast.Common.Models;
+using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Entities;
-using CodeBreakfast.DataLayer.Enumerations;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreakfast.Data.Repositories;

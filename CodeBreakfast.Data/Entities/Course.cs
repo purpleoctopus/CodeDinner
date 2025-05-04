@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CodeBreakfast.DataLayer.Entities.Abstractions;
-using CodeBreakfast.DataLayer.Enumerations;
+using CodeBreakfast.Data.Entities.Abstractions;
 
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class Course : UserCreatedEntity
 {

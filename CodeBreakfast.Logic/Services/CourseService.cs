@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
+using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.Logic.Services.Interfaces;
 
 namespace CodeBreakfast.Logic.Services;

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace CodeBreakfast.DataLayer.Enumerations;
+namespace CodeBreakfast.Data;
 
 public enum NotificationType
 {

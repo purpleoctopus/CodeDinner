@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class User : IdentityUser<Guid>
 {

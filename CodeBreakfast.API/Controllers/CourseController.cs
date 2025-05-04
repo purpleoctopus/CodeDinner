@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
-using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

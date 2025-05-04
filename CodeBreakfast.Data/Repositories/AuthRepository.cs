@@ -1,5 +1,5 @@
+using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Entities;
 
 namespace CodeBreakfast.Data.Repositories;
 

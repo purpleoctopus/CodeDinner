@@ -3,7 +3,6 @@ using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Entities;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

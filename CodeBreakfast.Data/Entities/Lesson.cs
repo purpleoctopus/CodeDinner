@@ -1,5 +1,6 @@
-﻿using CodeBreakfast.DataLayer.Entities.Abstractions;
-namespace CodeBreakfast.DataLayer.Entities;
+﻿using CodeBreakfast.Data.Entities.Abstractions;
+
+namespace CodeBreakfast.Data.Entities;
 
 public class Lesson : UserCreatedEntity
 {
@@ -9,7 +10,7 @@ public class Lesson : UserCreatedEntity
     public Course Course { get; set; }
     public Guid ModuleId { get; set; }
     public Module Module { get; set; }
-    public Enumerations.LessonType  LessonType { get; set; }
+    public LessonType  LessonType { get; set; }
     public string Description { get; set; }
     public string? HtmlContent { get; set; }
     public TimeSpan? Duration { get; set; }

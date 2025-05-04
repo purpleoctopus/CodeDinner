@@ -1,5 +1,5 @@
 using CodeBreakfast.Common;
-using CodeBreakfast.DataLayer.Enumerations;
+using CodeBreakfast.Data;
 
 namespace CodeBreakfast.Logic.Data;
 

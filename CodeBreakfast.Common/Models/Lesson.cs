@@ -1,4 +1,5 @@
-using CodeBreakfast.DataLayer.Enumerations;
+
+using CodeBreakfast.Data;
 
 namespace CodeBreakfast.Common.Models;
 

@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using CodeBreakfast.DataLayer.Enumerations;
 
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class UserConfig
 {

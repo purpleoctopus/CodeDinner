@@ -1,6 +1,5 @@
 using CodeBreakfast.Common;
-using CodeBreakfast.DataLayer.Entities;
-using CodeBreakfast.DataLayer.Enumerations;
+using CodeBreakfast.Data;
 using CodeBreakfast.Logic.Data;
 using CodeBreakfast.Logic.Services.Interfaces;
 

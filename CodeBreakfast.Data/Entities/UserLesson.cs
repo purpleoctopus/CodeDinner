@@ -1,4 +1,4 @@
-namespace CodeBreakfast.DataLayer.Entities;
+namespace CodeBreakfast.Data.Entities;
 
 public class UserLesson
 {

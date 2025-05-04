@@ -1,4 +1,4 @@
-﻿using CodeBreakfast.DataLayer.Entities;
+﻿using CodeBreakfast.Data.Entities;
 
 namespace CodeBreakfast.Data.Repositories.Interfaces;
 

@@ -1,5 +1,5 @@
+using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
-using CodeBreakfast.DataLayer.Enumerations;
 using CodeBreakfast.Logic.Data;
 using CodeBreakfast.Logic.Hubs;
 using CodeBreakfast.Logic.Services.Interfaces;
