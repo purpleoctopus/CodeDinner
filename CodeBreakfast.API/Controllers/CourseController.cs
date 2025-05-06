@@ -18,7 +18,7 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.GetAllForUserAsync(requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpGet]
@@ -26,7 +26,7 @@ public class CourseController(ICourseService service) : ControllerBase
     public async Task<IActionResult> Get_Courses_ForListView()
     {
         var rData = await service.GetForListViewAsync();
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpGet("{id:guid}")]
@@ -34,7 +34,7 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.GetByIdAsync(id, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
     
     [HttpPost]
@@ -43,7 +43,7 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.AddAsync(dto, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpPost]
@@ -52,7 +52,7 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.AccessCourse(id, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
     
     [HttpPut("{id:guid}")]
@@ -65,7 +65,7 @@ public class CourseController(ICourseService service) : ControllerBase
         }
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.UpdateAsync(dto,requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
     
     [HttpDelete("{id:guid}")]
@@ -74,6 +74,6 @@ public class CourseController(ICourseService service) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await service.DeleteAsync(id,requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 }

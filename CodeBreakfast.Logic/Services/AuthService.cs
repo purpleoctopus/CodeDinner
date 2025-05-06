@@ -29,6 +29,7 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
                 response.Success = false;
                 response.StatusCode = HttpStatusCode.Unauthorized;
                 response.Message = "Invalid username or password";
+                response.Errors = [ResponseError.InvalidCredentials];
                 return response;
             }
 
@@ -60,6 +61,7 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
 
             response.Data = new SessionModel
             {
+                Username = existingUser.UserName,
                 AccessToken = tokenHandler.WriteToken(token),
                 Roles = userRoles.ToList()
             };

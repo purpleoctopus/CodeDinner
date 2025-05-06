@@ -18,7 +18,7 @@ public class LessonController(ILessonService lessonService) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await lessonService.GetAllForCourseAsync(courseId, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpGet]
@@ -27,7 +27,7 @@ public class LessonController(ILessonService lessonService) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await lessonService.GetForListViewAsync(courseId, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
     
     [HttpGet("{id:guid}")]
@@ -35,7 +35,7 @@ public class LessonController(ILessonService lessonService) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await lessonService.GetByIdAsync(id, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpPost]
@@ -44,7 +44,7 @@ public class LessonController(ILessonService lessonService) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await lessonService.AddAsync(dto, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpPut("{id:guid}")]
@@ -59,7 +59,7 @@ public class LessonController(ILessonService lessonService) : ControllerBase
         }
         
         var rData = await lessonService.UpdateAsync(dto, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 
     [HttpDelete("{id:guid}")]
@@ -68,6 +68,6 @@ public class LessonController(ILessonService lessonService) : ControllerBase
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await lessonService.DeleteAsync(id, requestingUserId);
-        return StatusCode((int)rData.StatusCode, new { rData.Success, rData.Data, rData.Message });
+        return StatusCode((int)rData.StatusCode, rData);
     }
 }

@@ -6,3 +6,8 @@ public enum SectionAccess
     View = 1,
     Manage = 2
 }
+
+public enum ResponseError
+{
+    InvalidCredentials = 1,
+}
