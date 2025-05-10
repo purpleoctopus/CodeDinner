@@ -69,4 +69,44 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         await dbContext.SaveChangesAsync();
         return userCourse;
     }
+    
+    //User Activities Related
+
+    public async Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId)
+    {
+        return await dbContext.UserActivities.Where(a => a.UserId == userId).ToListAsync();
+    }
+
+    public async Task<UserActivity?> GetUserActivityAsync(Guid activityId)
+    {
+        return await dbContext.UserActivities.SingleOrDefaultAsync(x=>x.Id == activityId);
+    }
+
+    public async Task<UserActivity> CreateUserActivityAsync(UserActivity userActivity)
+    {
+        await dbContext.UserActivities.AddAsync(userActivity);
+        await dbContext.SaveChangesAsync();
+        return userActivity;
+    }
+
+    public async Task<bool> DeleteUserActivityAsync(Guid activityId)
+    {
+        var userActivity = await dbContext.UserActivities.SingleOrDefaultAsync(x => x.UserId == activityId);
+
+        if (userActivity == null)
+        {
+            return false;
+        }
+        
+        dbContext.UserActivities.Remove(userActivity);
+        await dbContext.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteAllUserActivitiesForUserAsync(Guid userId)
+    {
+        var deletedActivitiesCount = await dbContext.UserActivities.Where(x=>x.UserId == userId).ExecuteDeleteAsync();
+
+        return deletedActivitiesCount != 0;
+    }
 }

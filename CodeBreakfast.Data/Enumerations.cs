@@ -16,6 +16,12 @@ public enum NotificationType
     CourseComment = 101
 }
 
+public enum ActivityType
+{
+    Course = 1,
+    Lesson = 2
+}
+
 public enum AppRole
 {
     [Description("User")]

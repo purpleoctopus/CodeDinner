@@ -13,4 +13,11 @@ public interface IUserRepository
     Task<List<UserCourse>> GetUserCoursesForCourseAsync(Guid courseId);
     Task<int> GetUsersCountForCourseAsync(Guid courseId);
     Task<UserCourse> CreateUserCourseAsync(UserCourse userCourse);
+    
+    //User Activities
+    Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId);
+    Task<UserActivity?> GetUserActivityAsync(Guid activityId);
+    Task<UserActivity> CreateUserActivityAsync(UserActivity userActivity);
+    Task<bool> DeleteUserActivityAsync(Guid activityId);
+    Task<bool> DeleteAllUserActivitiesForUserAsync(Guid userId);
 }

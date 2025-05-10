@@ -25,6 +25,8 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserActivityService, UserActivityService>();
 
 //Repositories
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();

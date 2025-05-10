@@ -56,6 +56,19 @@ public static class CommonHelper
             HtmlContent = lessonUpdateDto.HtmlContent
         };
     }
+
+    public static UserActivity GetEntity(this UserActivityDetailDto userActivityDetailDto)
+    {
+        return new UserActivity
+        {
+            Id = userActivityDetailDto.Id,
+            UserId = userActivityDetailDto.UserId,
+            ActivityType = userActivityDetailDto.ActivityType,
+            Title = userActivityDetailDto.Title,
+            AdditionalJson = userActivityDetailDto.AdditionalJson
+        };
+    }
+    
     public static CourseDetailDto GetCommonModel(this Course course)
     {
         return new CourseDetailDto
@@ -70,7 +83,6 @@ public static class CommonHelper
             UpdatedOn = course.UpdatedOn
         };
     }
-    
     public static UserDetailDto GetCommonModel(this User userDto)
     {
         return new UserDetailDto
@@ -81,7 +93,6 @@ public static class CommonHelper
             LastName = userDto.LastName
         };
     }
-
     public static LessonDetailDto GetCommonModel(this Lesson lesson)
     {
         return new LessonDetailDto
@@ -95,7 +106,17 @@ public static class CommonHelper
             Duration = lesson.Duration
         };
     }
-    
+    public static UserActivityDetailDto GetCommonModel(this UserActivity userActivity)
+    {
+        return new UserActivityDetailDto
+        {
+            Id = userActivity.Id,
+            UserId = userActivity.UserId,
+            ActivityType = userActivity.ActivityType,
+            Title = userActivity.Title,
+            AdditionalJson = userActivity.AdditionalJson
+        };
+    }
     
     //Common Extensions
 

@@ -17,6 +17,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<ChatMessage> ChatMessages { get; set; }
     public DbSet<Newsletter> Newsletters { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<UserActivity> UserActivities { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -73,5 +74,9 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .HasOne(x => x.Course)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<UserActivity>(entity =>
+        {
+            entity.Property(e => e.AdditionalJson).HasColumnType("TEXT");
+        });
     }
 }
