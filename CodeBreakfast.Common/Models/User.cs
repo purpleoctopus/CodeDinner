@@ -28,4 +28,5 @@ public class UserProfileDto
     public int CompletedCoursesCount { get; set; }
     public int? CreatedCoursesCount { get; set; }
     public DateTime RegisteredOn { get; set; }
+    public bool IsPrivate { get; set; }
 }

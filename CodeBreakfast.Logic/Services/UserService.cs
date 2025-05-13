@@ -30,7 +30,8 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             response.Data = new UserProfileDto
             {
                 Id = user.Id,
-                Username = user.UserName
+                Username = user.UserName,
+                IsPrivate = true
             };
             return response;
         }
