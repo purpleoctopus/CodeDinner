@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -70,6 +71,17 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         return userCourse;
     }
     
+    //User Configs Related
+
+    public async Task<T?> GetUserConfigValueByKeyAsync<T>(UserConfigKey key, Guid userId)
+    {
+        var valueString =
+            (await dbContext.UserConfigs.AsNoTracking().FirstOrDefaultAsync(x => x.Key == key && x.UserId == userId))?.Value 
+            ?? GetDefaultUserConfigValue(key);
+
+        return valueString == null ? default : JsonSerializer.Deserialize<T>(valueString);
+    }
+
     //User Activities Related
 
     public async Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId)
@@ -108,5 +120,18 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         var deletedActivitiesCount = await dbContext.UserActivities.Where(x=>x.UserId == userId).ExecuteDeleteAsync();
 
         return deletedActivitiesCount != 0;
+    }
+    
+    private static string? GetDefaultUserConfigValue(UserConfigKey configKey)
+    {
+        string? value = null;
+        switch (configKey)
+        {
+            case UserConfigKey.IsPrivate:
+                value = "true";
+                break;
+        }
+
+        return value;   
     }
 }

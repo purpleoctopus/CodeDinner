@@ -14,7 +14,8 @@ public class UserController(IUserService userService, IUserActivityService userA
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserProfileForView(Guid id)
     {
-        var rData = await userService.GetUserProfileForView(id);
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.GetUserProfileForView(requestingUserId, id);
         return StatusCode((int)rData.StatusCode, rData);
     }
     
@@ -23,7 +24,7 @@ public class UserController(IUserService userService, IUserActivityService userA
     public async Task<IActionResult> GetMyProfile()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await userService.GetUserProfileForView(requestingUserId);
+        var rData = await userService.GetUserProfileForView(requestingUserId, requestingUserId);
         return StatusCode((int)rData.StatusCode, rData);
     }
     

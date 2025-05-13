@@ -10,7 +10,7 @@ namespace CodeBreakfast.Logic.Services;
 
 public class UserService(IUserRepository userRepository, UserManager<User> userManager) : IUserService
 {
-    public async Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid userId)
+    public async Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid requestingUserId, Guid userId)
     {
         var response = new ApiResponse<UserProfileDto>();
         
@@ -21,6 +21,17 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             response.Success = false;
             response.Message = "User not found";
             response.StatusCode = HttpStatusCode.NotFound;
+            return response;
+        }
+
+        // Hide profile data when user profile is private
+        if (await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.IsPrivate, userId) && requestingUserId != userId)
+        {
+            response.Data = new UserProfileDto
+            {
+                Id = user.Id,
+                Username = user.UserName
+            };
             return response;
         }
         

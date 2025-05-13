@@ -5,5 +5,5 @@ namespace CodeBreakfast.Logic.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid userId);
+    Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid requestingUserId, Guid userId);
 }

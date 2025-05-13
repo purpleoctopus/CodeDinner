@@ -14,6 +14,9 @@ public interface IUserRepository
     Task<int> GetUsersCountForCourseAsync(Guid courseId);
     Task<UserCourse> CreateUserCourseAsync(UserCourse userCourse);
     
+    //User Configs
+    Task<T?> GetUserConfigValueByKeyAsync<T>(UserConfigKey key, Guid userId);
+    
     //User Activities
     Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId);
     Task<UserActivity?> GetUserActivityAsync(Guid activityId);

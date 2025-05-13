@@ -56,5 +56,5 @@ public enum LessonType
 
 public enum UserConfigKey
 {
-    
+    IsPrivate = 1
 }
