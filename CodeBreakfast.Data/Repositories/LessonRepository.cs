@@ -13,7 +13,10 @@ public class LessonRepository(AppDbContext dbContext) : ILessonRepository
 
     public async Task<List<Lesson>> GetLessonsForCourseAsync(Guid courseId)
     {
-        return await dbContext.Lessons.Include(x=>x.Module).Where(x => x.CourseId == courseId).ToListAsync();
+        return await dbContext.Lessons
+            .Include(x=>x.Module)
+            .Include(x=>x.Course)
+            .Where(x => x.CourseId == courseId).ToListAsync();
     }
 
     public async Task<Lesson> AddLessonAsync(Lesson lesson)

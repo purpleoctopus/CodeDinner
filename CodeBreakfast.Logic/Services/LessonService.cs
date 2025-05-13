@@ -88,7 +88,7 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
             }
 
             var lessons = await lessonRepository.GetLessonsForCourseAsync(courseId);
-            response.Data = lessons.Select(x => new LessonForListDto
+            response.Data = lessons.Where(x=>x.IsVisible && x.Module.IsVisible && x.Course.IsVisible).Select(x => new LessonForListDto
             {
                 Id = x.Id,
                 Name = x.Name,

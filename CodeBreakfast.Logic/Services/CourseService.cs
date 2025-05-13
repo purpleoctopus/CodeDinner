@@ -87,11 +87,11 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 return response;
             }
 
-            if (!data.IsVisible && data.AuthorId != requestingUserId)
+            if ((!data.IsVisible && data.AuthorId != requestingUserId) || await securityService.CourseAccessLevel(requestingUserId, id) == SectionAccess.None)
             {
                 response.Success = false;
-                response.Message = "Course is not verified";
-                response.StatusCode = HttpStatusCode.BadRequest;
+                response.Message = "You are not allowed to view this course";
+                response.StatusCode = HttpStatusCode.Forbidden;
                 return response;
             }
             response.Data = data.GetCommonModel();
