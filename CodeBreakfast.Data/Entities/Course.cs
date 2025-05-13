@@ -12,4 +12,5 @@ public class Course : UserCreatedEntity
     public string? Description { get; set; }
     public CourseLanguage Language { get; set; }
     public ICollection<Module> Modules { get; set; } = new List<Module>();
+    public bool IsVisible { get; set; }
 }

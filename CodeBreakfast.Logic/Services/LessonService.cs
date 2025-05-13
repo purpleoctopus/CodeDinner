@@ -93,7 +93,8 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                Duration = x.Duration
+                Duration = x.Duration,
+                ModuleId = x.ModuleId
             }).ToList();
         }
         catch (Exception ex)
@@ -166,6 +167,7 @@ public class LessonService(ILessonRepository lessonRepository, ISecurityService 
             existingLesson.Name = dto.Name;
             existingLesson.Description = dto.Description;
             existingLesson.HtmlContent = dto.HtmlContent;
+            existingLesson.IsVisible = dto.IsVisible;
 
             var updatedLesson = await lessonRepository.UpdateLessonAsync(existingLesson);
             response.Data = updatedLesson.GetCommonModel();

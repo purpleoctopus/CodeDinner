@@ -13,12 +13,13 @@ public class CourseAddDto
 public class CourseUpdateDto : CourseAddDto
 {
     public Guid Id { get; set; }
+    public bool IsVisible { get; set; }
+    public List<Module>? Modules { get; set; }
 }
 
 public class CourseDetailDto : CourseUpdateDto
 {
     public UserDetailDto Author { get; set; }
-    public List<Module>? Modules { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime UpdatedOn { get; set; }
 }

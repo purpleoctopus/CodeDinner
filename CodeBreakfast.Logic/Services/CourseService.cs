@@ -39,7 +39,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
 
         try
         {
-            var courses = await courseRepository.GetAllAsync();
+            var courses = (await courseRepository.GetAllAsync()).Where(x=>x.IsVisible).ToList();
             foreach (var course in courses)
             {
                 var associatedLessons = await lessonRepository.GetLessonsForCourseAsync(course.Id);
@@ -55,7 +55,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                     TotalTime = TimeSpan.FromMinutes(associatedLessons.Select(l=>l.Duration?.TotalMinutes).Sum() ?? 0),
                     Author = (await userRepository.GetUserByIdAsync(course.AuthorId)).GetCommonModel(),
                     CreatedOn = course.CreatedOn,
-                    UpdatedOn = course.UpdatedOn,
+                    UpdatedOn = course.UpdatedOn
                 };
                 
                 coursesForList.Add(courseForView);
@@ -84,6 +84,14 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 response.Success = false;
                 response.Message = "Course not found";
                 response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+
+            if (!data.IsVisible && data.AuthorId != requestingUserId)
+            {
+                response.Success = false;
+                response.Message = "Course is not verified";
+                response.StatusCode = HttpStatusCode.BadRequest;
                 return response;
             }
             response.Data = data.GetCommonModel();
@@ -178,6 +186,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 response.Success = false;
                 response.Message = "No access";
                 response.StatusCode = HttpStatusCode.Forbidden;
+                return response;
             }
             
             var existingCourse = await courseRepository.GetByIdAsync(dto.Id, requestingUserId);
@@ -194,6 +203,8 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
             existingCourse.Name = dto.Name;
             existingCourse.Language = dto.Language;
             existingCourse.Description = dto.Description;
+            existingCourse.Modules = dto.Modules ?? [];
+            existingCourse.IsVisible = dto.IsVisible;
             
             await courseRepository.UpdateAsync(existingCourse);
             response.Data = existingCourse.GetCommonModel();
@@ -223,6 +234,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
                 response.Success = false;
                 response.Message = "No access";
                 response.StatusCode = HttpStatusCode.Forbidden;
+                return response;
             }
             response.Data = await courseRepository.DeleteAsync(id);
         }

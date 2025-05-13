@@ -10,11 +10,13 @@ public class LessonAddDto
     public string Name { get; set; }
     public string Description { get; set; }
     public string? HtmlContent { get; set; }
+    public Guid ModuleId { get; set; }
 }
 
 public class LessonUpdateDto : LessonAddDto
 {
     public Guid Id { get; set; }
+    public bool IsVisible { get; set; }
 }
 
 public class LessonDetailDto : LessonUpdateDto
@@ -30,4 +32,5 @@ public class LessonForListDto
     public string Name { get; set; }
     public string Description { get; set; }
     public TimeSpan? Duration { get; set; }
+    public Guid ModuleId { get; set; }
 }

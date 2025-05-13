@@ -29,7 +29,8 @@ public static class CommonHelper
             Id = courseUpdateDto.Id,
             Name = courseUpdateDto.Name,
             Language = courseUpdateDto.Language,
-            Description = courseUpdateDto.Description
+            Description = courseUpdateDto.Description,
+            IsVisible = courseUpdateDto.IsVisible
         };
     }
     public static Lesson GetEntity(this LessonAddDto lessonAddDto)
@@ -41,7 +42,8 @@ public static class CommonHelper
             Description = lessonAddDto.Description,
             LessonType = lessonAddDto.LessonType,
             CourseId = lessonAddDto.CourseId,
-            HtmlContent = lessonAddDto.HtmlContent
+            HtmlContent = lessonAddDto.HtmlContent,
+            ModuleId = lessonAddDto.ModuleId
         };
     }
     public static Lesson GetEntity(this LessonUpdateDto lessonUpdateDto)
@@ -53,7 +55,9 @@ public static class CommonHelper
             Description = lessonUpdateDto.Description,
             LessonType = lessonUpdateDto.LessonType,
             CourseId = lessonUpdateDto.CourseId,
-            HtmlContent = lessonUpdateDto.HtmlContent
+            HtmlContent = lessonUpdateDto.HtmlContent,
+            IsVisible = lessonUpdateDto.IsVisible,
+            ModuleId = lessonUpdateDto.ModuleId
         };
     }
 
@@ -103,7 +107,8 @@ public static class CommonHelper
             LessonType = lesson.LessonType,
             CourseId = lesson.CourseId,
             HtmlContent = lesson.HtmlContent,
-            Duration = lesson.Duration
+            Duration = lesson.Duration,
+            ModuleId = lesson.ModuleId
         };
     }
     public static UserActivityDetailDto GetCommonModel(this UserActivity userActivity)

@@ -4,6 +4,7 @@ using CodeBreakfast.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeBreakfast.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250511150939_AddIsVerifiedColumn")]
+    partial class AddIsVerifiedColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,7 +97,7 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsVisible")
+                    b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
 
                     b.Property<int>("Language")
@@ -139,9 +142,6 @@ namespace CodeBreakfast.Data.Migrations
                     b.Property<string>("HtmlContent")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("bit");
-
                     b.Property<int>("LessonType")
                         .HasColumnType("int");
 
@@ -180,9 +180,6 @@ namespace CodeBreakfast.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

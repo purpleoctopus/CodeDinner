@@ -15,4 +15,5 @@ public class Lesson : UserCreatedEntity
     public string? HtmlContent { get; set; }
     public TimeSpan? Duration { get; set; }
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public bool IsVisible { get; set; }
 }
