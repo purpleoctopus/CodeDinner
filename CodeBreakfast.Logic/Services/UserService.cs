@@ -25,7 +25,7 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         }
 
         // Hide profile data when user profile is private
-        if (await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.IsPrivate, userId) && requestingUserId != userId)
+        if (requestingUserId != userId && await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.IsPrivate, userId))
         {
             response.Data = new UserProfileDto
             {
