@@ -1,6 +1,7 @@
 using System.Net;
 using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
+using CodeBreakfast.Data;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.Logic.Services.Interfaces;
 
@@ -8,12 +9,19 @@ namespace CodeBreakfast.Logic.Services;
 
 public class UserActivityService(IUserRepository userRepository) : IUserActivityService
 {
-    public async Task<ApiResponse<List<UserActivityDetailDto>>> GetUserActivityListAsync(Guid userId)
+    public async Task<ApiResponse<List<UserActivityDetailDto>>> GetUserActivityListAsync(Guid userId, Guid requestingUserId)
     {
         var response = new ApiResponse<List<UserActivityDetailDto>>();
 
         try
         {
+            if (userId != requestingUserId && await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.ViewLastActivity, userId) == false)
+            {
+                response.Success = false;
+                response.Message = "User hide this section";
+                response.StatusCode = HttpStatusCode.OK;
+                return response;
+            }
             var userActivities = await userRepository.GetUserActivitiesForUserAsync(userId);
             response.Data = userActivities.Select(x=>x.GetCommonModel()).ToList();
         }

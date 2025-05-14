@@ -56,5 +56,10 @@ public enum LessonType
 
 public enum UserConfigKey
 {
-    IsPrivate = 1
+    IsPrivate = 1,
+    
+    // View Profile Sections 100+
+    ViewCourseSummary = 100,
+    ViewCourseDetailStatistic = 101,
+    ViewLastActivity = 102
 }

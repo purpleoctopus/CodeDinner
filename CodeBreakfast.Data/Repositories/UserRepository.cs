@@ -130,6 +130,15 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
             case UserConfigKey.IsPrivate:
                 value = "true";
                 break;
+            case UserConfigKey.ViewCourseSummary:
+                value = "true";
+                break;
+            case UserConfigKey.ViewCourseDetailStatistic:
+                value = "true";
+                break;
+            case UserConfigKey.ViewLastActivity:
+                value = "true";
+                break;
         }
 
         return value;   

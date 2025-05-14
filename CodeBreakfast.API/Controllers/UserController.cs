@@ -32,7 +32,8 @@ public class UserController(IUserService userService, IUserActivityService userA
     [Route("{id:guid}/activities")]
     public async Task<IActionResult> GetUserActivities(Guid id)
     {
-        var rData = await userActivityService.GetUserActivityListAsync(id);
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userActivityService.GetUserActivityListAsync(id, requestingUserId);
         return StatusCode((int)rData.StatusCode, rData);
     }
     
@@ -41,16 +42,7 @@ public class UserController(IUserService userService, IUserActivityService userA
     public async Task<IActionResult> GetMyUserActivities()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await userActivityService.GetUserActivityListAsync(requestingUserId);
-        return StatusCode((int)rData.StatusCode, rData);
-    }
-    
-    [HttpPost]
-    [Route("me/activities")]
-    public async Task<IActionResult> CreateUserActivityAsync(UserActivityDetailDto userActivity)
-    {
-        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await userActivityService.CreateUserActivityAsync(userActivity, requestingUserId);
+        var rData = await userActivityService.GetUserActivityListAsync(requestingUserId, requestingUserId);
         return StatusCode((int)rData.StatusCode, rData);
     }
 
