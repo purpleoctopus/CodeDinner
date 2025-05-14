@@ -16,6 +16,8 @@ public interface IUserRepository
     
     //User Configs
     Task<T?> GetUserConfigValueByKeyAsync<T>(UserConfigKey key, Guid userId);
+    Task<List<UserConfig>> GetUserConfigsForUserAsync(Guid userId);
+    Task<List<UserConfig>> UpdateUserConfigsAsync(Guid courseId, List<UserConfig> userConfigs);
     
     //User Activities
     Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId);

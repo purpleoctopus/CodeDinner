@@ -58,4 +58,40 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
 
         return response;
     }
+
+    public async Task<ApiResponse<List<UserConfig>>> GetUserConfiguration(Guid userId)
+    {
+        var response = new ApiResponse<List<UserConfig>>();
+
+        try
+        {
+            response.Data = await userRepository.GetUserConfigsForUserAsync(userId);
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
+
+    public async Task<ApiResponse<List<UserConfig>>> UpdateUserConfiguration(Guid userId, List<UserConfig> userConfigs)
+    {
+        var response = new ApiResponse<List<UserConfig>>();
+
+        try
+        {
+            response.Data = await userRepository.UpdateUserConfigsAsync(userId, userConfigs);
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
 }

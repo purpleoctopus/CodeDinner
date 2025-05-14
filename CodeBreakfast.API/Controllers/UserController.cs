@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CodeBreakfast.Common.Models;
+using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,25 @@ public class UserController(IUserService userService, IUserActivityService userA
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await userActivityService.DeleteAllUserActivitiesForUserAsync(requestingUserId);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
+    
+    // User Configuration
+    [HttpGet]
+    [Route("me/settings")]
+    public async Task<IActionResult> GetMyUserConfiguration()
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.GetUserConfiguration(requestingUserId);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
+
+    [HttpPost]
+    [Route("me/settings")]
+    public async Task<IActionResult> UpdateMyUserConfiguration([FromBody] List<UserConfig> userConfigs)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.UpdateUserConfiguration(requestingUserId, userConfigs);
         return StatusCode((int)rData.StatusCode, rData);
     }
 }

@@ -6,4 +6,6 @@ namespace CodeBreakfast.Logic.Services.Interfaces;
 public interface IUserService
 {
     Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid requestingUserId, Guid userId);
+    Task<ApiResponse<List<UserConfig>>> GetUserConfiguration(Guid userId);
+    Task<ApiResponse<List<UserConfig>>> UpdateUserConfiguration(Guid userId, List<UserConfig> userConfigs);
 }

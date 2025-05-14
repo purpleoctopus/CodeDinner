@@ -82,6 +82,61 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         return valueString == null ? default : JsonSerializer.Deserialize<T>(valueString);
     }
 
+    public async Task<List<UserConfig>> GetUserConfigsForUserAsync(Guid userId)
+    {
+        var userConfigs = await dbContext.UserConfigs.AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .ToListAsync();
+
+        var defaultUserConfigs = Enum.GetValues(typeof(UserConfigKey))
+            .Cast<UserConfigKey>()
+            .Select(key => new UserConfig
+            {
+                UserId = userId,
+                Key = key,
+                Value = GetDefaultUserConfigValue(key)
+            })
+            .ToDictionary(x => x.Key);
+        
+        foreach (var config in userConfigs)
+        {
+            defaultUserConfigs[config.Key] = config;
+        }
+
+        return defaultUserConfigs.Values.ToList();
+    }
+
+    public async Task<List<UserConfig>> UpdateUserConfigsAsync(Guid courseId, List<UserConfig> userConfigs)
+    {
+        var uniqueUserConfigs = userConfigs
+            .GroupBy(x => x.Key)
+            .Select(g => g.First())
+            .ToList();
+
+        var existingUserConfigs = await dbContext.UserConfigs
+            .Where(x => x.UserId == courseId)
+            .ToListAsync();
+
+        var existingConfigMap = existingUserConfigs.ToDictionary(x => x.Key);
+
+        foreach (var config in uniqueUserConfigs)
+        {
+            if (existingConfigMap.TryGetValue(config.Key, out var existingConfig))
+            {
+                existingConfig.Value = config.Value;
+                dbContext.UserConfigs.Update(existingConfig);
+            }
+            else
+            {
+                dbContext.UserConfigs.Add(config);
+            }
+        }
+
+        await dbContext.SaveChangesAsync();
+
+        return await dbContext.UserConfigs.Where(x => x.UserId == courseId).ToListAsync();
+    }
+
     //User Activities Related
 
     public async Task<List<UserActivity>> GetUserActivitiesForUserAsync(Guid userId)
