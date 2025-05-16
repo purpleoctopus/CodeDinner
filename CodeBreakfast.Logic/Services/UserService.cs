@@ -1,4 +1,5 @@
 using System.Net;
+using CodeBreakfast.Common;
 using CodeBreakfast.Common.Models;
 using CodeBreakfast.Data;
 using CodeBreakfast.Data.Entities;
@@ -59,13 +60,13 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         return response;
     }
 
-    public async Task<ApiResponse<List<UserConfig>>> GetUserConfiguration(Guid userId)
+    public async Task<ApiResponse<List<UserConfigDetailDto>>> GetUserConfiguration(Guid userId)
     {
-        var response = new ApiResponse<List<UserConfig>>();
+        var response = new ApiResponse<List<UserConfigDetailDto>>();
 
         try
         {
-            response.Data = await userRepository.GetUserConfigsForUserAsync(userId);
+            response.Data = (await userRepository.GetUserConfigsForUserAsync(userId)).Select(x=>x.GetCommonModel()).ToList();
         }
         catch (Exception ex)
         {
@@ -77,13 +78,14 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         return response;
     }
 
-    public async Task<ApiResponse<List<UserConfig>>> UpdateUserConfiguration(Guid userId, List<UserConfig> userConfigs)
+    public async Task<ApiResponse<List<UserConfigDetailDto>>> UpdateUserConfiguration(Guid userId, List<UserConfigUpdateDto> dto)
     {
-        var response = new ApiResponse<List<UserConfig>>();
+        var response = new ApiResponse<List<UserConfigDetailDto>>();
 
         try
         {
-            response.Data = await userRepository.UpdateUserConfigsAsync(userId, userConfigs);
+            List<UserConfig> userConfigs = dto.Select(x=>x.GetEntity()).ToList();
+            response.Data = (await userRepository.UpdateUserConfigsAsync(userId, userConfigs)).Select(x=>x.GetCommonModel()).ToList();;
         }
         catch (Exception ex)
         {

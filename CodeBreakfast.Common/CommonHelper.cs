@@ -72,6 +72,15 @@ public static class CommonHelper
             AdditionalJson = userActivityDetailDto.AdditionalJson
         };
     }
+    public static UserConfig GetEntity(this UserConfigUpdateDto userConfigUpdateDto)
+    {
+        return new UserConfig
+        {
+            Id = Guid.NewGuid(),
+            Key = userConfigUpdateDto.Key,
+            Value = userConfigUpdateDto.Value
+        };
+    }
     
     public static CourseDetailDto GetCommonModel(this Course course)
     {
@@ -85,16 +94,6 @@ public static class CommonHelper
             Author = course.Author.GetCommonModel(),
             CreatedOn = course.CreatedOn,
             UpdatedOn = course.UpdatedOn
-        };
-    }
-    public static UserDetailDto GetCommonModel(this User userDto)
-    {
-        return new UserDetailDto
-        {
-            Id = Guid.NewGuid(),
-            Username = userDto.UserName,
-            FirstName = userDto.FirstName,
-            LastName = userDto.LastName
         };
     }
     public static LessonDetailDto GetCommonModel(this Lesson lesson)
@@ -111,6 +110,16 @@ public static class CommonHelper
             ModuleId = lesson.ModuleId
         };
     }
+    public static UserDetailDto GetCommonModel(this User userDto)
+    {
+        return new UserDetailDto
+        {
+            Id = Guid.NewGuid(),
+            Username = userDto.UserName,
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName
+        };
+    }
     public static UserActivityDetailDto GetCommonModel(this UserActivity userActivity)
     {
         return new UserActivityDetailDto
@@ -120,6 +129,15 @@ public static class CommonHelper
             ActivityType = userActivity.ActivityType,
             Title = userActivity.Title,
             AdditionalJson = userActivity.AdditionalJson
+        };
+    }
+    public static UserConfigDetailDto GetCommonModel(this UserConfig userConfig)
+    {
+        return new UserConfigDetailDto
+        {
+            UserId = userConfig.UserId,
+            Key = userConfig.Key,
+            Value = userConfig.Value
         };
     }
     

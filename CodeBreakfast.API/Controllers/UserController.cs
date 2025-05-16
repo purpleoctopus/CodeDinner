@@ -77,7 +77,7 @@ public class UserController(IUserService userService, IUserActivityService userA
 
     [HttpPost]
     [Route("me/settings")]
-    public async Task<IActionResult> UpdateMyUserConfiguration([FromBody] List<UserConfig> userConfigs)
+    public async Task<IActionResult> UpdateMyUserConfiguration([FromBody] List<UserConfigUpdateDto> userConfigs)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await userService.UpdateUserConfiguration(requestingUserId, userConfigs);
