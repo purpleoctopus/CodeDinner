@@ -106,7 +106,7 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         return defaultUserConfigs.Values.ToList();
     }
 
-    public async Task<List<UserConfig>> UpdateUserConfigsAsync(Guid courseId, List<UserConfig> userConfigs)
+    public async Task<List<UserConfig>> UpdateUserConfigsAsync(Guid userId, List<UserConfig> userConfigs)
     {
         var uniqueUserConfigs = userConfigs
             .GroupBy(x => x.Key)
@@ -114,7 +114,7 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
             .ToList();
 
         var existingUserConfigs = await dbContext.UserConfigs
-            .Where(x => x.UserId == courseId)
+            .Where(x => x.UserId == userId)
             .ToListAsync();
 
         var existingConfigMap = existingUserConfigs.ToDictionary(x => x.Key);
@@ -134,7 +134,7 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
 
         await dbContext.SaveChangesAsync();
 
-        return await dbContext.UserConfigs.Where(x => x.UserId == courseId).ToListAsync();
+        return await dbContext.UserConfigs.Where(x => x.UserId == userId).ToListAsync();
     }
 
     //User Activities Related
