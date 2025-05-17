@@ -15,6 +15,16 @@ html{
   ));
 }
 
+section>header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+p{
+  margin: 0;
+}
+
 html, body { height: 100%; }
 body {
   margin: 0;
@@ -25,6 +35,14 @@ body {
 
 h1{
   font-size: 1.75rem;
+  margin: 0;
+}
+
+h2{
+  margin: 0;
+}
+
+h3{
   margin: 0;
 }
 
@@ -56,8 +74,6 @@ form>button.mdc-button {
   background-color: var(--mat-sys-on-primary);
   margin: 1rem auto 0;
 }
-
-
 @media (max-width: 720px) {
   html{
     font-size: 14px;
@@ -67,4 +83,24 @@ form>button.mdc-button {
   html{
     font-size: 12px;
   }
+}
+@media (max-width: 500px) {
+  .small-hidden {
+    display: none !important;
+  }
+}
+ngx-charts-legend{
+  position: absolute;
+  left: 0;
+}
+.legend-title > span.legend-title-text{
+  display: none;
+}
+.ngx-charts-outer{
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+ngx-charts-scale-legend{
+  margin-top: 1rem;
 }

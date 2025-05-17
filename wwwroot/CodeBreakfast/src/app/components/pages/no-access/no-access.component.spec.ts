@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddCourseFormComponent } from './add-course-form.component';
+import { NoAccessComponent } from './no-access.component';
 
-describe('AddCourseComponent', () => {
-  let component: AddCourseFormComponent;
-  let fixture: ComponentFixture<AddCourseFormComponent>;
+describe('NoAccessComponent', () => {
+  let component: NoAccessComponent;
+  let fixture: ComponentFixture<NoAccessComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddCourseFormComponent]
+      imports: [NoAccessComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddCourseFormComponent);
+    fixture = TestBed.createComponent(NoAccessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

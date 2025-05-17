@@ -16,7 +16,9 @@
         <mat-error>Введіть пароль</mat-error>
       }
     </mat-form-field>
-
+    @if (invalidCredentials) {
+      <mat-error>Неправильний пароль або юзернейм.</mat-error>
+    }
     <button mat-button color="primary" type="submit">Відправити</button>
   </form>
 </div>

@@ -1,0 +1,101 @@
+<div class="profile-container">
+
+  <section class="profile-header">
+    <h2>Привіт, Денис</h2>
+    <p>
+      Це ваш профіль. Тут можна налаштувати видимість як всього профілю, так і окремих
+      секцій профілю, таких як статистика навчання
+    </p>
+  </section>
+
+  <section class="profile-primary-info">
+    <header>
+      <h2>Загальна інформація</h2>
+    </header>
+    <div class="content">
+      <div class="left-side">
+        <img src="images/empty-profile-image.png" alt="Profile image" id="profile-image">
+        <b id="profile-username">Денис Остап'юк</b>
+      </div>
+      <div class="right-side">
+        <span id="profile-firstname">Ім'я...</span>
+        <span id="profile-lastname">Прізвище...</span>
+        <p id="profile-description">Опис - Lorem ipsum</p>
+        <span id="profile-registeredon">Зареєстрований у дату...</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="profile-secondary-info">
+    <section>
+      <header>
+        <div class="h2-container">
+          <h2>Остання активність</h2>
+        </div>
+        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewLastActivity)">
+          @if(sectionVisibility(UserConfigKey.ViewLastActivity) === false){
+            <mat-icon>visibility_off</mat-icon>
+          } @else {
+            <mat-icon>visibility</mat-icon>
+          }
+        </button>
+      </header>
+      @if(userLastActivity$ | async; as data; ){
+        @if (data.length > 0) {
+            @for (activity of data; track $index){
+
+            }
+        } @else {
+          <span>Немає активності</span>
+        }
+      }
+    </section>
+    <section>
+      <header>
+        <div class="h2-container">
+          <h2>Статистика по курсах</h2>
+        </div>
+        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseSummary)">
+          @if(sectionVisibility(UserConfigKey.ViewCourseSummary) === false){
+            <mat-icon>visibility_off</mat-icon>
+          } @else {
+            <mat-icon>visibility</mat-icon>
+          }
+        </button>
+      </header>
+      <ngx-charts-pie-chart
+        [results]="courses"
+        [legend]="true"
+        [legendPosition]="LegendPosition.Below"
+        [explodeSlices]="false"
+        [doughnut]="false"
+        [gradient]="false"
+        [view]="[280, 350]">
+      </ngx-charts-pie-chart>
+    </section>
+    <section>
+      <header>
+        <div class="h2-container">
+          <h2>Активність по днях</h2>
+        </div>
+        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseDetailStatistics)">
+          @if(sectionVisibility(UserConfigKey.ViewCourseDetailStatistics) === false){
+            <mat-icon>visibility_off</mat-icon>
+          } @else {
+            <mat-icon>visibility</mat-icon>
+          }
+        </button>
+      </header>
+      @if(userActivityByDays$ | async; as data){
+        <ngx-charts-heat-map
+          [results]="data"
+          [xAxis]="true"
+          [yAxis]="true"
+          [gradient]="true"
+          [view]="[400,220]">
+        </ngx-charts-heat-map>
+      }
+    </section>
+  </div>
+
+</div>

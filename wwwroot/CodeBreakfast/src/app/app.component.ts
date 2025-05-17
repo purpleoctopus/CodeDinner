@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HeaderComponent} from './components/shared/header/header.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-root',

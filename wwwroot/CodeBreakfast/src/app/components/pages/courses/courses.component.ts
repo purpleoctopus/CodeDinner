@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {firstValueFrom,Subscription} from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { CourseService } from '../../../services/course.service';
-import { Course, Language } from '../../../models/course.model';
+import {firstValueFrom, Subscription} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import {CourseService} from '../../../services/course.service';
+import {CourseForList, Language} from '../../../models/course.model';
 import {AuthService} from '../../../services/auth.service';
 
 @Component({
@@ -12,13 +12,13 @@ import {AuthService} from '../../../services/auth.service';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit, OnDestroy {
-  public courses: Course[] = [];
+  public courses: CourseForList[] = [];
   private tokenSubscription: Subscription | null = null;
 
   constructor(private dialog: MatDialog, private courseService: CourseService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.tokenSubscription = this.authService.accessToken.subscribe(token => this.getCourses());
+    this.tokenSubscription = this.authService.sessionData.subscribe(() => this.getCourses());
   }
 
   ngOnDestroy(): void {
@@ -26,7 +26,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   private async getCourses() {
-    this.courses = await firstValueFrom(this.courseService.getAllCourses());
+    try {
+      const res = await firstValueFrom(this.courseService.getCoursesForListView());
+      if (res.data) {
+        this.courses = res.data;
+      }
+    }catch(err) {
+      this.courses = [];
+    }
   }
 
   protected readonly Language = Language;

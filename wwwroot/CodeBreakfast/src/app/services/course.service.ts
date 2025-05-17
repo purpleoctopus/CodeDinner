@@ -1,59 +1,43 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {catchError, firstValueFrom, map, of} from 'rxjs';
+import {catchError, firstValueFrom, map, Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {Course, CourseAddDto, CourseUpdateDto} from '../models/course.model';
+import {CourseDetail, CourseAdd, CourseUpdate, CourseForList} from '../models/course.model';
+import {ApiResponse} from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
-  readonly url: string = `${environment.apiUrl}/Course`;
+  private readonly url: string = `${environment.apiUrl}/course`;
 
   constructor(private http: HttpClient) { }
 
-  public getAllCourses(){
-    return this.http.get<any>(`${this.url}/GetAll`).pipe(
-      map(res => res.data),
-      catchError((error)=>{
-        return of([]);
+  public getCoursesForListView(): Observable<ApiResponse<CourseForList[]>> {
+    return this.http.get<ApiResponse<CourseForList[]>>(`${this.url}/for-list-view`).pipe(
+      map(res => {
+        res.data!.map((x : CourseForList)=>{
+          x.createdOn = new Date(x.createdOn);
+          x.updatedOn = new Date(x.updatedOn);
+        })
+        return res;
       })
     );
   }
 
-  public getCourseById(id: string){
-    return this.http.get<any>(`${this.url}/GetById/${id}`).pipe(
-      map(res => res.data),
-      catchError((error)=>{
-        return of(null);
-      })
-    );
+  public getCourseById(id: string): Observable<ApiResponse<CourseDetail>>{
+    return this.http.get<ApiResponse<CourseDetail>>(`${this.url}/${id}`);
   }
 
-  public createCourse(courseDto: CourseAddDto){
-    return this.http.post<any>(`${this.url}/Create`, courseDto).pipe(
-      map(res => res.data),
-      catchError((error)=>{
-        return of(false);
-      })
-    );
+  public createCourse(courseDto: CourseAdd): Observable<ApiResponse<CourseDetail> | null> {
+    return this.http.post<ApiResponse<CourseDetail>>(`${this.url}`, courseDto);
   }
 
-  public updateCourse(courseDto: CourseUpdateDto){
-    return this.http.put<any>(`${this.url}/Update`, courseDto).pipe(
-      map(res => res.data),
-      catchError((error)=>{
-        return of(null);
-      })
-    );
+  public updateCourse(courseDto: CourseUpdate): Observable<ApiResponse<CourseDetail>> {
+    return this.http.put<ApiResponse<CourseDetail>>(`${this.url}`, courseDto);
   }
 
-  public deleteCourse(id: string) {
-    return this.http.delete<any>(`${this.url}/Delete/${id}`).pipe(
-      map(res => res.data),
-      catchError((error)=>{
-        return of(false);
-      })
-    );
+  public deleteCourse(id: string): Observable<ApiResponse<boolean>> {
+    return this.http.delete<ApiResponse<boolean>>(`${this.url}/${id}`);
   }
 }

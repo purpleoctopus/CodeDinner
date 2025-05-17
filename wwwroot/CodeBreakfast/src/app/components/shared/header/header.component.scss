@@ -7,9 +7,10 @@ header{
   justify-content: space-between;
   padding: 0 2rem;
   background-color: var(--mat-sys-on-primary);
+  z-index: 1000;
 }
 header>*:first-child, header>*:last-child{
-  width: 30%;
+  width: 200px;
 }
 .header-filler{
   display: block;
@@ -58,4 +59,19 @@ header > .group-buttons > *:last-child{
 }
 h1:hover{
   cursor: pointer;
+}
+#open-profile-menu{
+  border-radius: 0;
+}
+mat-icon.rotated {
+  transform: rotate(180deg);
+}
+button{
+  display: block;
+}
+.menu-container{
+  width: 200px;
+}
+.menu-container > *{
+  margin: 0 auto;
 }

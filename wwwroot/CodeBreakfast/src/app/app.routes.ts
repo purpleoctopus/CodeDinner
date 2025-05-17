@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {requireAccessTokenGuard} from './guards/require-access-token.guard';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,21 @@ export const routes: Routes = [
       import("./components/pages/course-detail/course-detail.component")
         .then(m => m.CourseDetailComponent),
     title: 'CodeBreakfast - Courses'
+  },
+  {
+    path: 'my-profile',
+    loadComponent: () =>
+      import("./components/pages/my-profile/my-profile.component")
+        .then(m => m.MyProfileComponent),
+    title: 'CodeBreakfast - Profile',
+    canActivate: [requireAccessTokenGuard],
+  },
+  {
+    path: 'no-access',
+    loadComponent: () =>
+      import("./components/pages/no-access/no-access.component")
+        .then(m => m.NoAccessComponent),
+    title: 'No Access',
   },
   {
     path: '**',

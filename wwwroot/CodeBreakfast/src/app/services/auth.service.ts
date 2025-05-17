@@ -1,40 +1,42 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {Course, CourseAddDto, CourseUpdateDto} from '../models/course.model';
+import {CourseDetail, CourseAdd, CourseUpdate} from '../models/course.model';
 import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
 import {LoginDto, RegisterDto} from '../models/auth.model';
+import {ApiResponse} from '../models/response.model';
+import {SessionModel} from '../models/session.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  readonly url: string = `${environment.apiUrl}/Auth`;
-  private accessToken$ : BehaviorSubject<string | null> =
-    new BehaviorSubject<string | null>(localStorage.getItem('accessToken'));
-  public accessToken = this.accessToken$.asObservable();
+  readonly url: string = `${environment.apiUrl}/auth`;
+  private sessionData$ : BehaviorSubject<SessionModel | null> =
+    new BehaviorSubject<SessionModel | null>(JSON.parse(localStorage.getItem('sessionData') as string));
+  public sessionData = this.sessionData$.asObservable();
 
   constructor(private http: HttpClient) {
-    this.accessToken$.subscribe(token => {
-      if (token) {
-        localStorage.setItem('accessToken', token)
+    this.sessionData$.subscribe(sessionModel => {
+      if (sessionModel) {
+        localStorage.setItem('sessionData', JSON.stringify(sessionModel))
       }else{
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('sessionData');
       }
     })
   }
 
-  public async login(data: LoginDto){
-    const res = this.http.post<any>(`${this.url}/Login`, data);
-    this.accessToken$.next((await firstValueFrom(res)).data.accessToken);
+  public async login(data: LoginDto): Promise<ApiResponse<SessionModel>>{
+    const res = await firstValueFrom(this.http.post<any>(`${this.url}/login`, data));
+    this.sessionData$.next(res.data);
     return res;
   }
 
   public register(data: RegisterDto){
-    return this.http.post<any>(`${this.url}/Register`, data);
+    return this.http.post<any>(`${this.url}/register`, data);
   }
 
   public logout(){
-    this.accessToken$.next(null);
+    this.sessionData$.next(null);
   }
 }

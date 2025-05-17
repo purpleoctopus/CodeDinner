@@ -1,19 +1,36 @@
+import {UserDetail} from './user.model';
+
 export enum Language{
   Ukrainian,
   English
 }
 
-export interface CourseAddDto {
+export interface CourseAdd {
   name: string;
+  description?: string;
   language: Language;
 }
-
-export interface CourseUpdateDto extends CourseAddDto {
+export interface CourseUpdate extends CourseAdd {
   id: string;
   modules?: string[];
   description?: string;
 }
+export interface CourseDetail extends CourseUpdate {
+  author: UserDetail;
+  createdOn: Date;
+  updatedOn: Date;
+}
 
-export interface Course extends CourseUpdateDto {
-
+export interface CourseForList{
+  id: string;
+  name: string;
+  description?: string;
+  language: Language;
+  author: UserDetail;
+  modulesCount: number;
+  lessonsCount: number;
+  studentsCount: number;
+  totalTime: string;
+  createdOn: Date;
+  updatedOn: Date;
 }

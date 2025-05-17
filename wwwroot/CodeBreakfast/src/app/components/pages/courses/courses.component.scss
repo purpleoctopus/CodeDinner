@@ -1,1 +1,38 @@
-
+.course-view-header{
+  display: flex;
+}
+section{
+  padding: 1rem 1rem 0 1rem;
+}
+.courses-view-list .list-item{
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  height: 100px;
+}
+.list-item:not(:first-child){
+  margin-top: 1rem;
+}
+.course-primary-info{
+  padding: 0.75rem;
+  background-color: var(--mat-sys-on-primary);
+  width: 25%;
+  height: 100%;
+}
+.course-secondary-info{
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  width: 75%;
+  background-color: var(--mat-sys-secondary-container);
+}
+.course-secondary-info div:first-child{
+  height: 100%;
+}
+.small-corner-info{
+  display: flex;
+  justify-content: space-between;
+}
+small{
+  display: block;
+}
