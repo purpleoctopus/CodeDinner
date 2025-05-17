@@ -72,11 +72,12 @@ public static class CommonHelper
             AdditionalJson = userActivityDetailDto.AdditionalJson
         };
     }
-    public static UserConfig GetEntity(this UserConfigUpdateDto userConfigUpdateDto)
+    public static UserConfig GetEntity(this UserConfigUpdateDto userConfigUpdateDto, Guid requestingUserId)
     {
         return new UserConfig
         {
             Id = Guid.NewGuid(),
+            UserId = requestingUserId,
             Key = userConfigUpdateDto.Key,
             Value = userConfigUpdateDto.Value
         };

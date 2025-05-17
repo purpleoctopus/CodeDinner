@@ -84,7 +84,7 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
 
         try
         {
-            List<UserConfig> userConfigs = dto.Select(x=>x.GetEntity()).ToList();
+            List<UserConfig> userConfigs = dto.Select(x=>x.GetEntity(userId)).ToList();
             response.Data = (await userRepository.UpdateUserConfigsAsync(userId, userConfigs)).Select(x=>x.GetCommonModel()).ToList();;
         }
         catch (Exception ex)

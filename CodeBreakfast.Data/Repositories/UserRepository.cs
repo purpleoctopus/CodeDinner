@@ -183,7 +183,7 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
         switch (configKey)
         {
             case UserConfigKey.IsPrivate:
-                value = "true";
+                value = "false";
                 break;
             case UserConfigKey.ViewCourseSummary:
                 value = "true";
