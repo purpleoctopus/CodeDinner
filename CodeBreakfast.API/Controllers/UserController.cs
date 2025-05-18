@@ -22,10 +22,19 @@ public class UserController(IUserService userService, IUserActivityService userA
     
     [HttpGet]
     [Route("me")]
-    public async Task<IActionResult> GetMyProfile()
+    public async Task<IActionResult> GetMyProfileForView()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         var rData = await userService.GetUserProfileForView(requestingUserId, requestingUserId);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
+
+    [HttpPut]
+    [Route("me")]
+    public async Task<IActionResult> UpdateMyUser([FromBody] UserUpdateDto dto)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.UpdateUser(requestingUserId, dto);
         return StatusCode((int)rData.StatusCode, rData);
     }
     

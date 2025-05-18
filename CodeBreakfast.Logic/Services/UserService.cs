@@ -96,4 +96,44 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
          
         return response;
     }
+
+    public async Task<ApiResponse<UserDetailDto>> UpdateUser(Guid requestingUserId, UserUpdateDto dto)
+    {
+        var response = new ApiResponse<UserDetailDto>();
+
+        try
+        {
+            if (requestingUserId != dto.Id)
+            {
+                response.Success = false;
+                response.Message = "ID Mismatch.";
+                response.StatusCode = HttpStatusCode.Forbidden;
+                return response;
+            }
+            
+            var user = await userManager.FindByIdAsync(dto.Id.ToString());
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+            
+            user.UserName = dto.Username;
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+
+            await userManager.UpdateAsync(user);
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
 }
