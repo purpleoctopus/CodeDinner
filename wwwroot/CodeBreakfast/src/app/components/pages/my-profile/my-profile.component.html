@@ -3,8 +3,8 @@
   <section class="profile-header">
     <h2>Привіт, Денис</h2>
     <p>
-      Це ваш профіль. Тут можна налаштувати видимість як всього профілю, так і окремих
-      секцій профілю, таких як статистика навчання
+      Це ваш профіль. Тут можна налаштувати видимість секцій профілю.
+      <a routerLink="/">Тут</a> можна побачити як бачать ваш профіль інші користувачі
     </p>
   </section>
 
@@ -32,7 +32,7 @@
         <div class="h2-container">
           <h2>Остання активність</h2>
         </div>
-        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewLastActivity)">
+        <button mat-icon-button class="section-visibility-button" matTooltip="Показати/сховати секцію для відвідувачів профілю" matTooltipPosition="above" (click)="ChangeSectionVisibility(UserConfigKey.ViewLastActivity)">
           @if(sectionVisibility(UserConfigKey.ViewLastActivity) === false){
             <mat-icon>visibility_off</mat-icon>
           } @else {
@@ -53,9 +53,9 @@
     <section>
       <header>
         <div class="h2-container">
-          <h2>Статистика по курсах</h2>
+          <h2>Статистика по типах курсів</h2>
         </div>
-        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseSummary)">
+        <button mat-icon-button class="section-visibility-button" matTooltip="Показати/сховати секцію для відвідувачів профілю" matTooltipPosition="above" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseSummary)">
           @if(sectionVisibility(UserConfigKey.ViewCourseSummary) === false){
             <mat-icon>visibility_off</mat-icon>
           } @else {
@@ -63,22 +63,24 @@
           }
         </button>
       </header>
-      <ngx-charts-pie-chart
-        [results]="courses"
-        [legend]="true"
-        [legendPosition]="LegendPosition.Below"
-        [explodeSlices]="false"
-        [doughnut]="false"
-        [gradient]="false"
-        [view]="[280, 350]">
-      </ngx-charts-pie-chart>
+      <div class="dynamic-chart-container">
+        <ngx-charts-pie-chart
+          [results]="courses"
+          [legend]="true"
+          [legendPosition]="LegendPosition.Below"
+          [explodeSlices]="false"
+          [doughnut]="false"
+          [gradient]="false"
+        >
+        </ngx-charts-pie-chart>
+      </div>
     </section>
     <section>
       <header>
         <div class="h2-container">
-          <h2>Активність по днях</h2>
+          <h2>Детальна статистика по курсах</h2>
         </div>
-        <button mat-icon-button class="section-visibility-button" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseDetailStatistics)">
+        <button mat-icon-button class="section-visibility-button" matTooltip="Показати/сховати секцію для відвідувачів профілю" matTooltipPosition="above" (click)="ChangeSectionVisibility(UserConfigKey.ViewCourseDetailStatistics)">
           @if(sectionVisibility(UserConfigKey.ViewCourseDetailStatistics) === false){
             <mat-icon>visibility_off</mat-icon>
           } @else {
@@ -86,15 +88,6 @@
           }
         </button>
       </header>
-      @if(userActivityByDays$ | async; as data){
-        <ngx-charts-heat-map
-          [results]="data"
-          [xAxis]="true"
-          [yAxis]="true"
-          [gradient]="true"
-          [view]="[400,220]">
-        </ngx-charts-heat-map>
-      }
     </section>
   </div>
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {ApiResponse} from '../models/response.model';
-import {UserProfile} from '../models/user.model';
+import {UserDetail, UserProfile, UserUpdate} from '../models/user.model';
 import {map} from 'rxjs';
 
 @Injectable({
@@ -20,5 +20,9 @@ export class UserService {
         return res;
       })
     );
+  }
+
+  public updateMyUser(user: UserUpdate){
+    return this.http.put<ApiResponse<UserDetail>>(`${this.url}/me`, user)
   }
 }

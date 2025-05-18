@@ -1,0 +1,22 @@
+<section>
+  <form [formGroup]="formGroup">
+    <div class="form-row">
+      <label for="username">Юзернейм</label>
+      <input #username
+        formControlName="username"
+        type="text"
+        data-input="username"
+        id="username"
+        placeholder="Не вказано"
+        (keyup.enter)="save()"
+      />
+      <button
+        type="button"
+        (click)="enableUsernameEditing()"
+        class="blue-text-btn"
+      >
+        Змінити
+      </button>
+    </div>
+  </form>
+</section>

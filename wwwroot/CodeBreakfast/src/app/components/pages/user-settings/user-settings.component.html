@@ -1,0 +1,32 @@
+<div class="settings-container">
+  <h2>Налаштування</h2>
+  <div class="settings-content-wrapper">
+    <mat-list class="settings-tabs">
+      <button mat-button (click)="openTab(Tab.General)" [ngClass]="openedTab === Tab.General ? 'selected' : ''">
+        Загальні
+        @if (openedTab === Tab.General) {
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        }
+      </button>
+      <button mat-button (click)="openTab(Tab.Privacy)" [ngClass]="openedTab === Tab.Privacy ? 'selected' : ''">
+        Приватність
+        @if (openedTab === Tab.Privacy) {
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        }
+      </button>
+    </mat-list>
+
+    <div class="settings-content">
+      @switch (openedTab){
+        @case (Tab.General){
+          @if(user$ | async; as userData){
+            <app-user-settings-general [user]="userData"></app-user-settings-general>
+          }
+        }
+        @case (Tab.Privacy){
+          <app-user-settings-privacy></app-user-settings-privacy>
+        }
+      }
+    </div>
+  </div>
+</div>

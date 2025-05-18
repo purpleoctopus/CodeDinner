@@ -1,0 +1,24 @@
+.toast-content{
+  display: flex;
+  gap: 1rem;
+}
+#toast-message{
+  margin:auto 0;
+}
+
+.toast-progress-bar {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  animation: shrink-bar 3s linear forwards;
+  margin: 0.5rem -1rem -1rem;
+}
+
+@keyframes shrink-bar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}

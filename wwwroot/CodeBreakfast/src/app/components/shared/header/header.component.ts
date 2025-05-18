@@ -3,15 +3,14 @@ import {MatListItem, MatNavList} from '@angular/material/list';
 import {RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
-import {firstValueFrom, map, Observable} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {LoginFormComponent} from '../../dialogs/login-form/login-form.component';
 import {AsyncPipe} from '@angular/common';
 import {RegisterFormComponent} from '../../dialogs/register-form/register-form.component';
 import {AuthService} from '../../../services/auth.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
-import {ApiResponse} from '../../../models/response.model';
-import {SessionModel} from '../../../models/session.model';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -33,12 +32,19 @@ export class HeaderComponent implements OnInit {
   protected isProfileDropdownOpened = false;
   protected userName?: string;
 
-  constructor(private dialog: MatDialog, protected authService: AuthService) {}
+  constructor(private dialog: MatDialog, protected authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.authService.sessionData.subscribe(sessionData => {
-      this.userName = sessionData?.username
+    this.authService.sessionData.subscribe(() => {
+      this.setUserName()
     })
+  }
+
+  private async setUserName(){
+    const user = (await firstValueFrom(this.userService.getMyProfile())).data;
+    if(user){
+      this.userName = user.username;
+    }
   }
 
   protected async openLoginForm(){

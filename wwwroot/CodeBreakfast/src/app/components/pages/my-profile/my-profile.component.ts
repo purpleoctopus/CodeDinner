@@ -8,15 +8,18 @@ import {MatIcon} from '@angular/material/icon';
 import {ConfigKeySectionVisibility, UserConfigDetailDto, UserConfigKey, UserConfigUpdateDto} from '../../../models/user-config.model';
 import {MatIconButton} from '@angular/material/button';
 import {UserConfigService} from '../../../services/user-config.service';
+import {MatTooltip} from '@angular/material/tooltip';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-my-profile',
   imports: [
     PieChartModule,
-    HeatMapModule,
     AsyncPipe,
     MatIconButton,
     MatIcon,
+    MatTooltip,
+    RouterLink,
   ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.scss'
@@ -32,29 +35,11 @@ export class MyProfileComponent implements OnInit {
     {name: 'b', value: 300}
   ]
 
-  private userActivityByDays: BehaviorSubject<any[]>;
-  protected userActivityByDays$: Observable<any[]>;
-
   private userLastActivity: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public userLastActivity$: Observable<any[]> = this.userLastActivity.asObservable();
 
   constructor(private userService: UserService, private userConfigService: UserConfigService) {
-    const arr = [];
-    for(let week = 1; week <= this.weeksCount; week++) {
-      const dayOfWeekArray = Object.values(ShortDayOfWeek).filter(v => typeof v === 'string');
 
-      const weekData = {
-        name: `Week ${week}`,
-        series: dayOfWeekArray.map(day => ({
-          name: day,
-          value: 0
-        }))
-      }
-
-      arr.push(weekData);
-    }
-    this.userActivityByDays = new BehaviorSubject<any[]>(arr);
-    this.userActivityByDays$ = this.userActivityByDays.asObservable();
   }
 
   ngOnInit(): void {

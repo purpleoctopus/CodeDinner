@@ -4,3 +4,6 @@
     <router-outlet />
   </main>
 </div>
+@if (getIsToastVisible){
+  <app-toast [ngClass]="getIsToastHiding ? 'hide':'show'" [message]="getToastMessage"></app-toast>
+}

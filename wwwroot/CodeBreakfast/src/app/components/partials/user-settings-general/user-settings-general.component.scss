@@ -1,0 +1,22 @@
+section{
+  height: 100%;
+}
+form{
+  margin-top: 2rem;
+}
+.form-row{
+  display: flex;
+  gap: 1.5rem;
+}
+.blue-text-btn{
+  cursor: pointer;
+  background: none;
+  color: darkblue;
+  border: none;
+  outline: none;
+}
+#username{
+  outline: none;
+  border: none;
+  background: none;
+}

@@ -6,3 +6,39 @@ main{
   flex-direction: column;
   height: 100%;
 }
+app-toast{
+  position: fixed;
+  bottom: 20px;
+  padding:1rem;
+  width: 240px;
+  background-color: green;
+  right: 20px;
+}
+app-toast.show{
+  animation: slide-in 0.3s ease-in;
+}
+app-toast.hide{
+  animation: slide-out 0.3s ease-in;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(150%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(150%);
+  }
+}
+
