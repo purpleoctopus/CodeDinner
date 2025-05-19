@@ -4,12 +4,15 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {UserService} from '../../../services/user.service';
 import {debounceTime, filter, firstValueFrom, Subscription} from 'rxjs';
 import {AppComponent} from '../../../app.component';
+import {MatFormField, MatInput} from '@angular/material/input';
 
 @Component({
   selector: 'app-user-settings-general',
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    MatFormField,
+    MatInput,
   ],
   templateUrl: './user-settings-general.component.html',
   styleUrl: './user-settings-general.component.scss'
@@ -17,17 +20,19 @@ import {AppComponent} from '../../../app.component';
 export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
   @ViewChild('username') usernameInput!: ElementRef;
   @Input('user') user: UserDetail | null = null;
-  protected formGroup!: FormGroup;
+  protected userForm!: FormGroup;
   private autoSaveSub!: Subscription;
 
   constructor(private userService: UserService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.formGroup = this.fb.group({
+    this.userForm = this.fb.group({
       id: [this.user?.id || ''],
-      username: [{value: this.user?.username || '', disabled: true}]
+      username: [{value: this.user?.username || '', disabled: true}],
+      firstName: [this.user?.firstName || ''],
+      lastName: [this.user?.lastName || ''],
     });
-    this.autoSaveSub = this.formGroup.valueChanges.pipe(debounceTime(1500), filter(() => this.formGroup.valid))
+    this.autoSaveSub = this.userForm.valueChanges.pipe(debounceTime(1500), filter(() => this.userForm.valid))
     .subscribe(() => {
       this.save()
     })
@@ -43,7 +48,7 @@ export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
   }
 
   async save(){
-    const value = this.formGroup.getRawValue();
+    const value = this.userForm.getRawValue();
     this.usernameInput.nativeElement.disabled = true;
     const res = await firstValueFrom(this.userService.updateMyUser(value));
     if(res.success){

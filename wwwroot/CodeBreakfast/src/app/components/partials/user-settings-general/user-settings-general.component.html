@@ -1,22 +1,37 @@
 <section>
-  <form [formGroup]="formGroup">
+  <form [formGroup]="userForm">
     <div class="form-row">
-      <label for="username">Юзернейм</label>
-      <input #username
-        formControlName="username"
-        type="text"
-        data-input="username"
-        id="username"
-        placeholder="Не вказано"
-        (keyup.enter)="save()"
-      />
-      <button
-        type="button"
-        (click)="enableUsernameEditing()"
-        class="blue-text-btn"
-      >
-        Змінити
-      </button>
+      <div class="form-control">
+        <label for="username">Ім'я користувача: </label>
+        <input #username
+          formControlName="username"
+          type="text"
+          id="username"
+          placeholder="Не вказано"
+          (keyup.enter)="save()"
+        />
+        <button
+          type="button"
+          (click)="enableUsernameEditing()"
+          class="blue-text-btn"
+        >
+          Змінити
+        </button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-control">
+        <label class="firstName" for="firstName">Ім'я: </label>
+        <mat-form-field>
+            <input matInput name="firstName" formControlName="firstName" placeholder="Введіть ваше ім'я">
+        </mat-form-field>
+      </div>
+      <div class="form-control">
+        <label class="lastName" for="lastName">Прізвище: </label>
+        <mat-form-field>
+          <input matInput name="lastName" formControlName="lastName" placeholder="Введіть ваше прізвище">
+        </mat-form-field>
+      </div>
     </div>
   </form>
 </section>

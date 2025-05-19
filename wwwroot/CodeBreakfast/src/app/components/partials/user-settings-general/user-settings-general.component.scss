@@ -4,10 +4,6 @@ section{
 form{
   margin-top: 2rem;
 }
-.form-row{
-  display: flex;
-  gap: 1.5rem;
-}
 .blue-text-btn{
   cursor: pointer;
   background: none;
@@ -19,4 +15,25 @@ form{
   outline: none;
   border: none;
   background: none;
+  margin-left: 1rem;
+}
+.form-control{
+  display: flex;
+}
+label.firstName, label.lastName{
+  margin-top: 21px;
+  width: 6rem;
+}
+.form-row{
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  max-width: 700px;
+  flex-wrap: wrap;
+}
+.form-row:not(:first-child){
+  margin-top: 1rem;
+}
+.form-row:first-child{
+  margin-bottom: 3rem;
 }
