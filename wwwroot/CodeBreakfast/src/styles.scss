@@ -82,3 +82,12 @@ ngx-charts-legend{
 ngx-charts-scale-legend{
   margin-top: 1rem;
 }
+
+@keyframes shadow {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.731);
+  }
+}

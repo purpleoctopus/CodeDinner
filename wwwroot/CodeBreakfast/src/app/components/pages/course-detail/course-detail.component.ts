@@ -4,6 +4,7 @@ import {map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import {CourseService} from '../../../services/course.service';
 import {ActivatedRoute} from '@angular/router';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-course-detail',
@@ -19,7 +20,7 @@ export class CourseDetailComponent implements OnInit {
   ngOnInit(): void {
     const courseId = this.route.snapshot.paramMap.get('id');
     if(courseId) {
-      this.course$ = this.courseService.getCourseById(courseId).pipe(map(res =>
+      this.course$ = AppComponent.showLoadingFromObservable(this.courseService.getCourseById(courseId)).pipe(map(res =>
         res.data
       ));
     }

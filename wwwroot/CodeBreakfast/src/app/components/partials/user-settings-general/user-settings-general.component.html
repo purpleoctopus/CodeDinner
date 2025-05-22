@@ -23,13 +23,13 @@
       <div class="form-control">
         <label class="firstName" for="firstName">Ім'я: </label>
         <mat-form-field>
-            <input matInput name="firstName" formControlName="firstName" placeholder="Введіть ваше ім'я">
+            <input matInput name="firstName" formControlName="firstName" placeholder="Введіть ваше ім'я" (keyup.enter)="save()">
         </mat-form-field>
       </div>
       <div class="form-control">
         <label class="lastName" for="lastName">Прізвище: </label>
         <mat-form-field>
-          <input matInput name="lastName" formControlName="lastName" placeholder="Введіть ваше прізвище">
+          <input matInput name="lastName" formControlName="lastName" placeholder="Введіть ваше прізвище" (keyup.enter)="save()">
         </mat-form-field>
       </div>
     </div>

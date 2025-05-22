@@ -8,6 +8,7 @@ import {UserSettingsPrivacyComponent} from '../../partials/user-settings-privacy
 import {UserDetail, UserUpdate} from '../../../models/user.model';
 import {BehaviorSubject, firstValueFrom, Subject} from 'rxjs';
 import {UserService} from '../../../services/user.service';
+import {AppComponent} from '../../../app.component';
 
 enum Tab {
   General= 1,
@@ -41,7 +42,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   private async loadUser(){
-    const userProfile = (await firstValueFrom(this.userService.getMyProfile())).data;
+    const userProfile = (await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.getMyProfile()))).data;
     if(userProfile) {
       this.user.next({id: userProfile.id, username: userProfile.username, firstName: userProfile.firstName, lastName: userProfile.lastName});
     }

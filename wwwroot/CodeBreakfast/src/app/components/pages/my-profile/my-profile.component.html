@@ -1,7 +1,7 @@
 <div class="profile-container">
-
+  @if (user){
   <section class="profile-header">
-    <h2>Привіт, Денис</h2>
+    <h2>Привіт, {{user.username}}</h2>
     <p>
       Це ваш профіль. Тут можна налаштувати видимість секцій профілю.
       <a routerLink="/">Тут</a> можна побачити як бачать ваш профіль інші користувачі
@@ -15,13 +15,13 @@
     <div class="content">
       <div class="left-side">
         <img src="images/empty-profile-image.png" alt="Profile image" id="profile-image">
-        <b id="profile-username">Денис Остап'юк</b>
+        <b id="profile-username">{{user.username}}</b>
       </div>
       <div class="right-side">
-        <span id="profile-firstname">Ім'я...</span>
-        <span id="profile-lastname">Прізвище...</span>
+        <span id="profile-firstname">Ім'я: {{user.firstName}}</span>
+        <span id="profile-lastname">Прізвище: {{user.lastName}}</span>
         <p id="profile-description">Опис - Lorem ipsum</p>
-        <span id="profile-registeredon">Зареєстрований у дату...</span>
+        <span id="profile-registeredon">Зареєстрований: {{user.registeredOn.toLocaleDateString()}}</span>
       </div>
     </div>
   </section>
@@ -90,5 +90,5 @@
       </header>
     </section>
   </div>
-
+  }
 </div>

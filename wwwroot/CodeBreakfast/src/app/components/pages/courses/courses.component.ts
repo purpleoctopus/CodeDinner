@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CourseService} from '../../../services/course.service';
 import {CourseForList, Language} from '../../../models/course.model';
 import {AuthService} from '../../../services/auth.service';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-courses',
@@ -27,7 +28,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   private async getCourses() {
     try {
-      const res = await firstValueFrom(this.courseService.getCoursesForListView());
+      const promise = AppComponent.showLoadingFromPromise(firstValueFrom(this.courseService.getCoursesForListView()));
+      const res = await promise;
       if (res.data) {
         this.courses = res.data;
       }

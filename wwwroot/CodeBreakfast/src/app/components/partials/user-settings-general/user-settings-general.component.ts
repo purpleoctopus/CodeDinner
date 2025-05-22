@@ -32,7 +32,7 @@ export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
       firstName: [this.user?.firstName || ''],
       lastName: [this.user?.lastName || ''],
     });
-    this.autoSaveSub = this.userForm.valueChanges.pipe(debounceTime(1500), filter(() => this.userForm.valid))
+    this.autoSaveSub = this.userForm.valueChanges.pipe(debounceTime(1000), filter(() => this.userForm.valid))
     .subscribe(() => {
       this.save()
     })
@@ -52,7 +52,7 @@ export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
     this.usernameInput.nativeElement.disabled = true;
     const res = await firstValueFrom(this.userService.updateMyUser(value));
     if(res.success){
-      AppComponent.showMessage()
+      AppComponent.showMessage('Збережено!')
     }
     return res;
   }

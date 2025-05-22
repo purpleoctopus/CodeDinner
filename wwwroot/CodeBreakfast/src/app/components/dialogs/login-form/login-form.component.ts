@@ -40,7 +40,6 @@ export class LoginFormComponent {
       try {
         res = await this.authService.login({username, password})
       }catch(err: any){
-        console.log(err)
         res = err.error;
       }
       if(res.success){

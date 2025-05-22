@@ -7,7 +7,7 @@ header{
   justify-content: space-between;
   padding: 0 2rem;
   background-color: var(--mat-sys-on-primary);
-  z-index: 1000;
+  z-index: 100;
 }
 header>*:first-child, header>*:last-child{
   width: 200px;

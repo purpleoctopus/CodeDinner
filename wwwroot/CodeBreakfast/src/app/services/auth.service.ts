@@ -6,6 +6,7 @@ import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
 import {LoginDto, RegisterDto} from '../models/auth.model';
 import {ApiResponse} from '../models/response.model';
 import {SessionModel} from '../models/session.model';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
     new BehaviorSubject<SessionModel | null>(JSON.parse(localStorage.getItem('sessionData') as string));
   public sessionData = this.sessionData$.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.sessionData$.subscribe(sessionModel => {
       if (sessionModel) {
         localStorage.setItem('sessionData', JSON.stringify(sessionModel))
@@ -27,8 +28,13 @@ export class AuthService {
   }
 
   public async login(data: LoginDto): Promise<ApiResponse<SessionModel>>{
-    const res = await firstValueFrom(this.http.post<any>(`${this.url}/login`, data));
+    const res = await firstValueFrom(this.http.post<ApiResponse<SessionModel>>(`${this.url}/login`, data));
     this.sessionData$.next(res.data);
+    if(res.success){
+      if(this.router.url.includes('authorize')){
+        this.router.navigate(['/']);
+      }
+    }
     return res;
   }
 
@@ -38,5 +44,6 @@ export class AuthService {
 
   public logout(){
     this.sessionData$.next(null);
+    this.router.navigate(['/authorize']);
   }
 }

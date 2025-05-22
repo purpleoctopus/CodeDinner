@@ -10,6 +10,8 @@ import {MatIconButton} from '@angular/material/button';
 import {UserConfigService} from '../../../services/user-config.service';
 import {MatTooltip} from '@angular/material/tooltip';
 import {RouterLink} from '@angular/router';
+import {UserProfile} from '../../../models/user.model';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-my-profile',
@@ -30,6 +32,8 @@ export class MyProfileComponent implements OnInit {
   private sectionsVisibilityQueue = new Subject<ConfigKeySectionVisibility>();
   protected sectionsVisibility: UserConfigUpdateDto<boolean>[] = [];
 
+  protected user: UserProfile | null = null;
+
   protected courses = [
     {name: 'a', value: 3000},
     {name: 'b', value: 300}
@@ -38,20 +42,15 @@ export class MyProfileComponent implements OnInit {
   private userLastActivity: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public userLastActivity$: Observable<any[]> = this.userLastActivity.asObservable();
 
-  constructor(private userService: UserService, private userConfigService: UserConfigService) {
-
-  }
+  constructor(private userService: UserService, private userConfigService: UserConfigService) {}
 
   ngOnInit(): void {
     this.sectionsVisibilityQueue.pipe(throttleTime(200)).subscribe(key => {
       this.executeChangeSectionVisibility(key);
     });
 
-    this.userConfigService.getUserConfigs().pipe(map(x=>x.data)).subscribe(configs=>{
-      this.sectionsVisibility = configs?.map(x => {
-        return {key: x.key, value: x.value === "true"}
-      }) ?? [];
-    })
+    AppComponent.showLoadingFromPromise(this.getUserProfile());
+    AppComponent.showLoadingFromPromise(this.getUserConfigs());
   }
 
   public async ChangeSectionVisibility(key: ConfigKeySectionVisibility){
@@ -83,6 +82,28 @@ export class MyProfileComponent implements OnInit {
 
   public sectionVisibility(key: ConfigKeySectionVisibility){
     return this.sectionsVisibility.find(x=>x.key === key)?.value;
+  }
+
+  private async getUserConfigs(){
+    const response = await firstValueFrom(this.userConfigService.getUserConfigs());
+
+    if(!response.success || !response.data){
+      return;
+    }
+
+    this.sectionsVisibility = response.data.map(x => {
+      return {key: x.key, value: x.value === "true"}
+    }) ?? [];
+  }
+
+  private async getUserProfile(){
+    const response = await firstValueFrom(this.userService.getMyProfile());
+
+    if (!response.success) {
+      return;
+    }
+
+    this.user = response.data;
   }
 
   protected readonly LegendPosition = LegendPosition;
