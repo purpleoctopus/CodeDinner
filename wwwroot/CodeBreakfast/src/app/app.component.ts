@@ -41,7 +41,6 @@ export class AppComponent{
       }
       this.toastMessage = msg!;
       this.isToastVisible = true;
-      console.log(msg, success);
       setTimeout(()=>{
         this.isToastHiding = true;
         setTimeout(() => {
