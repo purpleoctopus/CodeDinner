@@ -5,6 +5,7 @@ using CodeBreakfast.Data;
 using CodeBreakfast.Data.Entities;
 using CodeBreakfast.Data.Repositories.Interfaces;
 using CodeBreakfast.Logic.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace CodeBreakfast.Logic.Services;
@@ -78,6 +79,54 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         return response;
     }
 
+    public async Task<ApiResponse<byte[]>> GetUserProfilePicture(Guid requestingUserId, Guid userId)
+    {
+        var response = new ApiResponse<byte[]>();
+
+        try
+        {
+            if (requestingUserId != userId && await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.IsPrivate, userId))
+            {
+                response.Success = false;
+                response.Message = "No access";
+                response.StatusCode = HttpStatusCode.OK;
+                return response;
+            }
+            
+            var user = await userRepository.GetUserByIdAsync(userId);
+
+            if (user?.ProfilePicture == null)
+            {
+                response.Success = false;
+                response.Message = "No profile picture set";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+            
+            var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+            var filePath = Path.Combine(uploadsPath, user.ProfilePicture);
+
+            if (!File.Exists(filePath))
+            {
+                response.Success = false;
+                response.Message = "No profile picture set";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+
+            var bytes = await File.ReadAllBytesAsync(filePath);
+            response.Data = bytes;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return response;
+    }
+
     public async Task<ApiResponse<List<UserConfigDetailDto>>> UpdateUserConfiguration(Guid userId, List<UserConfigUpdateDto> dto)
     {
         var response = new ApiResponse<List<UserConfigDetailDto>>();
@@ -134,6 +183,67 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             response.StatusCode = HttpStatusCode.InternalServerError;
         }
          
+        return response;
+    }
+
+    public async Task<ApiResponse<bool>> UploadUserProfilePicture(Guid requestingUserId, IFormFile picture)
+    {
+        var response = new ApiResponse<bool>();
+
+        try
+        {
+            if (picture == null || picture.Length == 0)
+            {
+                response.Success = false;
+                response.Message = "File is empty";
+                response.StatusCode = HttpStatusCode.BadRequest;
+                return response;
+            }
+
+            var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+            if (!Directory.Exists(uploadsPath))
+                Directory.CreateDirectory(uploadsPath);
+            
+            var fileExtension = Path.GetExtension(picture.FileName);
+
+            if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
+            {
+                response.Success = false;
+                response.Message = "File is not a valid image file";
+                response.StatusCode = HttpStatusCode.BadRequest;
+                return response;
+            }
+            
+            var fileName = requestingUserId + fileExtension;
+            var filePath = Path.Combine(uploadsPath, fileName);
+            
+            var user = await userManager.FindByIdAsync(requestingUserId.ToString());
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User not found";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await picture.CopyToAsync(stream);
+            }
+            
+            user.ProfilePicture = fileName;
+            await userManager.UpdateAsync(user);
+            
+            response.Data = true;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+
         return response;
     }
 }

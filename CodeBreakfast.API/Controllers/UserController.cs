@@ -37,6 +37,15 @@ public class UserController(IUserService userService, IUserActivityService userA
         var rData = await userService.UpdateUser(requestingUserId, dto);
         return StatusCode((int)rData.StatusCode, rData);
     }
+
+    [HttpPost]
+    [Route("me/photo")]
+    public async Task<IActionResult> UploadMyUserPhoto(IFormFile file)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.UploadUserProfilePicture(requestingUserId, file);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
     
     [HttpGet]
     [Route("{id:guid}/activities")]
