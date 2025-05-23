@@ -20,6 +20,8 @@ public static class CommonHelper
             Name = courseAddDto.Name,
             Language = courseAddDto.Language,
             Description = courseAddDto.Description,
+            PrimarySpecialization = courseAddDto.PrimarySpecialization,
+            Tags = courseAddDto.Tags
         };
     }
     public static Course GetEntity(this CourseUpdateDto courseUpdateDto)
@@ -30,6 +32,8 @@ public static class CommonHelper
             Name = courseUpdateDto.Name,
             Language = courseUpdateDto.Language,
             Description = courseUpdateDto.Description,
+            PrimarySpecialization = courseUpdateDto.PrimarySpecialization,
+            Tags = courseUpdateDto.Tags,
             IsVisible = courseUpdateDto.IsVisible
         };
     }
@@ -92,6 +96,8 @@ public static class CommonHelper
             Description = course.Description,
             Language = course.Language,
             Modules = course.Modules.ToList(),
+            PrimarySpecialization = course.PrimarySpecialization,
+            Tags = course.Tags.ToList(),
             Author = course.Author.GetCommonModel(),
             CreatedOn = course.CreatedOn,
             UpdatedOn = course.UpdatedOn

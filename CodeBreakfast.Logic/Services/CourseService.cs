@@ -204,6 +204,8 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
             existingCourse.Language = dto.Language;
             existingCourse.Description = dto.Description;
             existingCourse.Modules = dto.Modules ?? [];
+            existingCourse.PrimarySpecialization = dto.PrimarySpecialization;
+            existingCourse.Tags = dto.Tags;
             existingCourse.IsVisible = dto.IsVisible;
             
             await courseRepository.UpdateAsync(existingCourse);
