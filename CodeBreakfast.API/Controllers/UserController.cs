@@ -38,12 +38,22 @@ public class UserController(IUserService userService, IUserActivityService userA
         return StatusCode((int)rData.StatusCode, rData);
     }
 
-    [HttpPost]
-    [Route("me/photo")]
-    public async Task<IActionResult> UploadMyUserPhoto(IFormFile file)
+    [HttpGet]
+    [Route("me/picture")]
+    public async Task<IActionResult> GetMyProfilePicture()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await userService.UploadUserProfilePicture(requestingUserId, file);
+        var rData = await userService.GetUserProfilePicture(requestingUserId, requestingUserId);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
+
+    [HttpPost]
+    [Route("me/picture")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadMyProfilePicture([FromForm] UploadFileRequest file)
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await userService.UploadUserProfilePicture(requestingUserId, file.File);
         return StatusCode((int)rData.StatusCode, rData);
     }
     
