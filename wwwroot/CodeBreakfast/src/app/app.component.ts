@@ -17,6 +17,7 @@ export class AppComponent{
   private static loadingRequest$ = new BehaviorSubject<Promise<any> | null>(null);
   protected static isToastVisible: boolean = false;
   protected static isToastHiding: boolean = false;
+  protected static isToastSuccess: boolean = true;
   protected static toastMessage: string = 'Успіх!';
   protected static isShowLoading = new BehaviorSubject<boolean>(false);
 
@@ -41,6 +42,7 @@ export class AppComponent{
       }
       this.toastMessage = msg!;
       this.isToastVisible = true;
+      this.isToastSuccess = success;
       setTimeout(()=>{
         this.isToastHiding = true;
         setTimeout(() => {
@@ -51,7 +53,7 @@ export class AppComponent{
     }
   }
 
-  static showLoadingFromPromise(promise: Promise<any>) {
+  static showLoadingFromPromise<T>(promise: Promise<T>) {
     this.loadingRequest$.next(promise);
     return promise;
   }
@@ -69,6 +71,9 @@ export class AppComponent{
   }
   protected get getIsToastHiding(){
     return AppComponent.isToastHiding;
+  }
+  protected get getIsToastSuccess(){
+    return AppComponent.isToastSuccess;
   }
   protected get getIsShowLoading(){
     return AppComponent.isShowLoading;

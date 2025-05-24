@@ -25,4 +25,12 @@ export class UserService {
   public updateMyUser(user: UserUpdate){
     return this.http.put<ApiResponse<UserDetail>>(`${this.url}/me`, user)
   }
+
+  public getMyProfilePicture(){
+    return this.http.get<ApiResponse<Blob>>(`${this.url}/me/picture`)
+  }
+
+  public uploadMyProfilePicture(file: FormData){
+    return this.http.post<ApiResponse<boolean>>(`${this.url}/me/picture`, file)
+  }
 }

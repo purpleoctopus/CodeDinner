@@ -11,8 +11,13 @@ app-toast{
   bottom: 20px;
   padding:1rem;
   width: 240px;
-  background-color: green;
   right: 20px;
+}
+app-toast.success{
+  background-color: green;
+}
+app-toast.error{
+  background-color: red;
 }
 app-toast.show{
   animation: slide-in 0.3s ease-in;

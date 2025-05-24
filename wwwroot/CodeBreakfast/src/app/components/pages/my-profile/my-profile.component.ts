@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service';
 import {HeatMapModule, LegendPosition, PieChartModule} from '@swimlane/ngx-charts';
 import {ShortDayOfWeek} from '../../../models/dayofweek';
@@ -27,6 +27,8 @@ import {AppComponent} from '../../../app.component';
   styleUrl: './my-profile.component.scss'
 })
 export class MyProfileComponent implements OnInit {
+  @ViewChild('profile_picture') profilePictureElem!: ElementRef;
+
   private readonly weeksCount = 15;
 
   private sectionsVisibilityQueue = new Subject<ConfigKeySectionVisibility>();
@@ -49,8 +51,7 @@ export class MyProfileComponent implements OnInit {
       this.executeChangeSectionVisibility(key);
     });
 
-    AppComponent.showLoadingFromPromise(this.getUserProfile());
-    AppComponent.showLoadingFromPromise(this.getUserConfigs());
+    AppComponent.showLoadingFromPromise(this.load());
   }
 
   public async ChangeSectionVisibility(key: ConfigKeySectionVisibility){
@@ -84,6 +85,12 @@ export class MyProfileComponent implements OnInit {
     return this.sectionsVisibility.find(x=>x.key === key)?.value;
   }
 
+  private async load(){
+    await this.getUserProfile();
+    await this.getUserConfigs();
+    await this.getProfilePicture();
+  }
+
   private async getUserConfigs(){
     const response = await firstValueFrom(this.userConfigService.getUserConfigs());
 
@@ -96,6 +103,15 @@ export class MyProfileComponent implements OnInit {
     }) ?? [];
   }
 
+  private async getProfilePicture(){
+    const response = await firstValueFrom(this.userService.getMyProfilePicture());
+
+    if(response.success && response.data){
+      const imgElem = this.profilePictureElem.nativeElement as HTMLImageElement;
+      imgElem.src = 'data:image/jpeg;base64,' + response.data;
+    }
+  }
+
   private async getUserProfile(){
     const response = await firstValueFrom(this.userService.getMyProfile());
 
@@ -104,6 +120,26 @@ export class MyProfileComponent implements OnInit {
     }
 
     this.user = response.data;
+  }
+
+  protected async updateUserProfilePicture(event: Event) {
+    if(event.target === null){
+      return;
+    }
+    const input = event.target as HTMLInputElement;
+    const file: File | null = input.files?.[0] ?? null;
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.uploadMyProfilePicture(formData)));
+      if (res.success) {
+        AppComponent.showMessage('Успіх!')
+      }else{
+        AppComponent.showMessage('Помилка!', false)
+      }
+    }
   }
 
   protected readonly LegendPosition = LegendPosition;

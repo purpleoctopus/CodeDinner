@@ -5,7 +5,7 @@
   </main>
 </div>
 @if (getIsToastVisible){
-  <app-toast [ngClass]="getIsToastHiding ? 'hide':'show'" [message]="getToastMessage"></app-toast>
+  <app-toast [ngClass]="{hide: getIsToastHiding, show: !getIsToastHiding, success: getIsToastSuccess, error: !getIsToastSuccess}" [message]="getToastMessage"></app-toast>
 }
 @if(getIsShowLoading | async){
   <app-loading></app-loading>
