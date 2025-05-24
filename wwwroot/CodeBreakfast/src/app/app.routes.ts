@@ -28,6 +28,11 @@ export const routes: Routes = [
     title: 'Settings',
   },
   {
+    path: 'user/:id',
+    loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/user-profile/user-profile.component")).then(m => m.UserProfileComponent),
+    title: 'User Profile'
+  },
+  {
     path: 'no-access',
     loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/no-access/no-access.component")).then(m => m.NoAccessComponent),
     title: 'No Access',

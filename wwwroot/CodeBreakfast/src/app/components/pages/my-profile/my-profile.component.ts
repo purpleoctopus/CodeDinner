@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service';
-import {HeatMapModule, LegendPosition, PieChartModule} from '@swimlane/ngx-charts';
-import {ShortDayOfWeek} from '../../../models/dayofweek';
+import {LegendPosition, PieChartModule} from '@swimlane/ngx-charts';
 import {BehaviorSubject, firstValueFrom, map, Observable, Subject, throttleTime} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
@@ -105,10 +104,12 @@ export class MyProfileComponent implements OnInit {
 
   private async getProfilePicture(){
     const response = await firstValueFrom(this.userService.getMyProfilePicture());
+    const imgElem = this.profilePictureElem.nativeElement as HTMLImageElement;
 
     if(response.success && response.data){
-      const imgElem = this.profilePictureElem.nativeElement as HTMLImageElement;
       imgElem.src = 'data:image/jpeg;base64,' + response.data;
+    }else{
+      imgElem.src = "images/empty-profile-image.png"
     }
   }
 
@@ -135,7 +136,8 @@ export class MyProfileComponent implements OnInit {
 
       const res = await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.uploadMyProfilePicture(formData)));
       if (res.success) {
-        AppComponent.showMessage('Успіх!')
+        AppComponent.showMessage('Успіх!');
+        await this.getProfilePicture();
       }else{
         AppComponent.showMessage('Помилка!', false)
       }

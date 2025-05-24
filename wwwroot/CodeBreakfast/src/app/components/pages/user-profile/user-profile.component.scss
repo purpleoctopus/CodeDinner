@@ -1,0 +1,85 @@
+.profile-header{
+  width: 100%;
+}
+.profile-container{
+  padding: 1.5rem;
+}
+.profile-container > *:not(:first-child){
+  margin-top: 1rem;
+}
+#profile-username{
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+#profile-image{
+  width: 240px;
+  height: 240px;
+  display: block;
+}
+#profile-description{
+  max-height: 180px;
+}
+#profile-registeredon{
+  margin-top: 1.5rem;
+}
+.profile-primary-info .content{
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+}
+.profile-primary-info .content .right-side{
+  width: calc(200px + 20%);
+}
+.profile-primary-info .content .right-side span{
+  display: block;
+}
+.profile-primary-info .content .right-side > *:not(:first-child){
+  margin-top: 0.5rem;
+}
+.profile-secondary-info{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.profile-secondary-info>section{
+  min-height: 15rem;
+  width: calc(50% - 0.5rem);
+}
+.profile-secondary-info>section:last-child:nth-child(odd){
+  width: 100%;
+}
+.chart-container{
+  height: 200px;
+  width: 100%;
+}
+header>.h2-container{
+  display: flex;
+  flex-direction: column;
+}
+header>.h2-container>h2{
+  margin: auto;
+}
+p{
+  margin-top: 0.5rem;
+}
+.dynamic-chart-container{
+  width: 100%;
+  max-width: 400px;
+  height: 540px;
+  margin: 0 auto;
+}
+@media (max-width: 960px) {
+  .profile-secondary-info>section{
+    width: 100%;
+  }
+}
+
+@media (min-width: 31.5rem) {
+  .profile-secondary-info>section {
+    min-width: 31.5rem;
+  }
+}

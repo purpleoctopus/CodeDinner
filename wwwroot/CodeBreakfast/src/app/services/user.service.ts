@@ -33,4 +33,13 @@ export class UserService {
   public uploadMyProfilePicture(file: FormData){
     return this.http.post<ApiResponse<boolean>>(`${this.url}/me/picture`, file)
   }
+
+  public getUserProfile(id: string){
+    return this.http.get<ApiResponse<UserProfile>>(`${this.url}/${id}`).pipe(
+      map(res => {
+        res.data!.registeredOn = new Date(res.data!.registeredOn);
+        return res;
+      })
+    );
+  }
 }

@@ -1,1 +1,73 @@
-<p>user-profile works!</p>
+<div class="profile-container">
+  @if (user){
+
+    <section class="profile-primary-info">
+      <header>
+        <h2>Загальна інформація</h2>
+      </header>
+      <div class="content">
+        <div class="left-side">
+          <img #profile_picture alt="Profile image" id="profile-image">
+          <b id="profile-username">{{user.username}}</b>
+        </div>
+        <div class="right-side">
+          <span id="profile-firstname">Ім'я: {{user.firstName}}</span>
+          <span id="profile-lastname">Прізвище: {{user.lastName}}</span>
+          <p id="profile-description">Опис - Lorem ipsum</p>
+          <span id="profile-registeredon">Зареєстрований: {{user.registeredOn.toLocaleDateString()}}</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="profile-secondary-info">
+      @if(user.sectionsToView.includes(UserProfileSection.LastActivity)){
+        <section>
+          <header>
+            <div class="h2-container">
+              <h2>Остання активність</h2>
+            </div>
+          </header>
+          @if(userLastActivity$ | async; as data; ){
+            @if (data.length > 0) {
+              @for (activity of data; track $index){
+
+              }
+            } @else {
+              <span>Немає активності</span>
+            }
+          }
+        </section>
+      }
+      @if(user.sectionsToView.includes(UserProfileSection.CourseSummary)){
+        <section>
+          <header>
+            <div class="h2-container">
+              <h2>Статистика по типах курсів</h2>
+            </div>
+          </header>
+          <div class="dynamic-chart-container">
+            <ngx-charts-pie-chart
+              [results]="courses"
+              [legend]="true"
+              [legendPosition]="LegendPosition.Below"
+              [explodeSlices]="false"
+              [doughnut]="false"
+              [gradient]="false"
+            >
+            </ngx-charts-pie-chart>
+          </div>
+        </section>
+      }
+      @if(user.sectionsToView.includes(UserProfileSection.CourseDetailStatistics)){
+        <section>
+          <header>
+            <div class="h2-container">
+              <h2>Детальна статистика по курсах</h2>
+            </div>
+          </header>
+        </section>
+      }
+    </div>
+  }
+
+</div>

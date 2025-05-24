@@ -4,7 +4,7 @@
     <h2>Привіт, {{user.username}}</h2>
     <p>
       Це ваш профіль. Тут можна налаштувати видимість секцій профілю.
-      <a routerLink="/">Тут</a> можна побачити як бачать ваш профіль інші користувачі
+      <a routerLink="/user/{{user.id}}">Тут</a> можна побачити як бачать ваш профіль інші користувачі
     </p>
   </section>
 
@@ -16,7 +16,7 @@
       <div class="left-side">
         <div class="uploadable-image-container">
           <label for="profilePictureInput">
-            <img #profile_picture src="images/empty-profile-image.png" alt="Profile image" id="profile-image">
+            <img #profile_picture alt="Profile image" id="profile-image">
           </label>
           <input id="profilePictureInput" type="file" hidden (change)="updateUserProfilePicture($event)">
         </div>

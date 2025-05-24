@@ -5,6 +5,12 @@ export enum AppRole{
   Admin = 4,
 }
 
+export enum UserProfileSection{
+  LastActivity = 1,
+  CourseSummary = 2,
+  CourseDetailStatistics = 3
+}
+
 export interface UserUpdate{
   id: string;
   username: string;
@@ -14,15 +20,6 @@ export interface UserUpdate{
 export interface UserDetail extends UserUpdate{
 
 }
-
-// public Guid Id { get; set; }
-// public AppRole Role { get; set; }
-// public string Username { get; set; }
-// public string? FirstName { get; set; }
-// public string? LastName { get; set; }
-// public int CoursesCount { get; set; }
-// public int CompletedCoursesCount { get; set; }
-// public int? CreatedCoursesCount { get; set; }
 
 export interface UserProfile{
   id: string;
@@ -34,4 +31,6 @@ export interface UserProfile{
   completedCoursesCount: number;
   createdCoursesCount: number;
   registeredOn: Date;
+  isPrivate: boolean;
+  sectionsToView: UserProfileSection[]
 }
