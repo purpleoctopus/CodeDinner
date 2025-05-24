@@ -25,16 +25,17 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             response.StatusCode = HttpStatusCode.NotFound;
             return response;
         }
+        
+        response.Data = new UserProfileDto
+        {
+            Id = user.Id,
+            Username = user.UserName,
+        };
 
         // Hide profile data when user profile is private
         if (requestingUserId != userId && await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.IsPrivate, userId))
         {
-            response.Data = new UserProfileDto
-            {
-                Id = user.Id,
-                Username = user.UserName,
-                IsPrivate = true
-            };
+            response.Data.IsPrivate = true;
             return response;
         }
         
@@ -45,18 +46,28 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             .OrderByDescending(role => (int)role)
             .FirstOrDefault();
 
-        response.Data = new UserProfileDto
+        if (await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.ViewLastActivity, userId))
         {
-            Id = user.Id,
-            Role = role,
-            Username = user.UserName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            RegisteredOn = user.RegisteredOn,
-            CoursesCount = userCourses.Count,
-            CompletedCoursesCount = 0,
-            CreatedCoursesCount = userCourses.Count(x => x.Role == CourseRole.Owner)
-        };
+            response.Data.SectionsToView.Add(UserProfileSection.LastActivity);
+        }
+
+        if (await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.ViewCourseSummary, userId))
+        {
+            response.Data.SectionsToView.Add(UserProfileSection.CourseSummary);
+        }
+        
+        if (await userRepository.GetUserConfigValueByKeyAsync<bool>(UserConfigKey.ViewCourseDetailStatistic, userId))
+        {
+            response.Data.SectionsToView.Add(UserProfileSection.CourseDetailStatistic);
+        }
+        
+        response.Data.Role = role;
+        response.Data.FirstName = user.FirstName;
+        response.Data.LastName = user.LastName;
+        response.Data.RegisteredOn = user.RegisteredOn;
+        response.Data.CoursesCount = userCourses.Count;
+        response.Data.CompletedCoursesCount = 0;
+        response.Data.CreatedCoursesCount = userCourses.Count(x => x.Role == CourseRole.Owner);
 
         return response;
     }
@@ -99,7 +110,7 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             {
                 response.Success = false;
                 response.Message = "No profile picture set";
-                response.StatusCode = HttpStatusCode.NotFound;
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
             
@@ -109,8 +120,8 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             if (!File.Exists(filePath))
             {
                 response.Success = false;
-                response.Message = "No profile picture set";
-                response.StatusCode = HttpStatusCode.NotFound;
+                response.Message = "Profile picture file is deleted";
+                response.StatusCode = HttpStatusCode.OK;
                 return response;
             }
 
@@ -202,8 +213,7 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
 
             var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
 
-            if (!Directory.Exists(uploadsPath))
-                Directory.CreateDirectory(uploadsPath);
+            if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
             
             var fileExtension = Path.GetExtension(picture.FileName);
 
@@ -225,6 +235,16 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
                 response.Message = "User not found";
                 response.StatusCode = HttpStatusCode.NotFound;
                 return response;
+            }
+
+            if (user.ProfilePicture != null)
+            {
+                var oldFilePath = Path.Combine(uploadsPath, user.ProfilePicture);
+
+                if (File.Exists(oldFilePath))
+                {
+                    File.Delete(oldFilePath);
+                }
             }
 
             using (var stream = new FileStream(filePath, FileMode.Create))

@@ -38,4 +38,8 @@
       <ProjectReference Include="..\CodeBreakfast.Logic\CodeBreakfast.Logic.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Uploads\" />
+    </ItemGroup>
+
 </Project>

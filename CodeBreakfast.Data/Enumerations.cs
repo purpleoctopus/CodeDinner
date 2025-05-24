@@ -63,3 +63,10 @@ public enum UserConfigKey
     ViewCourseDetailStatistic = 101,
     ViewLastActivity = 102
 }
+
+public enum UserProfileSection
+{
+    LastActivity = 1,
+    CourseSummary = 2,
+    CourseDetailStatistic = 3
+}

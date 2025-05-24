@@ -24,9 +24,10 @@ public class UserProfileDto
     public string Username { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public int CoursesCount { get; set; }
-    public int CompletedCoursesCount { get; set; }
+    public int? CoursesCount { get; set; }
+    public int? CompletedCoursesCount { get; set; }
     public int? CreatedCoursesCount { get; set; }
     public DateTime RegisteredOn { get; set; }
     public bool IsPrivate { get; set; }
+    public List<UserProfileSection> SectionsToView { get; set; } = [];
 }
