@@ -14,12 +14,7 @@
     </header>
     <div class="content">
       <div class="left-side">
-        <div class="uploadable-image-container">
-          <label for="profilePictureInput">
-            <img #profile_picture alt="Profile image" id="profile-image">
-          </label>
-          <input id="profilePictureInput" type="file" hidden (change)="updateUserProfilePicture($event)">
-        </div>
+        <img #profile_picture alt="Profile image" id="profile-picture">
         <b id="profile-username">{{user.username}}</b>
       </div>
       <div class="right-side">

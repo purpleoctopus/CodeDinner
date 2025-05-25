@@ -1,14 +1,20 @@
 <section>
   <form [formGroup]="userForm">
-    <div class="form-row">
+    <div class="left-side">
+      <label for="profilePictureInput">
+        <img #profile_picture id="profile-picture" alt="Profile picture">
+      </label>
+      <input id="profilePictureInput" type="file" (change)="updateUserProfilePicture($event)" hidden>
+    </div>
+    <div class="right-side">
       <div class="form-control">
         <label for="username">Ім'я користувача: </label>
         <input #username
-          formControlName="username"
-          type="text"
-          id="username"
-          placeholder="Не вказано"
-          (keyup.enter)="save()"
+               formControlName="username"
+               type="text"
+               id="username"
+               placeholder="Не вказано"
+               (keyup.enter)="save()"
         />
         <button
           type="button"
@@ -18,12 +24,10 @@
           Змінити
         </button>
       </div>
-    </div>
-    <div class="form-row">
       <div class="form-control">
         <label class="firstName" for="firstName">Ім'я: </label>
         <mat-form-field>
-            <input matInput name="firstName" formControlName="firstName" placeholder="Введіть ваше ім'я" (keyup.enter)="save()">
+          <input matInput name="firstName" formControlName="firstName" placeholder="Введіть ваше ім'я" (keyup.enter)="save()">
         </mat-form-field>
       </div>
       <div class="form-control">

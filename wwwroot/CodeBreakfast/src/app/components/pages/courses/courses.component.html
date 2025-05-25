@@ -10,7 +10,7 @@
         <div class="course-primary-info">
           <h3>{{course.name}}</h3>
           <small>Мова курсу: {{Language[course.language]}}</small>
-          <small>Автор: <b>{{course.author.username}}</b></small>
+          <small>Автор: <b><a routerLink="/user/{{course.author.id}}">{{course.author.username}}</a></b></small>
         </div>
         <div class="course-secondary-info">
           <div>

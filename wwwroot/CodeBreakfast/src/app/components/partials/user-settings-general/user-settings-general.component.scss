@@ -24,16 +24,30 @@ label.firstName, label.lastName{
   margin-top: 21px;
   width: 6rem;
 }
-.form-row{
+.right-side{
   display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-  max-width: 700px;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.right-side>*:not(:first-child){
+  margin-top: 1.25rem;
+}
+.right-side>*:first-child{
+  margin-bottom: 1rem;
+}
+.left-side{
+  width: 240px;
+  margin: 0 auto;
+}
+form{
+  display: flex;
   flex-wrap: wrap;
+  gap: 30px;
 }
-.form-row:not(:first-child){
-  margin-top: 1rem;
-}
-.form-row:first-child{
-  margin-bottom: 3rem;
+#profile-picture{
+  width: 240px;
+  height: 240px;
+  display: block;
+  border-radius: 50%;
+  cursor: pointer;
 }

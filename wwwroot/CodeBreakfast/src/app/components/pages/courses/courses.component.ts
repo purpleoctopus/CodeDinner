@@ -5,10 +5,13 @@ import {CourseService} from '../../../services/course.service';
 import {CourseForList, Language} from '../../../models/course.model';
 import {AuthService} from '../../../services/auth.service';
 import {AppComponent} from '../../../app.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-courses',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })

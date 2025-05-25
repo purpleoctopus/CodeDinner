@@ -123,27 +123,6 @@ export class MyProfileComponent implements OnInit {
     this.user = response.data;
   }
 
-  protected async updateUserProfilePicture(event: Event) {
-    if(event.target === null){
-      return;
-    }
-    const input = event.target as HTMLInputElement;
-    const file: File | null = input.files?.[0] ?? null;
-
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.uploadMyProfilePicture(formData)));
-      if (res.success) {
-        AppComponent.showMessage('Успіх!');
-        await this.getProfilePicture();
-      }else{
-        AppComponent.showMessage('Помилка!', false)
-      }
-    }
-  }
-
   protected readonly LegendPosition = LegendPosition;
   protected readonly UserConfigKey = UserConfigKey;
 }
