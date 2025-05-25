@@ -121,7 +121,7 @@ public static class CommonHelper
     {
         return new UserDetailDto
         {
-            Id = Guid.NewGuid(),
+            Id = userDto.Id,
             Username = userDto.UserName,
             FirstName = userDto.FirstName,
             LastName = userDto.LastName
