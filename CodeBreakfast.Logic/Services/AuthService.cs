@@ -34,6 +34,7 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
             }
 
             var userRoles = await userManager.GetRolesAsync(existingUser);
+            var roleEnums = new List<AppRole>();
 
             var authClaims = new List<Claim>
             {
@@ -45,6 +46,10 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
             foreach (var userRole in userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                if (Enum.TryParse<AppRole>(userRole, out var parsedRole))
+                {
+                    roleEnums.Add(parsedRole);
+                }
             }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
@@ -63,7 +68,7 @@ public class AuthService(IAuthRepository authRepository, UserManager<User> userM
             {
                 Username = existingUser.UserName,
                 AccessToken = tokenHandler.WriteToken(token),
-                Roles = userRoles.ToList()
+                Roles = roleEnums.ToList()
             };
 
             return response;
