@@ -1,4 +1,4 @@
-<div class="container">
+<div [ngClass]="getIsShowBurgerMenu ? 'noscroll': ''" class="container">
   <app-header></app-header>
   <main>
     <router-outlet />
@@ -9,4 +9,7 @@
 }
 @if(getIsShowLoading | async){
   <app-loading></app-loading>
+}
+@if(getIsShowBurgerMenu){
+  <app-burger-menu class="small-show"></app-burger-menu>
 }

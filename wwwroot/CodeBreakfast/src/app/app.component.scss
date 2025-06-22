@@ -25,6 +25,9 @@ app-toast.show{
 app-toast.hide{
   animation: slide-out 0.3s ease-in;
 }
+.noscroll{
+  overflow: hidden;
+}
 
 @keyframes slide-in {
   from {

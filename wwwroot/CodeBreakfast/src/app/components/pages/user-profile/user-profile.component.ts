@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 import {LegendPosition, PieChartModule} from '@swimlane/ngx-charts';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
-import {ConfigKeySectionVisibility,  UserConfigUpdateDto} from '../../../models/user-config.model';
-import {UserProfile, UserProfileSection} from '../../../models/user.model';
+import {UserConfigUpdateDto} from '../../../models/user-config.model';
+import {AppRole, UserProfile, UserProfileSection} from '../../../models/user.model';
 import {UserService} from '../../../services/user.service';
 import {UserConfigService} from '../../../services/user-config.service';
 import {AppComponent} from '../../../app.component';
@@ -12,8 +12,9 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'app-user-profile',
   imports: [
-      AsyncPipe,
-      PieChartModule,
+    AsyncPipe,
+    PieChartModule,
+    NgClass,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
@@ -84,4 +85,5 @@ export class UserProfileComponent implements OnInit {
 
   protected readonly LegendPosition = LegendPosition;
   protected readonly UserProfileSection = UserProfileSection;
+  protected readonly AppRole = AppRole;
 }

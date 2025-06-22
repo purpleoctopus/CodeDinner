@@ -20,8 +20,9 @@
       <div class="right-side">
         <span id="profile-firstname">Ім'я: {{user.firstName}}</span>
         <span id="profile-lastname">Прізвище: {{user.lastName}}</span>
-        <p id="profile-description">Опис - Lorem ipsum</p>
+        <p id="profile-description">Backend Developer</p>
         <span id="profile-registeredon">Зареєстрований: {{user.registeredOn.toLocaleDateString()}}</span>
+        <span class="badge" [ngClass]="user.role == AppRole.Admin ? 'red' : user.role == AppRole.Moderator ? 'blue' : user.role == AppRole.Creator ? 'yellow' : 'green'">{{AppRole[user.role]}}</span>
       </div>
     </div>
   </section>

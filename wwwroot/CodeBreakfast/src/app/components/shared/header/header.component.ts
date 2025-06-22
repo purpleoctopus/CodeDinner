@@ -5,12 +5,14 @@ import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {firstValueFrom} from 'rxjs';
 import {LoginFormComponent} from '../../dialogs/login-form/login-form.component';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgClass} from '@angular/common';
 import {RegisterFormComponent} from '../../dialogs/register-form/register-form.component';
 import {AuthService} from '../../../services/auth.service';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
 import {UserService} from '../../../services/user.service';
+import {AppRole} from '../../../models/user.model';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +25,8 @@ import {UserService} from '../../../services/user.service';
     AsyncPipe,
     MatMenu,
     MatMenuTrigger,
-    MatMenuItem
+    MatMenuItem,
+    NgClass
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -57,7 +60,15 @@ export class HeaderComponent implements OnInit {
     const dialogResult = await firstValueFrom(dialog.afterClosed());
   }
 
+  protected openBurgerMenu(): void {
+    AppComponent.toggleBurgerMenu();
+  }
+
   protected logout(){
     this.authService.logout();
   }
+
+  protected readonly AppRole = AppRole;
+  protected readonly AppComponent = AppComponent;
+  protected readonly console = console;
 }

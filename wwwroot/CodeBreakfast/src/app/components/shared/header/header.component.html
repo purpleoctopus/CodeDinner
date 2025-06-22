@@ -1,30 +1,45 @@
 <header>
-  <h1 routerLink="/home">CodeBreakfast</h1>
-  <mat-nav-list class="small-hidden">
-    <mat-list-item routerLink="/courses">Курси</mat-list-item>
-    <mat-list-item routerLink="/courses">Курси</mat-list-item>
-  </mat-nav-list>
-  @if(!(this.authService.sessionData | async)){
-  <div class="group-buttons">
-    <button mat-button class="login" (click)="openLoginForm()">Увійти</button>
-    <button mat-button class="register" (click)="openRegisterForm()">Зареєструватись</button>
-  </div>
-  } @else {
-    <mat-menu #profile_dropdown="matMenu">
-      <div class="menu-container">
-        <button mat-menu-item routerLink="my-profile">Мій профіль</button>
-        <button mat-menu-item routerLink="my-profile/settings">Налаштування</button>
-        <button mat-menu-item (click)="logout()">Вийти</button>
-      </div>
-    </mat-menu>
+  <div class="desktop">
+    <h1 routerLink="/home">CodeBreakfast</h1>
+    <mat-nav-list class="small-hidden">
+      @if ((this.authService.sessionData | async); as session) {
+        <mat-list-item routerLink="/courses">Шукати курси</mat-list-item>
+        <mat-list-item routerLink="/courses">Моє навчання</mat-list-item>
+        @if (session.roles.includes(AppRole.Creator) || session.roles.includes(AppRole.Admin)){
+          <mat-list-item routerLink="/courses">Панель автора</mat-list-item>
+        }
+      }
+    </mat-nav-list>
+    @if(!(this.authService.sessionData | async)){
     <div class="group-buttons">
-      <button mat-button id="open-profile-menu" [matMenuTriggerFor]="profile_dropdown"
-        (menuOpened)="isProfileDropdownOpened=true;"
-        (menuClosed)="isProfileDropdownOpened=false;">
-          {{userName}}
-          <mat-icon [class.rotated]="isProfileDropdownOpened">keyboard_arrow_down</mat-icon>
-      </button>
+      <button mat-button class="login" (click)="openLoginForm()">Увійти</button>
+      <button mat-button class="register" (click)="openRegisterForm()">Зареєструватись</button>
     </div>
-  }
+    } @else {
+      <mat-menu #profile_dropdown="matMenu">
+        <div class="menu-container">
+          <button mat-menu-item routerLink="my-profile">Мій профіль</button>
+          <button mat-menu-item routerLink="my-profile/settings">Налаштування</button>
+          <button mat-menu-item (click)="logout()">Вийти</button>
+        </div>
+      </mat-menu>
+      <div class="group-buttons">
+        <button mat-button id="open-profile-menu" [matMenuTriggerFor]="profile_dropdown"
+          (menuOpened)="isProfileDropdownOpened=true;"
+          (menuClosed)="isProfileDropdownOpened=false;">
+            {{userName}}
+            <mat-icon [class.rotated]="isProfileDropdownOpened">keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+  <div class="mobile">
+    <h1 routerLink="/home">CodeBreakfast</h1>
+    <div class="burger" [ngClass]="AppComponent.getIsShowBurgerMenu ? 'active' : ''" (click)="openBurgerMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 </header>
 <div class="header-filler"></div>

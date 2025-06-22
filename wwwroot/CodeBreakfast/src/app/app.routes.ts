@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 export const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/homepage/homepage.component")).then(m => m.HomepageComponent),
+    loadComponent: () => import("./components/pages/homepage/homepage.component").then(m => m.HomepageComponent),
     title: 'CodeBreakfast'
   },
   {

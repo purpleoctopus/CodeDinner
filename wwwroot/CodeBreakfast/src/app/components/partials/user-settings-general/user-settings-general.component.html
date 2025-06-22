@@ -8,21 +8,10 @@
     </div>
     <div class="right-side">
       <div class="form-control">
-        <label for="username">Ім'я користувача: </label>
-        <input #username
-               formControlName="username"
-               type="text"
-               id="username"
-               placeholder="Не вказано"
-               (keyup.enter)="save()"
-        />
-        <button
-          type="button"
-          (click)="enableUsernameEditing()"
-          class="blue-text-btn"
-        >
-          Змінити
-        </button>
+        <label class="userName" for="username">Ім'я користувача: </label>
+        <mat-form-field>
+          <input matInput name="username" formControlName="username" placeholder="Не вказано" (keyup.enter)="save()">
+        </mat-form-field>
       </div>
       <div class="form-control">
         <label class="firstName" for="firstName">Ім'я: </label>

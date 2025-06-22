@@ -1,15 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service';
 import {LegendPosition, PieChartModule} from '@swimlane/ngx-charts';
-import {BehaviorSubject, firstValueFrom, map, Observable, Subject, throttleTime} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {BehaviorSubject, firstValueFrom, Observable, Subject, throttleTime} from 'rxjs';
+import {AsyncPipe, NgClass} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {ConfigKeySectionVisibility, UserConfigDetailDto, UserConfigKey, UserConfigUpdateDto} from '../../../models/user-config.model';
 import {MatIconButton} from '@angular/material/button';
 import {UserConfigService} from '../../../services/user-config.service';
 import {MatTooltip} from '@angular/material/tooltip';
 import {RouterLink} from '@angular/router';
-import {UserProfile} from '../../../models/user.model';
+import {AppRole, UserProfile} from '../../../models/user.model';
 import {AppComponent} from '../../../app.component';
 
 @Component({
@@ -21,6 +21,7 @@ import {AppComponent} from '../../../app.component';
     MatIcon,
     MatTooltip,
     RouterLink,
+    NgClass,
   ],
   templateUrl: './my-profile.component.html',
   styleUrl: './my-profile.component.scss'
@@ -36,8 +37,8 @@ export class MyProfileComponent implements OnInit {
   protected user: UserProfile | null = null;
 
   protected courses = [
-    {name: 'a', value: 3000},
-    {name: 'b', value: 300}
+    {name: 'Python', value: 3},
+    {name: 'JavaScript', value: 1}
   ]
 
   private userLastActivity: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -125,4 +126,5 @@ export class MyProfileComponent implements OnInit {
 
   protected readonly LegendPosition = LegendPosition;
   protected readonly UserConfigKey = UserConfigKey;
+  protected readonly AppRole = AppRole;
 }

@@ -1,27 +1,29 @@
 import {Component, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {HeaderComponent} from './components/shared/header/header.component';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {ToastComponent} from './components/ui/toast/toast.component';
 import {AsyncPipe, NgClass} from '@angular/common';
 import {LoadingComponent} from './components/shared/loading/loading.component';
-import {BehaviorSubject, firstValueFrom, Observable, skip, switchMap} from 'rxjs';
+import {BehaviorSubject, filter, firstValueFrom, Observable, switchMap} from 'rxjs';
+import {BurgerMenuComponent} from './components/shared/burger-menu/burger-menu.component';
+import {AppRole} from './models/user.model';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, ToastComponent, NgClass, LoadingComponent, AsyncPipe],
+  imports: [RouterOutlet, HeaderComponent, ToastComponent, NgClass, LoadingComponent, AsyncPipe, BurgerMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent{
+export class AppComponent implements OnInit {
   private static loadingRequest$ = new BehaviorSubject<Promise<any> | null>(null);
   protected static isToastVisible: boolean = false;
   protected static isToastHiding: boolean = false;
   protected static isToastSuccess: boolean = true;
   protected static toastMessage: string = 'Успіх!';
   protected static isShowLoading = new BehaviorSubject<boolean>(false);
+  protected static isShowBurgerMenu: boolean = false;
 
-  constructor() {
+  constructor(private router: Router) {
     AppComponent.loadingRequest$.pipe(switchMap(promise => {
         if (!promise) return [];
         queueMicrotask(() => AppComponent.isShowLoading.next(true));
@@ -31,6 +33,13 @@ export class AppComponent{
         ).finally(() => AppComponent.isShowLoading.next(false));
       })
     ).subscribe();
+  }
+
+  ngOnInit(): void {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        AppComponent.isShowBurgerMenu = false;
+      });
   }
 
   static showMessage(msg?: string, success: boolean = true) {
@@ -51,6 +60,10 @@ export class AppComponent{
         }, 200);
       }, 2700)
     }
+  }
+
+  static toggleBurgerMenu() {
+    this.isShowBurgerMenu = !this.isShowBurgerMenu;
   }
 
   static showLoadingFromPromise<T>(promise: Promise<T>) {
@@ -77,5 +90,11 @@ export class AppComponent{
   }
   protected get getIsShowLoading(){
     return AppComponent.isShowLoading;
+  }
+  protected get getIsShowBurgerMenu(){
+    return AppComponent.isShowBurgerMenu;
+  }
+  public static get getIsShowBurgerMenu(){
+    return AppComponent.isShowBurgerMenu;
   }
 }

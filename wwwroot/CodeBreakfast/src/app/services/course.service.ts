@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {catchError, firstValueFrom, map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {CourseDetail, CourseAdd, CourseUpdate, CourseForList} from '../models/course.model';
 import {ApiResponse} from '../models/response.model';

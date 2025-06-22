@@ -20,13 +20,22 @@ form{
 .form-control{
   display: flex;
 }
-label.firstName, label.lastName{
-  margin-top: 21px;
-  width: 6rem;
+.form-control label{
+  margin-top: -15px;
+}
+.form-control > mat-form-field{
+  flex: 1;
+}
+label.firstName, label.lastName, label.userName{
+  display: flex;
+  align-items: center;
+  width: 7rem;
 }
 .right-side{
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 340px;
   margin: 0 auto;
 }
 .right-side>*:not(:first-child){

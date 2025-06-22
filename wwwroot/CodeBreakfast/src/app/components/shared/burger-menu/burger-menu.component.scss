@@ -1,0 +1,23 @@
+.burger-menu-container{
+  position: fixed;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  background-color: rgba(black, 0.9);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+button{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto;
+  color: white !important;
+  width: 100%;
+  border-radius: 0;
+  justify-content: center;
+}
+.burger-menu-container > *:first-child{
+  margin-top: 2rem;
+}

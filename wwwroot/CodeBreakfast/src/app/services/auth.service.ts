@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {CourseDetail, CourseAdd, CourseUpdate} from '../models/course.model';
-import {BehaviorSubject, firstValueFrom, map, Observable} from 'rxjs';
+import {BehaviorSubject, firstValueFrom} from 'rxjs';
 import {LoginDto, RegisterDto} from '../models/auth.model';
 import {ApiResponse} from '../models/response.model';
 import {SessionModel} from '../models/session.model';

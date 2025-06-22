@@ -30,7 +30,7 @@ export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
     AppComponent.showLoadingFromPromise(this.getProfilePicture());
     this.userForm = this.fb.group({
       id: [this.user?.id || ''],
-      username: [{value: this.user?.username || '', disabled: true}],
+      username: [this.user?.username || ''],
       firstName: [this.user?.firstName || ''],
       lastName: [this.user?.lastName || ''],
     });
@@ -42,11 +42,6 @@ export class UserSettingsGeneralComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.autoSaveSub.unsubscribe();
-  }
-
-  enableUsernameEditing() {
-    this.usernameInput.nativeElement.disabled = false;
-    this.usernameInput.nativeElement.focus();
   }
 
   async save(){
