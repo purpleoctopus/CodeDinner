@@ -7,6 +7,11 @@ namespace CodeBreakfast.Data.Repositories;
 
 public class UserRepository(AppDbContext dbContext) : IUserRepository
 {
+    public async Task<List<User>> GetAllUsers()
+    {
+        return await dbContext.Users.ToListAsync();
+    }
+
     public Task<User?> GetUserByIdAsync(Guid userId)
     {
         return dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);

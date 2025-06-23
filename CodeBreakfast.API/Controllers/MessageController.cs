@@ -5,7 +5,7 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/message")]
+[Route("message")]
 public class MessageController : ControllerBase
 {
     

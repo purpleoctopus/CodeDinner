@@ -18,6 +18,11 @@ public class CourseRepository(AppDbContext dbContext) : ICourseRepository
         return await dbContext.Courses.ToListAsync();
     }
 
+    public async Task<List<Course>> GetAllByAuthorAsync(Guid userId)
+    {
+        return await dbContext.Courses.Where(x => x.AuthorId == userId).ToListAsync();
+    }
+
     public async Task<Course?> GetByIdAsync(Guid id)
     {
         return await dbContext.Courses.SingleOrDefaultAsync(x => x.Id == id);

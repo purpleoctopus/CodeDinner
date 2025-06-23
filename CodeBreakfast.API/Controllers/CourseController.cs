@@ -8,16 +8,25 @@ namespace CodeBreakfast.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/course")]
+[Route("course")]
 public class CourseController(ICourseService service) : ControllerBase
 {
     [HttpGet]
-    [Route("get-all")]
-    [Authorize(Roles = "Moderator,Admin")]
-    public async Task<IActionResult> Get_Courses_All()
+    [Route("my")]
+    public async Task<IActionResult> Get_Courses_ForStudent()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        var rData = await service.GetAllForUserAsync(requestingUserId);
+        var rData = await service.GetAllForStudentAsync(requestingUserId);
+        return StatusCode((int)rData.StatusCode, rData);
+    }
+    
+    [HttpGet]
+    [Route("authored")]
+    [Authorize(Roles = "Creator")]
+    public async Task<IActionResult> Get_Courses_ForAuthor()
+    {
+        var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var rData = await service.GetAllForStudentAsync(requestingUserId);
         return StatusCode((int)rData.StatusCode, rData);
     }
 

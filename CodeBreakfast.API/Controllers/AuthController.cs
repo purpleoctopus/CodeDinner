@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeBreakfast.API.Controllers;
 
-[Route("api/auth")]
+[Route("auth")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost]

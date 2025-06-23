@@ -13,7 +13,7 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
 {
     #region Get Methods
     
-    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForUserAsync(Guid requestingUserId)
+    public async Task<ApiResponse<List<CourseDetailDto>>> GetAllForStudentAsync(Guid requestingUserId)
     {
         var response = new ApiResponse<List<CourseDetailDto>>();
 
@@ -30,6 +30,11 @@ public class CourseService(ICourseRepository courseRepository, IUserRepository u
         }
 
         return response;
+    }
+
+    public Task<ApiResponse<List<CourseDetailDto>>> GetAllForAuthorAsync(Guid requestingUserId)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<ApiResponse<List<CourseForListDto>>> GetForListViewAsync()

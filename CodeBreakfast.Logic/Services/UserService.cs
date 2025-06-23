@@ -12,6 +12,44 @@ namespace CodeBreakfast.Logic.Services;
 
 public class UserService(IUserRepository userRepository, UserManager<User> userManager) : IUserService
 {
+    public async Task<ApiResponse<List<UserDetailDto>>> GetUsersList()
+    {
+        var response = new ApiResponse<List<UserDetailDto>>();
+
+        try
+        {
+            var users = await userRepository.GetAllUsers();
+            var result = new List<UserDetailDto>();
+            
+            foreach (var user in users)
+            {
+                var model = user.GetCommonModel();
+
+                var roleStrings = await userManager.GetRolesAsync(user);
+
+                var highestRole = roleStrings
+                    .Select(roleStr => Enum.TryParse<AppRole>(roleStr, out var role) ? role : (AppRole?)null)
+                    .Where(role => role != null)
+                    .Select(role => role!.Value)
+                    .DefaultIfEmpty(AppRole.User)
+                    .Max();
+
+                model.Role = highestRole;
+                result.Add(model);
+            }
+
+            response.Data = result;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
+
     public async Task<ApiResponse<UserProfileDto>> GetUserProfileForView(Guid requestingUserId, Guid userId)
     {
         var response = new ApiResponse<UserProfileDto>();
@@ -138,6 +176,44 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
         return response;
     }
 
+    public async Task<ApiResponse<UserCountStatisticsDto>> GetUserCountStatistics()
+    {
+        var response = new ApiResponse<UserCountStatisticsDto>();
+
+        try
+        {
+            var users = await userRepository.GetAllUsers();
+            
+            var adminCount = 0;
+            var moderatorCount = 0;
+            var creatorCount = 0;
+
+            foreach (var user in users)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                if (roles.Contains(AppRole.Admin.ToString())) adminCount++;
+                if (roles.Contains(AppRole.Moderator.ToString())) moderatorCount++;
+                if (roles.Contains(AppRole.Creator.ToString())) creatorCount++;
+            }
+            
+            response.Data = new UserCountStatisticsDto
+            {
+                TotalCount = users.Count,
+                AdminCount = adminCount,
+                ModeratorCount = moderatorCount,
+                CreatorCount = creatorCount
+            };
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
+
     public async Task<ApiResponse<List<UserConfigDetailDto>>> UpdateUserConfiguration(Guid userId, List<UserConfigUpdateDto> dto)
     {
         var response = new ApiResponse<List<UserConfigDetailDto>>();
@@ -186,6 +262,51 @@ public class UserService(IUserRepository userRepository, UserManager<User> userM
             user.LastName = dto.LastName;
 
             await userManager.UpdateAsync(user);
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = HttpStatusCode.InternalServerError;
+        }
+         
+        return response;
+    }
+
+    public async Task<ApiResponse<bool>> UpdateUserRole(Guid userId, AppRole role)
+    {
+        var response = new ApiResponse<bool>();
+
+        try
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "User wasn't found.";
+                response.StatusCode = HttpStatusCode.NotFound;
+                return response;
+            }
+            
+            var currentRoles = await userManager.GetRolesAsync(user);
+            
+            var removeResult = await userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (!removeResult.Succeeded)
+            {
+                response.Success = false;
+                response.Message = "Error when cleaning roles.";
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                return response;
+            }
+            
+            var addResult = await userManager.AddToRoleAsync(user, role.ToString());
+            if (!addResult.Succeeded)
+            {
+                response.Success = false;
+                response.Message = "Error when assigning roles.";
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                return response;
+            }
         }
         catch (Exception ex)
         {

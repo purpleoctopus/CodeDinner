@@ -4,6 +4,7 @@ namespace CodeBreakfast.Data.Repositories.Interfaces;
 
 public interface IUserRepository
 {
+    Task<List<User>> GetAllUsers();
     Task<User?> GetUserByIdAsync(Guid userId);
     Task<List<Guid>> GetCourseUsersAsync(Guid courseId);
     Task<List<Guid>> GetCourseUsersAsync(Guid courseId, CourseRole courseRole);

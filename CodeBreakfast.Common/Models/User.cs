@@ -14,7 +14,7 @@ public class UserUpdateDto
 
 public class UserDetailDto : UserUpdateDto
 {
-    
+    public AppRole Role { get; set; }
 }
 
 public class UserProfileDto
@@ -30,4 +30,12 @@ public class UserProfileDto
     public DateTime RegisteredOn { get; set; }
     public bool IsPrivate { get; set; }
     public List<UserProfileSection> SectionsToView { get; set; } = [];
+}
+
+public class UserCountStatisticsDto
+{
+    public int TotalCount { get; set; }
+    public int AdminCount { get; set; }
+    public int ModeratorCount { get; set; }
+    public int CreatorCount { get; set; }
 }
