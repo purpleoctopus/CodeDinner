@@ -24,8 +24,6 @@ export class UserProfileComponent implements OnInit {
 
   private readonly weeksCount = 15;
 
-  protected sectionsVisibility: UserConfigUpdateDto<boolean>[] = [];
-
   protected user: UserProfile | null = null;
 
   protected courses = [
@@ -45,24 +43,11 @@ export class UserProfileComponent implements OnInit {
   private async load(){
     const userId: string = this.activatedRoute.snapshot.params['id'];
     await this.getUserProfile(userId);
-    await this.getUserConfigs();
-    await this.getProfilePicture();
+    await this.getProfilePicture(userId);
   }
 
-  private async getUserConfigs(){
-    const response = await firstValueFrom(this.userConfigService.getUserConfigs());
-
-    if(!response.success || !response.data){
-      return;
-    }
-
-    this.sectionsVisibility = response.data.map(x => {
-      return {key: x.key, value: x.value === "true"}
-    }) ?? [];
-  }
-
-  private async getProfilePicture(){
-    const response = await firstValueFrom(this.userService.getMyProfilePicture());
+  private async getProfilePicture(id: string){
+    const response = await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.getUserProfilePicture(id)));
     const imgElem = this.profilePictureElem.nativeElement as HTMLImageElement;
 
     if(response.success && response.data){

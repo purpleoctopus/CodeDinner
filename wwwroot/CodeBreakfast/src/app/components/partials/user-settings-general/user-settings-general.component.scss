@@ -41,9 +41,6 @@ label.firstName, label.lastName, label.userName{
 .right-side>*:not(:first-child){
   margin-top: 1.25rem;
 }
-.right-side>*:first-child{
-  margin-bottom: 1rem;
-}
 .left-side{
   width: 240px;
   margin: 0 auto;

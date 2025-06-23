@@ -44,7 +44,7 @@ export class UserSettingsComponent implements OnInit {
   private async loadUser(){
     const userProfile = (await AppComponent.showLoadingFromPromise(firstValueFrom(this.userService.getMyProfile()))).data;
     if(userProfile) {
-      this.user.next({id: userProfile.id, username: userProfile.username, firstName: userProfile.firstName, lastName: userProfile.lastName});
+      this.user.next({id: userProfile.id, username: userProfile.username, firstName: userProfile.firstName, lastName: userProfile.lastName, role: userProfile.role});
     }
   }
 

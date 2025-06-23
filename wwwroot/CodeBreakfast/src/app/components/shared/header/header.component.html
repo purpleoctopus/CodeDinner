@@ -6,7 +6,7 @@
         <mat-list-item routerLink="/courses">Шукати курси</mat-list-item>
         <mat-list-item routerLink="/courses">Моє навчання</mat-list-item>
         @if (session.roles.includes(AppRole.Creator) || session.roles.includes(AppRole.Admin)){
-          <mat-list-item routerLink="/courses">Панель автора</mat-list-item>
+          <mat-list-item routerLink="/author/dashboard">Панель автора</mat-list-item>
         }
       }
     </mat-nav-list>
@@ -18,6 +18,11 @@
     } @else {
       <mat-menu #profile_dropdown="matMenu">
         <div class="menu-container">
+          @if ((this.authService.sessionData | async); as session) {
+            @if (session.roles.includes(AppRole.Admin)){
+              <button mat-menu-item routerLink="/admin">Адмін панель</button>
+            }
+          }
           <button mat-menu-item routerLink="my-profile">Мій профіль</button>
           <button mat-menu-item routerLink="my-profile/settings">Налаштування</button>
           <button mat-menu-item (click)="logout()">Вийти</button>

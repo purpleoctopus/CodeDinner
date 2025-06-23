@@ -9,11 +9,14 @@ export interface CourseAdd {
   name: string;
   description?: string;
   language: Language;
+  primarySpecialization: string;
+  tags: string[];
 }
 export interface CourseUpdate extends CourseAdd {
   id: string;
   modules?: string[];
   description?: string;
+  isVisible: boolean;
 }
 export interface CourseDetail extends CourseUpdate {
   author: UserDetail;

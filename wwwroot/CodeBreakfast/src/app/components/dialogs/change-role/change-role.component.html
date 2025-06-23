@@ -1,0 +1,14 @@
+<div class="form-container">
+  <h2>Змінити роль для {{data.name}}</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Роль</mat-label>
+    <mat-select [(ngModel)]="selectedRole">
+      <mat-option [value]="AppRole.Moderator">Модератор</mat-option>
+      <mat-option [value]="AppRole.Creator">Автор</mat-option>
+      <mat-option [value]="AppRole.User">Користувач</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-button class="submit" (click)="updateUserRole();">Підтвердити</button>
+</div>

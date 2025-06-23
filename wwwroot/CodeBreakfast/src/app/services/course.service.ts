@@ -13,6 +13,14 @@ export class CourseService {
 
   constructor(private http: HttpClient) { }
 
+  public getCoursesForStudent(): Observable<CourseDetail[]> {
+    return this.http.get<CourseDetail[]>(`${this.url}/my`);
+  }
+
+  public getCoursesForAuthor(): Observable<CourseDetail[]> {
+    return this.http.get<CourseDetail[]>(`${this.url}/authored`);
+  }
+
   public getCoursesForListView(): Observable<ApiResponse<CourseForList[]>> {
     return this.http.get<ApiResponse<CourseForList[]>>(`${this.url}/for-list-view`).pipe(
       map(res => {

@@ -1,0 +1,19 @@
+<div class="admin-dashboard-container">
+  <div class="admin-dashboard-header">
+    <h2>Адмін панель</h2>
+  </div>
+
+  <section class="users" routerLink="/admin/users">
+    <div>
+      <h2>Користувачі</h2>
+      <div>
+        Загальна кількість користувачів: <b>{{userCountStatistics?.totalCount}}</b>, Кількість адміністраторів: <b>{{userCountStatistics?.adminCount}}</b>,
+        Кількість модераторів: <b>{{userCountStatistics?.moderatorCount}}</b>, Кількість авторів: <b>{{userCountStatistics?.creatorCount}}</b>.
+      </div>
+    </div>
+    <div class="chevron-container">
+      <mat-icon>chevron_right</mat-icon>
+    </div>
+  </section>
+
+</div>

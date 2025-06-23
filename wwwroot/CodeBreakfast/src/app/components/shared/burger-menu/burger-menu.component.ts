@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import {AsyncPipe} from "@angular/common";
-import {MatListItem, MatNavList} from "@angular/material/list";
-import {MatMenu, MatMenuItem} from "@angular/material/menu";
 import {RouterLink} from "@angular/router";
 import {AppRole} from '../../../models/user.model';
 import {AuthService} from '../../../services/auth.service';
@@ -10,14 +8,15 @@ import {firstValueFrom} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {RegisterFormComponent} from '../../dialogs/register-form/register-form.component';
 import {MatButton} from '@angular/material/button';
+import {MatMenuItem} from '@angular/material/menu';
 
 @Component({
   selector: 'app-burger-menu',
   imports: [
     AsyncPipe,
-    MatMenuItem,
     RouterLink,
-    MatButton
+    MatButton,
+    MatMenuItem
   ],
   templateUrl: './burger-menu.component.html',
   styleUrl: './burger-menu.component.scss'

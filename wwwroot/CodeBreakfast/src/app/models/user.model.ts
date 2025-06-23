@@ -18,7 +18,10 @@ export interface UserUpdate{
   lastName?: string;
 }
 export interface UserDetail extends UserUpdate{
-
+  role: AppRole;
+}
+export interface UserDetailWithPicture extends UserDetail {
+  picture?: string;
 }
 
 export interface UserProfile{
@@ -33,4 +36,11 @@ export interface UserProfile{
   registeredOn: Date;
   isPrivate: boolean;
   sectionsToView: UserProfileSection[]
+}
+
+export interface UserCountStatistics{
+  totalCount: number;
+  adminCount: number;
+  moderatorCount: number;
+  creatorCount: number;
 }

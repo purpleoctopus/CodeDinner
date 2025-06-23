@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {AppComponent} from './app.component';
+import {requireAdminGuard} from './guards/require-admin.guard';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,11 @@ export const routes: Routes = [
     title: 'Courses'
   },
   {
+    path: 'author/dashboard',
+    loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/author-dashboard/author-dashboard.component")).then(m => m.AuthorDashboardComponent),
+    title: 'Dashboard'
+  },
+  {
     path: 'my-profile',
     loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/my-profile/my-profile.component")).then(m => m.MyProfileComponent),
     title: 'Profile',
@@ -31,6 +37,18 @@ export const routes: Routes = [
     path: 'user/:id',
     loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/user-profile/user-profile.component")).then(m => m.UserProfileComponent),
     title: 'User Profile'
+  },
+  {
+    path: 'admin',
+    loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/admin-dashboard/admin-dashboard.component")).then(m => m.AdminDashboardComponent),
+    canActivate: [requireAdminGuard],
+    title: 'Dashboard'
+  },
+  {
+    path: 'admin/users',
+    loadComponent: () => AppComponent.showLoadingFromPromise(import("./components/pages/users-list/users-list.component")).then(m => m.UsersListComponent),
+    canActivate: [requireAdminGuard],
+    title: 'Users'
   },
   {
     path: 'no-access',

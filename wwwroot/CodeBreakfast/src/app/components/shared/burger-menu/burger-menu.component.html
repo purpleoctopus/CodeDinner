@@ -1,9 +1,12 @@
 <div class="burger-menu-container">
   @if ((this.authService.sessionData | async); as session) {
+    @if (session.roles.includes(AppRole.Admin)){
+      <button mat-button routerLink="/admin">Адмін панель</button>
+    }
     <button mat-button routerLink="/courses">Шукати курси</button>
     <button mat-button routerLink="/courses">Моє навчання</button>
     @if (session.roles.includes(AppRole.Creator) || session.roles.includes(AppRole.Admin)){
-      <button mat-button  routerLink="/courses">Панель автора</button>
+      <button mat-button  routerLink="/author/dashboard">Панель автора</button>
     }
     <button mat-button routerLink="my-profile">Мій профіль</button>
     <button mat-button routerLink="my-profile/settings">Налаштування</button>
