@@ -10,7 +10,13 @@ public class CourseRepository(AppDbContext dbContext) : ICourseRepository
     {
         await dbContext.Courses.AddAsync(course);
         await dbContext.SaveChangesAsync();
-        return course;
+        
+        var addedCourse = await dbContext.Courses
+            .AsNoTracking()
+            .Include(x=>x.Author)
+            .FirstOrDefaultAsync(c => c.Id == course.Id);
+
+        return addedCourse;
     }
 
     public async Task<List<Course>> GetAllAsync()

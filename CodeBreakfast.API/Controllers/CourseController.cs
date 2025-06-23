@@ -22,7 +22,7 @@ public class CourseController(ICourseService service) : ControllerBase
     
     [HttpGet]
     [Route("authored")]
-    [Authorize(Roles = "Creator")]
+    [Authorize(Roles = "Creator,Admin")]
     public async Task<IActionResult> Get_Courses_ForAuthor()
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -47,7 +47,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpPost]
-    [Authorize(Roles = "Creator")]
+    [Authorize(Roles = "Creator,Admin")]
     public async Task<IActionResult> Add_Course(CourseAddDto dto)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -65,7 +65,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Creator")]
+    [Authorize(Roles = "Creator,Admin")]
     public async Task<IActionResult> Update_Course(Guid id, CourseUpdateDto dto)
     {
         if (id != dto.Id)
@@ -78,7 +78,7 @@ public class CourseController(ICourseService service) : ControllerBase
     }
     
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Creator")]
+    [Authorize(Roles = "Creator,Admin")]
     public async Task<IActionResult> Delete_Course(Guid id)
     {
         var requestingUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
